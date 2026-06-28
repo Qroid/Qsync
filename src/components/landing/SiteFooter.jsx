@@ -8,6 +8,7 @@ export function SiteFooter() {
       <div className="flex-1 flex justify-end items-center gap-4">
         <Link to="/terms" className="hover:text-gray-600 transition-colors">Terms</Link>
         <Link to="/privacy" className="hover:text-gray-600 transition-colors">Privacy</Link>
+        <Link to="/refund" className="hover:text-gray-600 transition-colors">Refund</Link>
       </div>
     </footer>
   )

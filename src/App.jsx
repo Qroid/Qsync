@@ -6,6 +6,7 @@ import { ScrollToTop } from '@/components/ScrollToTop'
 import { Home } from '@/pages/Home'
 import { Terms } from '@/pages/Terms'
 import { Privacy } from '@/pages/Privacy'
+import { Refund } from '@/pages/Refund'
 import { Plan } from '@/pages/Plan'
 import { Success } from '@/pages/Success'
 
@@ -24,6 +25,7 @@ export default function App() {
             <Route path="/success" element={<Success />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/privacy" element={<Privacy />} />
+            <Route path="/refund" element={<Refund />} />
           </Routes>
           <Toaster position="top-right" richColors />
         </BrowserRouter>
