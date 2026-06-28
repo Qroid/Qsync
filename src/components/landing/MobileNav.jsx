@@ -14,23 +14,28 @@ export function MobileNav({ active, onNavigate }) {
   const [open, setOpen] = useState(false)
 
   return (
-    <header className="lg:hidden sticky top-0 z-50 bg-white border-b border-gray-200">
-      <div className="flex items-center justify-between px-4 h-14">
+    <header className="lg:hidden sticky top-0 z-50">
+      {/* Top bar - dark teal like desktop sidebar */}
+      <div className="bg-[#1a2e25] flex items-center justify-between px-4 h-14">
         <img src="/logo/icon.svg" alt="Qsync" className="h-6" />
-        <button onClick={() => setOpen(!open)} className="p-2 text-gray-600" aria-label="Menu">
+        <button onClick={() => setOpen(!open)} className="p-2 text-white/80" aria-label="Menu">
           {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
       </div>
+
+      {/* Dropdown menu */}
       {open && (
-        <nav className="px-3 pb-3 space-y-1 border-t border-gray-100 bg-white">
+        <nav className="bg-[#1a2e25] border-t border-white/10 px-3 pb-3 space-y-1">
           {sections.map((s) => {
             const Icon = s.icon
             return (
               <button
                 key={s.id}
                 onClick={() => { onNavigate(s.id); setOpen(false) }}
-                className={`w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium transition-colors flex items-center gap-2.5 ${
-                  active === s.id ? 'bg-gray-100 text-gray-900' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                className={`w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors flex items-center gap-3 ${
+                  active === s.id
+                    ? 'bg-white/10 text-white'
+                    : 'text-white/50 hover:bg-white/5 hover:text-white/80'
                 }`}
               >
                 <Icon className="w-4 h-4" />

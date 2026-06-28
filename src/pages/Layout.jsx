@@ -23,10 +23,10 @@ export function Layout() {
   return (
     <div className="min-h-screen bg-[#f5f5f5]">
       {/* Mobile Layout */}
-      <div className="lg:hidden">
+      <div className="lg:hidden min-h-screen flex flex-col">
         <MobileNav active={currentActive} onNavigate={setActive} />
         <SiteHeader onNavigate={setActive} />
-        <main className="px-4 py-6">
+        <main className="flex-1 px-4 py-6">
           <Outlet />
         </main>
         <SiteFooter />
