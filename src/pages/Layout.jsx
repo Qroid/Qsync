@@ -9,34 +9,46 @@ export function Layout() {
   const [active, setActive] = useState('overview')
   const location = useLocation()
 
-  // Set active based on route
   const getActiveFromPath = () => {
     if (location.pathname === '/terms') return 'terms'
     if (location.pathname === '/privacy') return 'privacy'
     if (location.pathname === '/refund') return 'refund'
     if (location.pathname.startsWith('/plan')) return 'pricing'
+    if (location.pathname.startsWith('/payment')) return 'pricing'
     return active
   }
 
   const currentActive = getActiveFromPath()
 
   return (
-    <div className="min-h-screen bg-[#e5e5e5] flex items-center justify-center p-6 lg:p-10">
-      <div className="w-full max-w-[1400px] h-[90vh] min-h-[700px] flex rounded-2xl overflow-hidden shadow-2xl border border-gray-200">
-        <SideNav active={currentActive} onNavigate={setActive} />
+    <div className="min-h-screen bg-[#f5f5f5]">
+      {/* Mobile Layout */}
+      <div className="lg:hidden">
         <MobileNav active={currentActive} onNavigate={setActive} />
-
-        <main className="flex-1 flex flex-col overflow-hidden bg-[#f5f5f5]">
-          <SiteHeader onNavigate={setActive} />
-
-          <div className="flex-1 overflow-y-auto">
-            <div className="max-w-4xl mx-auto px-8 lg:px-12 py-8">
-              <Outlet />
-            </div>
-          </div>
-
-          <SiteFooter />
+        <SiteHeader onNavigate={setActive} />
+        <main className="px-4 py-6">
+          <Outlet />
         </main>
+        <SiteFooter />
+      </div>
+
+      {/* Desktop Layout */}
+      <div className="hidden lg:flex items-center justify-center p-6 lg:p-10 min-h-screen">
+        <div className="w-full max-w-[1400px] h-[90vh] min-h-[700px] flex rounded-2xl overflow-hidden shadow-2xl border border-gray-200">
+          <SideNav active={currentActive} onNavigate={setActive} />
+
+          <main className="flex-1 flex flex-col overflow-hidden bg-[#f5f5f5]">
+            <SiteHeader onNavigate={setActive} />
+
+            <div className="flex-1 overflow-y-auto">
+              <div className="max-w-4xl mx-auto px-8 lg:px-12 py-8">
+                <Outlet />
+              </div>
+            </div>
+
+            <SiteFooter />
+          </main>
+        </div>
       </div>
     </div>
   )

@@ -21,7 +21,7 @@ export function Payment() {
 
   if (!plan) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
+      <div className="min-h-[calc(100vh-200px)] flex items-center justify-center p-4">
         <div className="text-center">
           <h1 className="text-xl font-semibold text-gray-900">Plan not found</h1>
           <Link to="/plan" className="mt-4 inline-block text-sm text-teal-600 hover:text-teal-700">
@@ -71,24 +71,24 @@ export function Payment() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
+    <div className="min-h-[calc(100vh-200px)] flex items-center justify-center p-4 sm:p-6">
       <div className="w-full max-w-md">
         <Link
           to="/plan"
-          className="inline-flex items-center gap-1.5 text-[13px] text-gray-400 hover:text-gray-600 transition-colors mb-8"
+          className="inline-flex items-center gap-1.5 text-[13px] text-gray-400 hover:text-gray-600 transition-colors mb-6 sm:mb-8"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           Back to plans
         </Link>
 
-        <div className="bg-white rounded-xl border border-gray-200 p-8">
-          <div className="text-center mb-6">
+        <div className="bg-white rounded-xl border border-gray-200 p-5 sm:p-8">
+          <div className="text-center mb-5 sm:mb-6">
             <h1 className="text-lg font-semibold text-gray-900">Subscribe to {plan.name}</h1>
             <p className="text-[13px] text-gray-400 mt-1">{plan.note}</p>
           </div>
 
           {/* Plan Summary */}
-          <div className="bg-gray-50 rounded-lg p-4 mb-6">
+          <div className="bg-gray-50 rounded-lg p-3 sm:p-4 mb-5 sm:mb-6">
             <div className="flex justify-between items-center">
               <span className="text-[13px] text-gray-600">{plan.name} Plan</span>
               <span className="text-[13px] font-medium text-gray-900">{plan.priceFormatted}</span>
@@ -100,7 +100,7 @@ export function Payment() {
           </div>
 
           {/* Payment Methods */}
-          <div className="mb-6">
+          <div className="mb-5 sm:mb-6">
             <label className="block text-[12px] font-medium text-gray-700 mb-2">
               Payment method
             </label>
@@ -140,7 +140,7 @@ export function Payment() {
           </div>
 
           {/* Email */}
-          <div className="mb-6">
+          <div className="mb-5 sm:mb-6">
             <label className="block text-[12px] font-medium text-gray-700 mb-1.5">
               Email address
             </label>

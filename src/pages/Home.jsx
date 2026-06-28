@@ -24,22 +24,34 @@ export function Home() {
   const ActiveSection = sections[active]
 
   return (
-    <div className="min-h-screen bg-[#e5e5e5] flex items-center justify-center p-6 lg:p-10">
-      <div className="w-full max-w-[1400px] h-[90vh] min-h-[700px] flex rounded-2xl overflow-hidden shadow-2xl border border-gray-200">
-        <SideNav active={active} onNavigate={setActive} />
+    <div className="min-h-screen bg-[#f5f5f5]">
+      {/* Mobile Layout */}
+      <div className="lg:hidden">
         <MobileNav active={active} onNavigate={setActive} />
-
-        <main className="flex-1 flex flex-col overflow-hidden bg-[#f5f5f5]">
-          <SiteHeader onNavigate={setActive} />
-
-          <div className="flex-1 overflow-y-auto">
-            <div className="max-w-4xl mx-auto px-8 lg:px-12 py-8">
-              <ActiveSection />
-            </div>
-          </div>
-
-          <SiteFooter />
+        <SiteHeader onNavigate={setActive} />
+        <main className="px-4 py-6">
+          <ActiveSection />
         </main>
+        <SiteFooter />
+      </div>
+
+      {/* Desktop Layout */}
+      <div className="hidden lg:flex items-center justify-center p-6 lg:p-10 min-h-screen">
+        <div className="w-full max-w-[1400px] h-[90vh] min-h-[700px] flex rounded-2xl overflow-hidden shadow-2xl border border-gray-200">
+          <SideNav active={active} onNavigate={setActive} />
+
+          <main className="flex-1 flex flex-col overflow-hidden bg-[#f5f5f5]">
+            <SiteHeader onNavigate={setActive} />
+
+            <div className="flex-1 overflow-y-auto">
+              <div className="max-w-4xl mx-auto px-8 lg:px-12 py-8">
+                <ActiveSection />
+              </div>
+            </div>
+
+            <SiteFooter />
+          </main>
+        </div>
       </div>
     </div>
   )
