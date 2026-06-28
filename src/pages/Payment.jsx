@@ -1,7 +1,13 @@
 import { useState } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
-import { ArrowLeft, CreditCard, Loader2, CheckCircle } from 'lucide-react'
+import { ArrowLeft, CreditCard, Loader2, Wallet, Smartphone } from 'lucide-react'
 import { plans, initializePaystack, openPaystackCheckout } from '@/lib/paystack'
+
+const paymentMethods = [
+  { id: 'card', name: 'Card', description: 'Visa, Mastercard', icon: CreditCard },
+  { id: 'paypal', name: 'PayPal', description: 'Pay with PayPal', icon: Wallet, coming: true },
+  { id: 'cashapp', name: 'Cash App', description: 'Pay with Cash App', icon: Smartphone, coming: true },
+]
 
 export function Payment() {
   const [searchParams] = useSearchParams()
@@ -9,6 +15,7 @@ export function Payment() {
   const plan = plans[planName]
 
   const [email, setEmail] = useState('')
+  const [selectedMethod, setSelectedMethod] = useState('card')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
@@ -33,6 +40,11 @@ export function Payment() {
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setError('Please enter a valid email address')
+      return
+    }
+
+    if (selectedMethod === 'paypal' || selectedMethod === 'cashapp') {
+      setError('This payment method is coming soon')
       return
     }
 
@@ -71,13 +83,11 @@ export function Payment() {
 
         <div className="bg-white rounded-xl border border-gray-200 p-8">
           <div className="text-center mb-6">
-            <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <CreditCard className="w-6 h-6 text-gray-600" />
-            </div>
             <h1 className="text-lg font-semibold text-gray-900">Subscribe to {plan.name}</h1>
             <p className="text-[13px] text-gray-400 mt-1">{plan.note}</p>
           </div>
 
+          {/* Plan Summary */}
           <div className="bg-gray-50 rounded-lg p-4 mb-6">
             <div className="flex justify-between items-center">
               <span className="text-[13px] text-gray-600">{plan.name} Plan</span>
@@ -89,6 +99,47 @@ export function Payment() {
             </div>
           </div>
 
+          {/* Payment Methods */}
+          <div className="mb-6">
+            <label className="block text-[12px] font-medium text-gray-700 mb-2">
+              Payment method
+            </label>
+            <div className="space-y-2">
+              {paymentMethods.map((method) => {
+                const Icon = method.icon
+                return (
+                  <button
+                    key={method.id}
+                    onClick={() => setSelectedMethod(method.id)}
+                    disabled={method.coming}
+                    className={`w-full flex items-center gap-3 p-3 rounded-lg border transition-colors ${
+                      selectedMethod === method.id
+                        ? 'border-gray-900 bg-gray-50'
+                        : 'border-gray-200 hover:border-gray-300'
+                    } ${method.coming ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  >
+                    <Icon className="w-5 h-5 text-gray-600" />
+                    <div className="flex-1 text-left">
+                      <div className="text-[13px] font-medium text-gray-900">{method.name}</div>
+                      <div className="text-[11px] text-gray-400">{method.description}</div>
+                    </div>
+                    {method.coming && (
+                      <span className="text-[10px] text-gray-400 bg-gray-100 px-2 py-0.5 rounded">
+                        Coming soon
+                      </span>
+                    )}
+                    {selectedMethod === method.id && !method.coming && (
+                      <div className="w-4 h-4 rounded-full bg-gray-900 flex items-center justify-center">
+                        <div className="w-2 h-2 rounded-full bg-white" />
+                      </div>
+                    )}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* Email */}
           <div className="mb-6">
             <label className="block text-[12px] font-medium text-gray-700 mb-1.5">
               Email address
@@ -105,6 +156,7 @@ export function Payment() {
             )}
           </div>
 
+          {/* Pay Button */}
           <button
             onClick={handleSubscribe}
             disabled={loading}
