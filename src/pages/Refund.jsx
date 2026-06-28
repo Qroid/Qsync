@@ -17,21 +17,53 @@ export function Refund() {
           <section>
             <h2 className="text-[14px] font-medium text-gray-900 mb-2">1. Free Trial</h2>
             <p>
-              Qsync offers a 7-day free trial with all subscription plans. You may cancel at any time during the trial period without being charged. Cancellation must be made before the trial ends to avoid billing.
+              Qsync offers a 30-minute free trial with all subscription plans. This allows you to explore the app and its features before committing. To avoid being charged, you must cancel before the 30-minute trial period ends.
             </p>
           </section>
 
           <section>
-            <h2 className="text-[14px] font-medium text-gray-900 mb-2">2. Subscription Refunds</h2>
+            <h2 className="text-[14px] font-medium text-gray-900 mb-2">2. Refund Policy</h2>
             <p>
-              If you cancel your subscription within the first 7 days of a paid billing cycle, you are eligible for a full refund. After 7 days, refunds are granted on a case-by-case basis.
+              Due to the nature of our service, which includes secure account setup and dedicated server provisioning, we are unable to offer full refunds. However, we do offer partial refunds based on your subscription plan:
+            </p>
+            <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+              <div className="space-y-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-600">Weekly Plan ($3.99)</span>
+                  <span className="font-medium text-gray-900">50% refund</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-600">Monthly Plan ($9.99)</span>
+                  <span className="font-medium text-gray-900">70% refund</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-600">Yearly Plan ($79.99)</span>
+                  <span className="font-medium text-gray-900">90% refund</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-[14px] font-medium text-gray-900 mb-2">3. Why No Full Refunds?</h2>
+            <p>
+              When you subscribe, we immediately allocate resources for:
+            </p>
+            <ul className="mt-2 ml-4 space-y-1 list-disc">
+              <li>Secure account creation and configuration</li>
+              <li>Dedicated server space allocation</li>
+              <li>Real-time data synchronization setup</li>
+              <li>Background service infrastructure</li>
+            </ul>
+            <p className="mt-3">
+              These costs are incurred regardless of subscription duration, which is why partial refunds reflect the actual resources consumed.
             </p>
           </section>
 
           <section>
-            <h2 className="text-[14px] font-medium text-gray-900 mb-2">3. How to Request a Refund</h2>
+            <h2 className="text-[14px] font-medium text-gray-900 mb-2">4. How to Request a Refund</h2>
             <p>
-              To request a refund, contact us at support@qsync.app with the following information:
+              To request a refund, contact us at support@qsync.app with:
             </p>
             <ul className="mt-2 ml-4 space-y-1 list-disc">
               <li>Your email address used for subscription</li>
@@ -41,33 +73,21 @@ export function Refund() {
           </section>
 
           <section>
-            <h2 className="text-[14px] font-medium text-gray-900 mb-2">4. Processing Time</h2>
+            <h2 className="text-[14px] font-medium text-gray-900 mb-2">5. Processing Time</h2>
             <p>
-              Refund requests are typically processed within 5-10 business days. The refund will be credited to your original payment method. Please note that depending on your bank or card issuer, it may take additional time for the refund to appear on your statement.
+              Refund requests are processed within 5-10 business days. The refund will be credited to your original payment method. Depending on your bank or card issuer, it may take additional time for the refund to appear on your statement.
             </p>
           </section>
 
           <section>
-            <h2 className="text-[14px] font-medium text-gray-900 mb-2">5. Non-Refundable Items</h2>
+            <h2 className="text-[14px] font-medium text-gray-900 mb-2">6. Non-Refundable Items</h2>
             <p>
               The following are not eligible for refunds:
             </p>
             <ul className="mt-2 ml-4 space-y-1 list-disc">
-              <li>Subscriptions cancelled after 7 days of the billing cycle (unless exceptional circumstances apply)</li>
-              <li>Partial subscription periods</li>
+              <li>Subscriptions cancelled after 30 days from purchase date</li>
               <li>Accounts terminated for violation of our Terms of Service</li>
-            </ul>
-          </section>
-
-          <section>
-            <h2 className="text-[14px] font-medium text-gray-900 mb-2">6. Exceptional Circumstances</h2>
-            <p>
-              We understand that situations vary. We may issue refunds outside the standard policy for:
-            </p>
-            <ul className="mt-2 ml-4 space-y-1 list-disc">
-              <li>Technical issues preventing use of the service</li>
-              <li>Billing errors or unauthorized charges</li>
-              <li>Significant service disruptions</li>
+              <li>Partial subscription periods beyond the refund window</li>
             </ul>
           </section>
 

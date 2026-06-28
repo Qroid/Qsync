@@ -7,7 +7,7 @@ export const plans = {
     priceFormatted: '$3.99',
     period: '/week',
     periodLabel: 'weekly',
-    note: '7-day free trial',
+    note: '30-min free trial',
     planCode: 'PLN_weekly_qsync',
   },
   Monthly: {
