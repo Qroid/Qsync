@@ -30,15 +30,15 @@ export function Refund() {
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
                   <span className="text-gray-600">Weekly Plan ($3.99)</span>
-                  <span className="font-medium text-gray-900">50% refund</span>
+                  <span className="font-medium text-gray-900">Refund $2.00</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-gray-600">Monthly Plan ($9.99)</span>
-                  <span className="font-medium text-gray-900">70% refund</span>
+                  <span className="font-medium text-gray-900">Refund $6.99</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-gray-600">Yearly Plan ($79.99)</span>
-                  <span className="font-medium text-gray-900">90% refund</span>
+                  <span className="font-medium text-gray-900">Refund $71.99</span>
                 </div>
               </div>
             </div>
