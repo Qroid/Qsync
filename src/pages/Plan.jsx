@@ -1,7 +1,6 @@
-import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { Check, X, ArrowLeft, Loader2 } from 'lucide-react'
-import { plans, initializePaystack, openPaystackCheckout } from '@/lib/paystack'
+import { Check, X } from 'lucide-react'
+import { plans } from '@/lib/paystack'
 
 const featureData = [
   { name: 'Live Location Sharing', included: true },
@@ -25,64 +24,7 @@ const planFeatures = {
   Yearly: featureData.map(f => ({ ...f, included: true })),
 }
 
-function PaystackButton({ planName, email }) {
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
-
-  const handleSubscribe = async () => {
-    if (!email) {
-      setError('Please enter your email address')
-      return
-    }
-
-    setLoading(true)
-    setError(null)
-
-    try {
-      await initializePaystack()
-
-      openPaystackCheckout({
-        email,
-        plan: planName,
-        onSuccess: (response) => {
-          window.location.href = `/success?reference=${response.reference}&plan=${planName}`
-        },
-        onClose: () => {
-          setLoading(false)
-        },
-      })
-    } catch (err) {
-      setError('Failed to initialize payment. Please try again.')
-      setLoading(false)
-    }
-  }
-
-  return (
-    <div>
-      <button
-        onClick={handleSubscribe}
-        disabled={loading}
-        className="mt-8 w-full px-4 py-3 rounded-lg bg-gray-900 text-sm font-medium text-white hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-      >
-        {loading ? (
-          <>
-            <Loader2 className="w-4 h-4 animate-spin" />
-            Processing...
-          </>
-        ) : (
-          'Subscribe now'
-        )}
-      </button>
-      {error && (
-        <p className="mt-2 text-[12px] text-red-500 text-center">{error}</p>
-      )}
-    </div>
-  )
-}
-
 function PlanCard({ plan, planName }) {
-  const [email, setEmail] = useState('')
-
   return (
     <div className="bg-white rounded-xl border border-gray-200 p-6">
       <div className="text-center">
@@ -109,17 +51,12 @@ function PlanCard({ plan, planName }) {
         ))}
       </ul>
 
-      <div className="mt-6">
-        <input
-          type="email"
-          placeholder="Enter your email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900/10"
-        />
-      </div>
-
-      <PaystackButton planName={planName} email={email} />
+      <Link
+        to={`/payment?plan=${planName}`}
+        className="mt-6 block w-full px-4 py-3 rounded-lg bg-gray-900 text-sm font-medium text-white hover:bg-gray-800 transition-colors text-center"
+      >
+        Get started
+      </Link>
     </div>
   )
 }
@@ -137,7 +74,6 @@ export function Plan() {
             to="/plan"
             className="inline-flex items-center gap-1.5 text-[13px] text-gray-400 hover:text-gray-600 transition-colors mb-8"
           >
-            <ArrowLeft className="w-3.5 h-3.5" />
             All plans
           </Link>
 
@@ -166,7 +102,16 @@ export function Plan() {
               ))}
             </ul>
 
-            <SinglePlanPaystack tier={tier} />
+            <Link
+              to={`/payment?plan=${tier}`}
+              className="mt-8 block w-full px-4 py-3 rounded-lg bg-gray-900 text-sm font-medium text-white hover:bg-gray-800 transition-colors text-center"
+            >
+              Get started
+            </Link>
+
+            <p className="mt-4 text-center text-[11px] text-gray-400">
+              30-minute free trial. Cancel anytime.
+            </p>
           </div>
         </div>
       </div>
@@ -181,7 +126,6 @@ export function Plan() {
           to="/"
           className="inline-flex items-center gap-1.5 text-[13px] text-gray-400 hover:text-gray-600 transition-colors mb-8"
         >
-          <ArrowLeft className="w-3.5 h-3.5" />
           Back to home
         </Link>
 
@@ -198,74 +142,6 @@ export function Plan() {
           ))}
         </div>
       </div>
-    </div>
-  )
-}
-
-function SinglePlanPaystack({ tier }) {
-  const [email, setEmail] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
-
-  const handleSubscribe = async () => {
-    if (!email) {
-      setError('Please enter your email address')
-      return
-    }
-
-    setLoading(true)
-    setError(null)
-
-    try {
-      await initializePaystack()
-
-      openPaystackCheckout({
-        email,
-        plan: tier,
-        onSuccess: (response) => {
-          window.location.href = `/success?reference=${response.reference}&plan=${tier}`
-        },
-        onClose: () => {
-          setLoading(false)
-        },
-      })
-    } catch (err) {
-      setError('Failed to initialize payment. Please try again.')
-      setLoading(false)
-    }
-  }
-
-  return (
-    <div>
-      <div className="mt-6">
-        <input
-          type="email"
-          placeholder="Enter your email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900/10"
-        />
-      </div>
-      <button
-        onClick={handleSubscribe}
-        disabled={loading}
-        className="mt-4 w-full px-4 py-3 rounded-lg bg-gray-900 text-sm font-medium text-white hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-      >
-        {loading ? (
-          <>
-            <Loader2 className="w-4 h-4 animate-spin" />
-            Processing...
-          </>
-        ) : (
-          'Subscribe now'
-        )}
-      </button>
-      {error && (
-        <p className="mt-2 text-[12px] text-red-500 text-center">{error}</p>
-      )}
-      <p className="mt-4 text-center text-[11px] text-gray-400">
-        Cancel anytime before trial ends. You won't be charged.
-      </p>
     </div>
   )
 }

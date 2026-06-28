@@ -9,6 +9,7 @@ import { Terms } from '@/pages/Terms'
 import { Privacy } from '@/pages/Privacy'
 import { Refund } from '@/pages/Refund'
 import { Plan } from '@/pages/Plan'
+import { Payment } from '@/pages/Payment'
 import { Success } from '@/pages/Success'
 
 const queryClient = new QueryClient()
@@ -22,6 +23,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/success" element={<Success />} />
+            <Route path="/payment" element={<Payment />} />
             <Route element={<Layout />}>
               <Route path="/plan" element={<Plan />} />
               <Route path="/plan/:tier" element={<Plan />} />
