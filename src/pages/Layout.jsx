@@ -21,9 +21,9 @@ export function Layout() {
   const currentActive = getActiveFromPath()
 
   return (
-    <div className="min-h-screen bg-[#f5f5f5]">
+    <div className="min-h-screen bg-[#f5f5f5] flex flex-col">
       {/* Mobile Layout */}
-      <div className="lg:hidden min-h-screen flex flex-col">
+      <div className="lg:hidden flex flex-col min-h-screen">
         <MobileNav active={currentActive} onNavigate={setActive} />
         <SiteHeader onNavigate={setActive} />
         <main className="flex-1 px-4 py-6">
