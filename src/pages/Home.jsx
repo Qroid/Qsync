@@ -8,6 +8,7 @@ import OverviewSection from '../components/landing/OverviewSection'
 import MissionSection from '../components/landing/MissionSection'
 import EcosystemSection from '../components/landing/EcosystemSection'
 import PricingSection from '../components/landing/PricingSection'
+import InstallationSection from '../components/landing/InstallationSection'
 import OnboardingSection from '../components/landing/OnboardingSection'
 import LiveWorkspace from '../components/landing/LiveWorkspace'
 
@@ -16,6 +17,7 @@ const sections = {
   mission: MissionSection,
   'how-it-works': EcosystemSection,
   pricing: PricingSection,
+  installation: InstallationSection,
   'get-started': OnboardingSection,
   'live-demo': LiveWorkspace,
 }

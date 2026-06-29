@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { LayoutDashboard, Target, Lightbulb, Monitor, CreditCard, Download } from 'lucide-react'
+import { LayoutDashboard, Target, Lightbulb, Monitor, CreditCard, Download, Settings } from 'lucide-react'
 import Logo from '../Logo'
 
 const sections = [
@@ -7,6 +7,7 @@ const sections = [
   { id: 'mission', label: 'Mission', icon: Target },
   { id: 'how-it-works', label: 'How It Works', icon: Lightbulb },
   { id: 'pricing', label: 'Pricing', icon: CreditCard },
+  { id: 'installation', label: 'Installation', icon: Settings },
   { id: 'get-started', label: 'Get Started', icon: Download },
   { id: 'live-demo', label: 'Live Demo', icon: Monitor },
 ]

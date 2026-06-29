@@ -3,8 +3,8 @@ const PAYSTACK_PUBLIC_KEY = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY || 'pk_test
 export const plans = {
   Weekly: {
     name: 'Weekly',
-    price: 399,
-    priceFormatted: '$3.99',
+    price: 300,
+    priceFormatted: '$3',
     period: '/week',
     periodLabel: 'weekly',
     note: '30-min free trial',
@@ -12,8 +12,8 @@ export const plans = {
   },
   Monthly: {
     name: 'Monthly',
-    price: 999,
-    priceFormatted: '$9.99',
+    price: 850,
+    priceFormatted: '$8.50',
     period: '/mo',
     periodLabel: 'monthly',
     note: 'Most popular',
@@ -21,8 +21,8 @@ export const plans = {
   },
   Yearly: {
     name: 'Yearly',
-    price: 7999,
-    priceFormatted: '$79.99',
+    price: 6500,
+    priceFormatted: '$65',
     period: '/yr',
     periodLabel: 'yearly',
     note: 'Save 33%',

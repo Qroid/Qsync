@@ -21,25 +21,25 @@ export default function Refund() {
               <div className="flex items-center justify-between py-2 border-b border-gray-200">
                 <div>
                   <span className="font-medium text-[#1a2e25]">Weekly Plan</span>
-                  <span className="text-gray-400 text-xs ml-2">($3.99)</span>
+                  <span className="text-gray-400 text-xs ml-2">($3)</span>
                 </div>
-                <span className="font-medium text-[#2d9c7a]">Refund: $2.00</span>
+                <span className="font-medium text-[#2d9c7a]">Refund: $1.50</span>
               </div>
 
               <div className="flex items-center justify-between py-2 border-b border-gray-200">
                 <div>
                   <span className="font-medium text-[#1a2e25]">Monthly Plan</span>
-                  <span className="text-gray-400 text-xs ml-2">($9.99)</span>
+                  <span className="text-gray-400 text-xs ml-2">($8.50)</span>
                 </div>
-                <span className="font-medium text-[#2d9c7a]">Refund: $6.99</span>
+                <span className="font-medium text-[#2d9c7a]">Refund: $5.95</span>
               </div>
 
               <div className="flex items-center justify-between py-2">
                 <div>
                   <span className="font-medium text-[#1a2e25]">Yearly Plan</span>
-                  <span className="text-gray-400 text-xs ml-2">($79.99)</span>
+                  <span className="text-gray-400 text-xs ml-2">($65)</span>
                 </div>
-                <span className="font-medium text-[#2d9c7a]">Refund: $71.99</span>
+                <span className="font-medium text-[#2d9c7a]">Refund: $58.50</span>
               </div>
             </div>
 

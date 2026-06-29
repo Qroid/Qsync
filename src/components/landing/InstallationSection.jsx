@@ -1,41 +1,41 @@
-import { Download, UserPlus, LinkIcon, CheckCircle } from 'lucide-react'
+import { Download, Settings, Smartphone, CheckCircle } from 'lucide-react'
 
 const steps = [
   {
     icon: Download,
     step: '01',
-    title: 'Subscribe to a Plan',
-    desc: 'Choose a subscription plan that works for you. App access is granted immediately after confirmed payment.',
+    title: 'Download the APK',
+    desc: 'Download the Qsync APK file from the link provided after your subscription is confirmed.',
   },
   {
-    icon: UserPlus,
+    icon: Settings,
     step: '02',
-    title: 'Create Your Account',
-    desc: 'Sign up with your email. Set your display name and profile. Your account is created only after subscribing.',
+    title: 'Enable Unknown Sources',
+    desc: 'Go to your Android settings > Security > enable "Install from unknown sources" to allow the installation.',
   },
   {
-    icon: LinkIcon,
+    icon: Smartphone,
     step: '03',
-    title: 'Invite Your Partner',
-    desc: 'Send an invitation link to your partner. They must accept and install Qsync too — transparency requires both.',
+    title: 'Install the App',
+    desc: 'Open the downloaded APK file and tap Install. The app will appear on your home screen.',
   },
   {
     icon: CheckCircle,
     step: '04',
-    title: 'Start Sharing',
-    desc: 'Once both partners are connected, location, status, and activity begin syncing in real-time.',
+    title: 'Log In & Connect',
+    desc: 'Open Qsync, log in with your subscription email, and invite your partner to connect.',
   },
 ]
 
-export default function OnboardingSection() {
+export default function InstallationSection() {
   return (
     <section className="py-8 sm:py-12">
       <div className="text-center mb-8 sm:mb-12">
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#1a2e25] mb-3">
-          Get started in minutes
+          Installation Guide
         </h2>
         <p className="text-sm sm:text-base text-gray-500 max-w-2xl mx-auto">
-          Simple setup, no technical skills required. Both partners need to install Qsync.
+          Step-by-step guide to install Qsync on your Android device after subscribing.
         </p>
       </div>
 
@@ -61,10 +61,10 @@ export default function OnboardingSection() {
       </div>
 
       <div className="bg-white rounded-2xl p-5 sm:p-6 lg:p-8 border border-gray-100">
-        <h3 className="text-base sm:text-lg font-semibold text-[#1a2e25] mb-4">Before you start</h3>
+        <h3 className="text-base sm:text-lg font-semibold text-[#1a2e25] mb-4">Installation Requirements</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <h4 className="text-xs sm:text-sm font-medium text-[#1a2e25] mb-2">Requirements</h4>
+            <h4 className="text-xs sm:text-sm font-medium text-[#1a2e25] mb-2">Device</h4>
             <ul className="space-y-1.5 text-xs sm:text-sm text-gray-500">
               <li className="flex items-center gap-2">
                 <span className="w-1 h-1 bg-[#2d9c7a] rounded-full" />
@@ -72,28 +72,28 @@ export default function OnboardingSection() {
               </li>
               <li className="flex items-center gap-2">
                 <span className="w-1 h-1 bg-[#2d9c7a] rounded-full" />
-                Internet connection required
+                At least 50MB free space
               </li>
               <li className="flex items-center gap-2">
                 <span className="w-1 h-1 bg-[#2d9c7a] rounded-full" />
-                GPS/Location services enabled
+                Internet connection required
               </li>
             </ul>
           </div>
           <div>
-            <h4 className="text-xs sm:text-sm font-medium text-[#1a2e25] mb-2">Both partners need</h4>
+            <h4 className="text-xs sm:text-sm font-medium text-[#1a2e25] mb-2">Before Installing</h4>
             <ul className="space-y-1.5 text-xs sm:text-sm text-gray-500">
               <li className="flex items-center gap-2">
                 <span className="w-1 h-1 bg-[#2d9c7a] rounded-full" />
-                Qsync app installed
+                Active subscription required
               </li>
               <li className="flex items-center gap-2">
                 <span className="w-1 h-1 bg-[#2d9c7a] rounded-full" />
-                Active subscription
+                APK download link sent via email
               </li>
               <li className="flex items-center gap-2">
                 <span className="w-1 h-1 bg-[#2d9c7a] rounded-full" />
-                Mutual consent to share
+                Enable "Unknown Sources" in settings
               </li>
             </ul>
           </div>

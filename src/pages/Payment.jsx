@@ -3,9 +3,9 @@ import { useSearchParams, Link } from 'react-router-dom'
 import { CreditCard, Smartphone, ArrowLeft, Check } from 'lucide-react'
 
 const plans = {
-  weekly: { name: 'Weekly', price: '$3.99', period: '/week', planCode: 'PLN_weekly_qsync' },
-  monthly: { name: 'Monthly', price: '$9.99', period: '/month', planCode: 'PLN_monthly_qsync' },
-  yearly: { name: 'Yearly', price: '$79.99', period: '/year', planCode: 'PLN_yearly_qsync' },
+  weekly: { name: 'Weekly', price: '$3', period: '/week', planCode: 'PLN_weekly_qsync' },
+  monthly: { name: 'Monthly', price: '$8.50', period: '/month', planCode: 'PLN_monthly_qsync' },
+  yearly: { name: 'Yearly', price: '$65', period: '/year', planCode: 'PLN_yearly_qsync' },
 }
 
 export default function Payment() {
