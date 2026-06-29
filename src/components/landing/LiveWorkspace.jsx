@@ -23,34 +23,34 @@ export default function LiveWorkspace() {
             <span className="text-white text-xs sm:text-sm font-medium">Alex's Device</span>
             <span className="ml-auto text-[10px] text-white/40">Connected</span>
           </div>
-          <div className="bg-[#0a0f0a] rounded-xl p-3 sm:p-4 min-h-[250px] sm:min-h-[300px]">
-            <div className="text-white text-xs sm:text-sm font-medium mb-3">Dashboard</div>
+          <div className="bg-white rounded-xl p-3 sm:p-4 min-h-[250px] sm:min-h-[300px]">
+            <div className="text-[#1a2e25] text-xs sm:text-sm font-medium mb-3">Dashboard</div>
 
             <div className="grid grid-cols-2 gap-2 mb-3">
-              <div className="bg-white/5 rounded-lg p-2.5 sm:p-3 border border-white/5">
-                <div className="text-[9px] sm:text-[10px] text-white/40 mb-1">Your Status</div>
-                <div className="text-white text-[10px] sm:text-xs font-medium">At Home</div>
+              <div className="bg-[#f5f5f5] rounded-lg p-2.5 sm:p-3 border border-gray-100">
+                <div className="text-[9px] sm:text-[10px] text-gray-400 mb-1">Your Status</div>
+                <div className="text-[#1a2e25] text-[10px] sm:text-xs font-medium">At Home</div>
                 <div className="text-[#2d9c7a] text-[9px] sm:text-[10px]">Battery: 84%</div>
               </div>
-              <div className="bg-white/5 rounded-lg p-2.5 sm:p-3 border border-white/5">
-                <div className="text-[9px] sm:text-[10px] text-white/40 mb-1">Partner</div>
-                <div className="text-white text-[10px] sm:text-xs font-medium">At Office</div>
-                <div className="text-yellow-400 text-[9px] sm:text-[10px]">Battery: 62%</div>
+              <div className="bg-[#f5f5f5] rounded-lg p-2.5 sm:p-3 border border-gray-100">
+                <div className="text-[9px] sm:text-[10px] text-gray-400 mb-1">Partner</div>
+                <div className="text-[#1a2e25] text-[10px] sm:text-xs font-medium">At Office</div>
+                <div className="text-yellow-500 text-[9px] sm:text-[10px]">Battery: 62%</div>
               </div>
             </div>
 
-            <div className="bg-white/5 rounded-lg p-2.5 sm:p-3 border border-white/5">
-              <div className="text-[9px] sm:text-[10px] text-white/40 mb-2">Recent Activity</div>
+            <div className="bg-[#f5f5f5] rounded-lg p-2.5 sm:p-3 border border-gray-100">
+              <div className="text-[9px] sm:text-[10px] text-gray-400 mb-2">Recent Activity</div>
               <div className="space-y-1.5">
                 <div className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 bg-[#2d9c7a] rounded-full" />
-                  <span className="text-white/70 text-[9px] sm:text-[10px]">You arrived at Home</span>
-                  <span className="text-white/30 text-[8px] sm:text-[9px] ml-auto">2m ago</span>
+                  <span className="text-gray-600 text-[9px] sm:text-[10px]">You arrived at Home</span>
+                  <span className="text-gray-400 text-[8px] sm:text-[9px] ml-auto">2m ago</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 bg-blue-400 rounded-full" />
-                  <span className="text-white/70 text-[9px] sm:text-[10px]">Jordan checked in at Office</span>
-                  <span className="text-white/30 text-[8px] sm:text-[9px] ml-auto">15m ago</span>
+                  <span className="text-gray-600 text-[9px] sm:text-[10px]">Jordan checked in at Office</span>
+                  <span className="text-gray-400 text-[8px] sm:text-[9px] ml-auto">15m ago</span>
                 </div>
               </div>
             </div>
