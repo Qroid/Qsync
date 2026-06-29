@@ -9,6 +9,7 @@ import { LiveWorkspace } from '@/components/landing/LiveWorkspace'
 import { PricingSection } from '@/components/landing/PricingSection'
 import { OnboardingSection } from '@/components/landing/OnboardingSection'
 import { SiteFooter } from '@/components/landing/SiteFooter'
+import { ScrollToTopButton, DesktopScrollToTopButton } from '@/components/landing/ScrollToTopButton'
 
 const sections = {
   overview: OverviewSection,
@@ -29,7 +30,7 @@ export function Home() {
       <div className="lg:hidden flex flex-col min-h-screen">
         <MobileNav active={active} onNavigate={setActive} />
         <SiteHeader onNavigate={setActive} />
-        <main className="flex-1 px-4 py-6">
+        <main className="flex-1 px-4 py-6 overflow-y-auto">
           <ActiveSection />
         </main>
         <SiteFooter />
@@ -53,6 +54,10 @@ export function Home() {
           </main>
         </div>
       </div>
+
+      {/* Scroll to top buttons */}
+      <ScrollToTopButton />
+      <DesktopScrollToTopButton />
     </div>
   )
 }

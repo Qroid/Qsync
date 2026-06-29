@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 export function SiteFooter() {
   return (
-    <footer className="px-4 sm:px-8 lg:px-12 py-4 border-t border-gray-200 bg-white mt-auto">
+    <footer className="px-4 sm:px-8 lg:px-12 py-4 border-t border-gray-200 bg-white">
       {/* Mobile: stacked layout */}
       <div className="lg:hidden flex flex-col items-center gap-3">
         <span className="text-[11px] text-gray-400">&copy; 2026 Qsync</span>

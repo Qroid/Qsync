@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Menu, X, ChevronUp, LayoutDashboard, Target, Lightbulb, Monitor, CreditCard, Download } from 'lucide-react'
+import { Menu, X, LayoutDashboard, Target, Lightbulb, Monitor, CreditCard, Download } from 'lucide-react'
 
 const sections = [
   { id: 'overview', label: 'Overview', icon: LayoutDashboard },
@@ -13,10 +13,6 @@ const sections = [
 
 export function MobileNav({ active, onNavigate }) {
   const [open, setOpen] = useState(false)
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
 
   const handleNavigate = (id) => {
     onNavigate(id)
@@ -31,18 +27,9 @@ export function MobileNav({ active, onNavigate }) {
         <Link to="/" onClick={() => onNavigate('overview')}>
           <img src="/logo/icon.svg" alt="Qsync" className="h-6" />
         </Link>
-        <div className="flex items-center gap-2">
-          <button
-            onClick={scrollToTop}
-            className="p-2 text-white/60 hover:text-white"
-            aria-label="Scroll to top"
-          >
-            <ChevronUp className="w-5 h-5 text-teal-400" />
-          </button>
-          <button onClick={() => setOpen(true)} className="p-2 text-white/80" aria-label="Menu">
-            <Menu className="w-5 h-5" />
-          </button>
-        </div>
+        <button onClick={() => setOpen(true)} className="p-2 text-white/80" aria-label="Menu">
+          <Menu className="w-5 h-5" />
+        </button>
       </header>
 
       {/* Overlay */}

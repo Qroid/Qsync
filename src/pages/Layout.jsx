@@ -4,6 +4,7 @@ import { SideNav } from '@/components/landing/SideNav'
 import { MobileNav } from '@/components/landing/MobileNav'
 import { SiteHeader } from '@/components/landing/SiteHeader'
 import { SiteFooter } from '@/components/landing/SiteFooter'
+import { ScrollToTopButton, DesktopScrollToTopButton } from '@/components/landing/ScrollToTopButton'
 
 export function Layout() {
   const [active, setActive] = useState('overview')
@@ -26,7 +27,7 @@ export function Layout() {
       <div className="lg:hidden flex flex-col min-h-screen">
         <MobileNav active={currentActive} onNavigate={setActive} />
         <SiteHeader onNavigate={setActive} />
-        <main className="flex-1 px-4 py-6">
+        <main className="flex-1 px-4 py-6 overflow-y-auto">
           <Outlet />
         </main>
         <SiteFooter />
@@ -50,6 +51,10 @@ export function Layout() {
           </main>
         </div>
       </div>
+
+      {/* Scroll to top buttons */}
+      <ScrollToTopButton />
+      <DesktopScrollToTopButton />
     </div>
   )
 }
