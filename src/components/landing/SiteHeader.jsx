@@ -4,7 +4,7 @@ import Logo from '../Logo'
 
 export default function SiteHeader({ onMenuClick }) {
   return (
-    <header className="flex items-center justify-between px-4 sm:px-8 lg:px-10 py-3 sm:py-4 lg:border-b lg:border-gray-200 lg:bg-[#f0f7e6] bg-[#1a2e25]">
+    <header className="flex items-center justify-between px-4 sm:px-8 lg:px-10 py-3 sm:py-4 lg:border-b lg:border-gray-200 lg:bg-[#f0f7e6] lg:relative lg:z-auto bg-[#1a2e25] sticky top-0 z-30">
       <div className="flex items-center gap-3">
         <button
           onClick={onMenuClick}
