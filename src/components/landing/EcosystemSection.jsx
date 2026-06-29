@@ -1,156 +1,103 @@
-import { MapPin, Battery, Activity, Bell, Shield, Clock, Wifi, Smartphone, Eye, Radio, FileText, Users } from 'lucide-react'
+import {
+  MapPin,
+  Battery,
+  Activity,
+  Users,
+  Bell,
+  Lock,
+  Clock,
+  Globe,
+  Zap,
+} from 'lucide-react'
 
-export function EcosystemSection() {
+const features = [
+  {
+    icon: MapPin,
+    title: 'Live Location Sharing',
+    desc: 'See your partner\'s real-time GPS location on a shared map. Both partners\' locations update continuously, so you always know where each other are.',
+    color: '#2d9c7a',
+  },
+  {
+    icon: Battery,
+    title: 'Battery & Connection',
+    desc: 'Know your partner\'s battery level and connection status (Wi-Fi, 4G, offline). Never worry about whether their phone died or if they\'re unreachable.',
+    color: '#2d9c7a',
+  },
+  {
+    icon: Activity,
+    title: 'Activity Feed',
+    desc: 'Track your partner\'s recent movements and status changes throughout the day. See arrival/departure times, location visits, and status updates.',
+    color: '#3b82f6',
+  },
+  {
+    icon: Users,
+    title: 'Status & Availability',
+    desc: 'Share your current status — At Home, At Work, Driving, Sleeping, or custom. See if your partner is available to talk or busy.',
+    color: '#8b5cf6',
+  },
+  {
+    icon: Bell,
+    title: 'Smart Notifications',
+    desc: 'Get notified when your partner arrives home, leaves work, or their battery is low. Customizable alerts for what matters to you.',
+    color: '#f59e0b',
+  },
+  {
+    icon: Lock,
+    title: 'Privacy Controls',
+    desc: 'You control what you share. Pause location sharing, hide specific locations, or go invisible temporarily. Your privacy, your rules.',
+    color: '#ef4444',
+  },
+  {
+    icon: Clock,
+    title: 'Location History',
+    desc: 'Review where your partner has been throughout the day, week, or month. Available on Monthly and Yearly plans.',
+    color: '#06b6d4',
+  },
+  {
+    icon: Globe,
+    title: 'Works Everywhere',
+    desc: 'Qsync works worldwide — no region restrictions. Whether you\'re in the same city or different countries, stay connected.',
+    color: '#10b981',
+  },
+  {
+    icon: Zap,
+    title: 'Instant Sync',
+    desc: 'Location and status updates sync in real-time between both partners. No delays, no refresh needed — everything is live.',
+    color: '#f97316',
+  },
+]
+
+export default function EcosystemSection() {
   return (
-    <section id="ecosystem" className="bg-white rounded-xl border border-gray-200 p-8 lg:p-10">
-      <h2 className="text-lg font-semibold text-gray-900 tracking-tight">
-        What You Get the Moment You Subscribe
-      </h2>
+    <section className="py-6 sm:py-10">
+      <div className="text-center mb-8 sm:mb-12">
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#1a2e25] mb-3">
+          Everything you need to stay connected
+        </h2>
+        <p className="text-sm sm:text-base text-gray-500 max-w-2xl mx-auto">
+          Core features designed for couples who value transparency and trust.
+        </p>
+      </div>
 
-      <div className="mt-8 space-y-8">
-        {/* Feature 1 */}
-        <div>
-          <div className="flex items-center gap-2 mb-2">
-            <MapPin className="w-4 h-4 text-gray-400" />
-            <h3 className="text-[14px] font-medium text-gray-900">Live Location Sharing</h3>
-          </div>
-          <p className="mt-2 text-[13px] text-gray-500 leading-relaxed">
-            See your partner's real-time location on a shared map. Know when they arrive at work, leave the gym, or head home. No more "where are you?" texts.
-          </p>
-          <div className="mt-3 pl-4 border-l border-gray-200">
-            <p className="text-[12px] text-gray-400 leading-relaxed">
-              <span className="font-medium text-gray-500">What's included:</span> GPS coordinates, location history, arrival/departure notifications, and favorite places.
-            </p>
-          </div>
-        </div>
-
-        {/* Feature 2 */}
-        <div>
-          <div className="flex items-center gap-2 mb-2">
-            <Battery className="w-4 h-4 text-gray-400" />
-            <h3 className="text-[14px] font-medium text-gray-900">Battery & Network Status</h3>
-          </div>
-          <p className="mt-2 text-[13px] text-gray-500 leading-relaxed">
-            Know if your partner's phone is about to die or if they're on Wi-Fi vs. cellular. Never miss a call because their battery was at 2%.
-          </p>
-          <div className="mt-3 pl-4 border-l border-gray-200">
-            <p className="text-[12px] text-gray-400 leading-relaxed">
-              <span className="font-medium text-gray-500">What's included:</span> Battery percentage, charging status, network type, and low battery alerts.
-            </p>
-          </div>
-        </div>
-
-        {/* Feature 3 */}
-        <div>
-          <div className="flex items-center gap-2 mb-2">
-            <Activity className="w-4 h-4 text-gray-400" />
-            <h3 className="text-[14px] font-medium text-gray-900">Activity Feed</h3>
-          </div>
-          <p className="mt-2 text-[13px] text-gray-500 leading-relaxed">
-            A shared timeline of what both of you are doing throughout the day. See when someone leaves home, arrives at a location, or connects to a new network.
-          </p>
-          <div className="mt-3 pl-4 border-l border-gray-200">
-            <p className="text-[12px] text-gray-400 leading-relaxed">
-              <span className="font-medium text-gray-500">What's included:</span> Location check-ins, device events, app usage, and custom status updates.
-            </p>
-          </div>
-        </div>
-
-        {/* Feature 4 */}
-        <div>
-          <div className="flex items-center gap-2 mb-2">
-            <Bell className="w-4 h-4 text-gray-400" />
-            <h3 className="text-[14px] font-medium text-gray-900">Safety Check-Ins</h3>
-          </div>
-          <p className="mt-2 text-[13px] text-gray-500 leading-relaxed">
-            Send quick "I'm safe" check-ins when arriving at destinations. Your partner gets instant peace of mind without needing to call.
-          </p>
-          <div className="mt-3 pl-4 border-l border-gray-200">
-            <p className="text-[12px] text-gray-400 leading-relaxed">
-              <span className="font-medium text-gray-500">What's included:</span> One-tap check-ins, automatic arrival alerts, and SOS emergency mode.
-            </p>
-          </div>
-        </div>
-
-        {/* Feature 5 */}
-        <div>
-          <div className="flex items-center gap-2 mb-2">
-            <Clock className="w-4 h-4 text-gray-400" />
-            <h3 className="text-[14px] font-medium text-gray-900">Screen Time Together</h3>
-          </div>
-          <p className="mt-2 text-[13px] text-gray-500 leading-relaxed">
-            See how much screen time you both have and when you're both online. Coordinate unplugged time or plan activities together.
-          </p>
-          <div className="mt-3 pl-4 border-l border-gray-200">
-            <p className="text-[12px] text-gray-400 leading-relaxed">
-              <span className="font-medium text-gray-500">What's included:</span> Daily/weekly screen time reports, app usage breakdowns, and focus mode coordination.
-            </p>
-          </div>
-        </div>
-
-        {/* Feature 6 */}
-        <div>
-          <div className="flex items-center gap-2 mb-2">
-            <Eye className="w-4 h-4 text-gray-400" />
-            <h3 className="text-[14px] font-medium text-gray-900">Shared Visibility</h3>
-          </div>
-          <p className="mt-2 text-[13px] text-gray-500 leading-relaxed">
-            Both partners see exactly the same data. No hidden information, no secret logs. Full transparency is the foundation of trust.
-          </p>
-          <div className="mt-3 pl-4 border-l border-gray-200">
-            <p className="text-[12px] text-gray-400 leading-relaxed">
-              <span className="font-medium text-gray-500">What's included:</span> Identical dashboards, shared notifications, and equal access to all features.
-            </p>
-          </div>
-        </div>
-
-        {/* Feature 7 */}
-        <div>
-          <div className="flex items-center gap-2 mb-2">
-            <Shield className="w-4 h-4 text-gray-400" />
-            <h3 className="text-[14px] font-medium text-gray-900">Privacy Controls</h3>
-          </div>
-          <p className="mt-2 text-[13px] text-gray-500 leading-relaxed">
-            Control exactly what you share and when. Pause location sharing, hide specific activities, or go completely private with one tap.
-          </p>
-          <div className="mt-3 pl-4 border-l border-gray-200">
-            <p className="text-[12px] text-gray-400 leading-relaxed">
-              <span className="font-medium text-gray-500">What's included:</span> Per-feature toggles, scheduled privacy windows, and vacation mode.
-            </p>
-          </div>
-        </div>
-
-        {/* Feature 8 */}
-        <div>
-          <div className="flex items-center gap-2 mb-2">
-            <Radio className="w-4 h-4 text-gray-400" />
-            <h3 className="text-[14px] font-medium text-gray-900">Push Notifications</h3>
-          </div>
-          <p className="mt-2 text-[13px] text-gray-500 leading-relaxed">
-            Instant alerts for the moments that matter. Know when your partner arrives home, leaves work, or sends a check-in.
-          </p>
-          <div className="mt-3 pl-4 border-l border-gray-200">
-            <p className="text-[12px] text-gray-400 leading-relaxed">
-              <span className="font-medium text-gray-500">What's included:</span> Arrival/departure alerts, custom notifications, and emergency broadcasts.
-            </p>
-          </div>
-        </div>
-
-        {/* Feature 9 */}
-        <div>
-          <div className="flex items-center gap-2 mb-2">
-            <Users className="w-4 h-4 text-gray-400" />
-            <h3 className="text-[14px] font-medium text-gray-900">Priority Support</h3>
-          </div>
-          <p className="mt-2 text-[13px] text-gray-500 leading-relaxed">
-            Get help when you need it. Priority support means faster responses and dedicated assistance for any issues.
-          </p>
-          <div className="mt-3 pl-4 border-l border-gray-200">
-            <p className="text-[12px] text-gray-400 leading-relaxed">
-              <span className="font-medium text-gray-500">What's included:</span> 24/7 chat support, dedicated account manager, and guaranteed response within 2 hours.
-            </p>
-          </div>
-        </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+        {features.map((f, i) => {
+          const Icon = f.icon
+          return (
+            <div
+              key={i}
+              className="bg-[#f5f5f5] rounded-2xl p-4 sm:p-5 lg:p-6 hover:bg-white hover:shadow-sm transition-all duration-150 border border-transparent hover:border-gray-100"
+            >
+              <div
+                className="w-10 h-10 rounded-xl flex items-center justify-center mb-3"
+                style={{ backgroundColor: `${f.color}15` }}
+              >
+                <Icon size={20} style={{ color: f.color }} strokeWidth={1.5} />
+              </div>
+              <h3 className="text-sm sm:text-base font-semibold text-[#1a2e25] mb-2">{f.title}</h3>
+              <p className="text-xs sm:text-sm text-gray-500 leading-relaxed">{f.desc}</p>
+            </div>
+          )
+        })}
       </div>
     </section>
   )

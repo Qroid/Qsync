@@ -1,119 +1,131 @@
-import { useState, useEffect } from 'react'
-import { Battery, MapPin, Wifi } from 'lucide-react'
+import { useState } from 'react'
+import { Smartphone, Monitor } from 'lucide-react'
 
-const tabs = [
-  { id: 'activity', label: 'Activity' },
-  { id: 'status', label: 'Status' },
-]
-
-const seedActivity = [
-  { partner: 'Alex', text: 'Arrived at Coffee House', time: '14:32' },
-  { partner: 'Jordan', text: 'Phone charged to 85%', time: '14:28' },
-  { partner: 'Alex', text: 'Left home', time: '14:15' },
-  { partner: 'Jordan', text: 'Checked in', time: '13:58' },
-  { partner: 'Alex', text: 'Connected to Wi-Fi', time: '13:42' },
-]
-
-function ActivityTab({ items }) {
-  return (
-    <div className="h-[260px] overflow-hidden rounded-lg border border-gray-100">
-      <div className="px-3 py-2 border-b border-gray-100 flex items-center justify-between">
-        <span className="text-[10px] font-mono text-gray-300 uppercase tracking-wider">Feed</span>
-        <span className="w-1.5 h-1.5 rounded-full bg-teal-500 animate-pulse" />
-      </div>
-      <div className="notification-scroll bg-white">
-        {[...items, ...items].map((n, i) => (
-          <div key={i} className="flex items-center justify-between px-3 py-2 border-b border-gray-50">
-            <div className="flex items-center gap-2">
-              <div className="w-5 h-5 rounded-full bg-gray-100 flex items-center justify-center text-[8px] font-medium text-gray-500">
-                {n.partner[0]}
-              </div>
-              <span className="text-[11px] text-gray-600">{n.text}</span>
-            </div>
-            <span className="text-[9px] font-mono text-gray-300">{n.time}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
-
-function StatusTab() {
-  const profiles = [
-    { name: 'Alex', battery: '84%', network: 'Wi-Fi', location: 'Coffee House' },
-    { name: 'Jordan', battery: '62%', network: '4G', location: 'Office' },
-  ]
-
-  return (
-    <div className="grid grid-cols-2 gap-3">
-      {profiles.map((p) => (
-        <div key={p.name} className="rounded-lg border border-gray-100 p-4">
-          <div className="text-[12px] font-medium text-gray-900 mb-3">{p.name}</div>
-          <div className="space-y-2">
-            <div className="flex items-center gap-2 text-[11px] text-gray-400">
-              <Battery className="w-3 h-3" />
-              {p.battery}
-            </div>
-            <div className="flex items-center gap-2 text-[11px] text-gray-400">
-              <Wifi className="w-3 h-3" />
-              {p.network}
-            </div>
-            <div className="flex items-center gap-2 text-[11px] text-gray-400">
-              <MapPin className="w-3 h-3" />
-              {p.location}
-            </div>
-          </div>
-        </div>
-      ))}
-    </div>
-  )
-}
-
-export function LiveWorkspace() {
+export default function LiveWorkspace() {
   const [activeTab, setActiveTab] = useState('activity')
-  const [activity, setActivity] = useState(seedActivity)
-
-  useEffect(() => {
-    const pool = [
-      { partner: 'Jordan', text: 'Phone charged to 92%', time: '14:35' },
-      { partner: 'Alex', text: 'Heading home', time: '14:33' },
-      { partner: 'Jordan', text: 'Checked in', time: '14:31' },
-    ]
-    const t = setInterval(() => {
-      const n = pool[Math.floor(Math.random() * pool.length)]
-      setActivity((prev) => [n, ...prev].slice(0, 10))
-    }, 5000)
-    return () => clearInterval(t)
-  }, [])
 
   return (
-    <section id="interfaces" className="bg-white rounded-xl border border-gray-200 p-8 lg:p-10">
-      <h2 className="text-lg font-semibold text-gray-900 tracking-tight">
-        Demo
-      </h2>
-      <p className="mt-2 text-[12px] text-gray-400">
-        Both partners see the same data.
-      </p>
+    <section className="py-6 sm:py-10">
+      <div className="text-center mb-8 sm:mb-12">
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#1a2e25] mb-3">
+          See it in action
+        </h2>
+        <p className="text-sm sm:text-base text-gray-500 max-w-2xl mx-auto">
+          Preview what Qsync looks like when two partners are connected.
+        </p>
+      </div>
 
-      <div className="mt-6 rounded-lg border border-gray-100 overflow-hidden">
-        <div className="flex border-b border-gray-100">
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`px-4 py-2 text-[11px] font-medium transition-colors ${
-                activeTab === tab.id
-                  ? 'text-gray-900 border-b border-gray-900'
-                  : 'text-gray-300 hover:text-gray-500'
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+        {/* Alex's Device */}
+        <div className="bg-[#1a2e25] rounded-2xl p-4 sm:p-5">
+          <div className="flex items-center gap-2 mb-4">
+            <Smartphone size={16} className="text-white" />
+            <span className="text-white text-xs sm:text-sm font-medium">Alex's Device</span>
+            <span className="ml-auto text-[10px] text-white/40">Connected</span>
+          </div>
+          <div className="bg-[#0a0f0a] rounded-xl p-3 sm:p-4 min-h-[250px] sm:min-h-[300px]">
+            <div className="text-white text-xs sm:text-sm font-medium mb-3">Dashboard</div>
+
+            <div className="grid grid-cols-2 gap-2 mb-3">
+              <div className="bg-white/5 rounded-lg p-2.5 sm:p-3 border border-white/5">
+                <div className="text-[9px] sm:text-[10px] text-white/40 mb-1">Your Status</div>
+                <div className="text-white text-[10px] sm:text-xs font-medium">At Home</div>
+                <div className="text-[#2d9c7a] text-[9px] sm:text-[10px]">Battery: 84%</div>
+              </div>
+              <div className="bg-white/5 rounded-lg p-2.5 sm:p-3 border border-white/5">
+                <div className="text-[9px] sm:text-[10px] text-white/40 mb-1">Partner</div>
+                <div className="text-white text-[10px] sm:text-xs font-medium">At Office</div>
+                <div className="text-yellow-400 text-[9px] sm:text-[10px]">Battery: 62%</div>
+              </div>
+            </div>
+
+            <div className="bg-white/5 rounded-lg p-2.5 sm:p-3 border border-white/5">
+              <div className="text-[9px] sm:text-[10px] text-white/40 mb-2">Recent Activity</div>
+              <div className="space-y-1.5">
+                <div className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 bg-[#2d9c7a] rounded-full" />
+                  <span className="text-white/70 text-[9px] sm:text-[10px]">You arrived at Home</span>
+                  <span className="text-white/30 text-[8px] sm:text-[9px] ml-auto">2m ago</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 bg-blue-400 rounded-full" />
+                  <span className="text-white/70 text-[9px] sm:text-[10px]">Jordan checked in at Office</span>
+                  <span className="text-white/30 text-[8px] sm:text-[9px] ml-auto">15m ago</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="p-3">
-          {activeTab === 'activity' && <ActivityTab items={activity} />}
-          {activeTab === 'status' && <StatusTab />}
+
+        {/* Jordan's Device */}
+        <div className="bg-white border border-gray-100 rounded-2xl p-4 sm:p-5">
+          <div className="flex items-center gap-2 mb-4">
+            <Monitor size={16} className="text-[#1a2e25]" />
+            <span className="text-[#1a2e25] text-xs sm:text-sm font-medium">Jordan's Device</span>
+            <span className="ml-auto text-[10px] text-gray-400">Connected</span>
+          </div>
+          <div className="bg-[#f5f5f5] rounded-xl p-3 sm:p-4 min-h-[250px] sm:min-h-[300px]">
+            <div className="flex gap-2 mb-3">
+              <button
+                onClick={() => setActiveTab('activity')}
+                className={`px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-medium transition-colors ${
+                  activeTab === 'activity'
+                    ? 'bg-[#1a2e25] text-white'
+                    : 'bg-white text-gray-500 hover:bg-gray-100'
+                }`}
+              >
+                Activity
+              </button>
+              <button
+                onClick={() => setActiveTab('status')}
+                className={`px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-medium transition-colors ${
+                  activeTab === 'status'
+                    ? 'bg-[#1a2e25] text-white'
+                    : 'bg-white text-gray-500 hover:bg-gray-100'
+                }`}
+              >
+                Status
+              </button>
+            </div>
+
+            {activeTab === 'activity' ? (
+              <div className="bg-white rounded-lg p-2.5 sm:p-3 border border-gray-100">
+                <div className="text-[9px] sm:text-[10px] text-gray-400 mb-2">TODAY</div>
+                <div className="space-y-2">
+                  {[
+                    { time: '8:00 AM', event: 'Left Home', color: '#2d9c7a' },
+                    { time: '8:45 AM', event: 'Arrived Office', color: '#3b82f6' },
+                    { time: '12:30 PM', event: 'Shared location', color: '#2d9c7a' },
+                    { time: '2:00 PM', event: 'Status: Working', color: '#8b5cf6' },
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: item.color }} />
+                      <span className="text-gray-600 text-[9px] sm:text-[10px]">{item.event}</span>
+                      <span className="text-gray-400 text-[8px] sm:text-[9px] ml-auto">{item.time}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div className="bg-white rounded-lg p-2.5 sm:p-3 border border-gray-100">
+                <div className="text-[9px] sm:text-[10px] text-gray-400 mb-2">CURRENT STATUS</div>
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-600 text-[9px] sm:text-[10px]">Status</span>
+                    <span className="text-[#1a2e25] text-[9px] sm:text-[10px] font-medium">At Office</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-600 text-[9px] sm:text-[10px]">Battery</span>
+                    <span className="text-yellow-500 text-[9px] sm:text-[10px]">62%</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-600 text-[9px] sm:text-[10px]">Connection</span>
+                    <span className="text-green-500 text-[9px] sm:text-[10px]">4G</span>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </section>

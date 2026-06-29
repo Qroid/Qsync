@@ -1,62 +1,40 @@
 import { useState, useEffect } from 'react'
 import { ChevronUp } from 'lucide-react'
 
-export function ScrollToTopButton() {
-  const [visible, setVisible] = useState(false)
+export default function ScrollToTopButton() {
+  const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
-    const handleScroll = () => {
-      setVisible(window.scrollY > 300)
+    const toggleVisibility = () => {
+      const container = document.getElementById('scroll-container')
+      if (container) {
+        setIsVisible(container.scrollTop > 300)
+      }
     }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+
+    const container = document.getElementById('scroll-container')
+    if (container) {
+      container.addEventListener('scroll', toggleVisibility)
+      return () => container.removeEventListener('scroll', toggleVisibility)
+    }
   }, [])
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    const container = document.getElementById('scroll-container')
+    if (container) {
+      container.scrollTo({ top: 0, behavior: 'smooth' })
+    }
   }
 
-  if (!visible) return null
+  if (!isVisible) return null
 
   return (
     <button
       onClick={scrollToTop}
-      className="fixed bottom-6 right-6 z-40 w-12 h-12 rounded-full bg-[#2d9c7a] flex items-center justify-center shadow-lg hover:bg-[#248a6a] transition-colors lg:hidden"
+      className="fixed bottom-20 sm:bottom-8 right-4 sm:right-6 z-30 w-10 h-10 sm:w-11 sm:h-11 bg-[#2d9c7a] text-white rounded-full shadow-lg hover:bg-[#1a7a5c] transition-all duration-200 flex items-center justify-center hover:scale-105"
       aria-label="Scroll to top"
     >
-      <ChevronUp className="w-6 h-6 text-white" />
-    </button>
-  )
-}
-
-export function DesktopScrollToTopButton() {
-  const [visible, setVisible] = useState(false)
-
-  useEffect(() => {
-    const container = document.querySelector('.scroll-container')
-    if (!container) return
-
-    const handleScroll = () => {
-      setVisible(container.scrollTop > 300)
-    }
-    container.addEventListener('scroll', handleScroll)
-    return () => container.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  const scrollToTop = () => {
-    const container = document.querySelector('.scroll-container')
-    if (container) container.scrollTop = 0
-  }
-
-  if (!visible) return null
-
-  return (
-    <button
-      onClick={scrollToTop}
-      className="fixed bottom-6 right-6 z-40 w-12 h-12 rounded-full bg-[#2d9c7a] flex items-center justify-center shadow-lg hover:bg-[#248a6a] transition-colors hidden lg:flex"
-      aria-label="Scroll to top"
-    >
-      <ChevronUp className="w-6 h-6 text-white" />
+      <ChevronUp size={18} />
     </button>
   )
 }

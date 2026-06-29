@@ -1,46 +1,61 @@
-import { Shield, Heart, Eye } from 'lucide-react'
+import { Shield, Eye, Heart } from 'lucide-react'
 
-export function MissionSection() {
+const pillars = [
+  {
+    icon: Shield,
+    title: 'Mutual Consent',
+    desc: 'Both partners must agree to share. No secret tracking, no hidden installs. Transparency is a choice you make together.',
+  },
+  {
+    icon: Eye,
+    title: 'Honest Visibility',
+    desc: 'See location, status, and activity in real-time. No filters, no guessing. Just the truth about where your partner is and what they\'re doing.',
+  },
+  {
+    icon: Heart,
+    title: 'Trust Growth',
+    desc: 'When both partners are transparent, trust deepens. Qsync helps you build a relationship rooted in honesty, not surveillance.',
+  },
+]
+
+export default function MissionSection() {
   return (
-    <section id="mission" className="bg-white rounded-xl border border-gray-200 p-8 lg:p-10">
-      <h2 className="text-lg font-semibold text-gray-900 tracking-tight">
-        Our Mission
-      </h2>
-      <p className="mt-3 text-gray-400 leading-relaxed text-[14px] max-w-xl">
-        Strong relationships are rooted in transparency, not guesswork. Qsync gives
-        couples a shared space to stay connected — no secrets, no surveillance.
-      </p>
-
-      <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="rounded-lg border border-gray-100 p-5">
-          <Shield className="w-5 h-5 text-gray-400" />
-          <h3 className="mt-3 text-[13px] font-medium text-gray-900">Mutual Consent Only</h3>
-          <p className="mt-2 text-[12px] text-gray-400 leading-relaxed">
-            Both partners must explicitly agree to share data. No one-sided tracking, no hidden installs. Trust is the foundation.
-          </p>
-        </div>
-
-        <div className="rounded-lg border border-gray-100 p-5">
-          <Heart className="w-5 h-5 text-gray-400" />
-          <h3 className="mt-3 text-[13px] font-medium text-gray-900">Built for Couples</h3>
-          <p className="mt-2 text-[12px] text-gray-400 leading-relaxed">
-            Designed specifically for partners who want to stay in sync — knowing where each other is, how they're doing, and when they need support.
-          </p>
-        </div>
-
-        <div className="rounded-lg border border-gray-100 p-5">
-          <Eye className="w-5 h-5 text-gray-400" />
-          <h3 className="mt-3 text-[13px] font-medium text-gray-900">Full Transparency</h3>
-          <p className="mt-2 text-[12px] text-gray-400 leading-relaxed">
-            Every feature is visible to both partners. Shared location, shared status, shared activity — nothing is hidden from either side.
-          </p>
-        </div>
+    <section className="py-6 sm:py-10">
+      <div className="text-center mb-8 sm:mb-12">
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#1a2e25] mb-3">
+          Built for trust, not surveillance
+        </h2>
+        <p className="text-sm sm:text-base text-gray-500 max-w-2xl mx-auto">
+          Most "couples apps" are surveillance tools disguised as transparency.
+          Qsync is different — it requires both partners to opt in.
+        </p>
       </div>
 
-      <div className="mt-6 rounded-lg bg-gray-50 p-5">
-        <p className="text-[13px] text-gray-500 leading-relaxed">
-          We believe technology should strengthen relationships, not create distrust. Qsync is built on the principle that when both partners choose transparency, they build something stronger than surveillance could ever provide.
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-12">
+        {pillars.map((p, i) => {
+          const Icon = p.icon
+          return (
+            <div
+              key={i}
+              className="bg-white border border-gray-100 rounded-2xl p-5 sm:p-6 hover:border-[#2d9c7a]/30 transition-colors"
+            >
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-[#1a2e25] flex items-center justify-center mb-4">
+                <Icon size={22} className="text-white" strokeWidth={1.5} />
+              </div>
+              <h3 className="text-base sm:text-lg font-semibold text-[#1a2e25] mb-2">{p.title}</h3>
+              <p className="text-xs sm:text-sm text-gray-500 leading-relaxed">{p.desc}</p>
+            </div>
+          )
+        })}
+      </div>
+
+      <div className="bg-[#f5f5f5] rounded-2xl p-5 sm:p-8 text-center">
+        <p className="text-sm sm:text-base lg:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          "Surveillance destroys relationships. Transparency builds them. Qsync is designed
+          for couples who believe in honesty — where both partners willingly share their
+          location, status, and activity because they trust each other."
         </p>
+        <div className="mt-4 text-xs text-gray-400">— The Qsync Philosophy</div>
       </div>
     </section>
   )

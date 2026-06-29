@@ -1,43 +1,64 @@
 import { Link } from 'react-router-dom'
-import { LayoutDashboard, Target, Lightbulb, Monitor, CreditCard, Download } from 'lucide-react'
+import Logo from '../Logo'
+import {
+  MapPin,
+  Shield,
+  Layers,
+  CreditCard,
+  Download,
+  Activity,
+} from 'lucide-react'
 
-const sections = [
-  { id: 'overview', label: 'Overview', icon: LayoutDashboard },
-  { id: 'mission', label: 'Mission', icon: Target },
-  { id: 'ecosystem', label: 'How It Works', icon: Lightbulb },
-  { id: 'interfaces', label: 'Demo', icon: Monitor },
+const navItems = [
+  { id: 'overview', label: 'Overview', icon: MapPin },
+  { id: 'mission', label: 'Mission', icon: Shield },
+  { id: 'how-it-works', label: 'How It Works', icon: Layers },
   { id: 'pricing', label: 'Pricing', icon: CreditCard },
-  { id: 'onboarding', label: 'Installation', icon: Download },
+  { id: 'get-started', label: 'Get Started', icon: Download },
+  { id: 'live-demo', label: 'Live Demo', icon: Activity },
 ]
 
-export function SideNav({ active, onNavigate }) {
+export default function SideNav({ activeSection, onNavigate }) {
   return (
-    <aside className="hidden lg:flex flex-col w-56 shrink-0 bg-[#1a2e25]">
-      <Link to="/" className="px-6 py-6 block">
-        <img src="/logo/icon.svg" alt="Qsync" className="h-6" />
-      </Link>
+    <nav className="w-56 xl:w-60 h-full bg-[#1a2e25] flex flex-col">
+      {/* Logo */}
+      <div className="p-5 border-b border-white/5">
+        <Link to="/" className="flex items-center gap-2.5">
+          <Logo className="w-8 h-8 text-white" />
+          <span className="text-white font-semibold text-base tracking-tight">Qsync</span>
+        </Link>
+      </div>
 
-      <nav className="flex-1 py-2">
-        {sections.map((s) => {
-          const Icon = s.icon
+      {/* Navigation */}
+      <div className="flex-1 p-3 space-y-1">
+        {navItems.map((item) => {
+          const Icon = item.icon
+          const isActive = activeSection === item.id
+
           return (
             <button
-              key={s.id}
-              onClick={() => onNavigate(s.id)}
-              className={`sidebar-item ${active === s.id ? 'active' : ''}`}
+              key={item.id}
+              onClick={() => onNavigate(item.id)}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-150 ${
+                isActive
+                  ? 'bg-white text-[#1a2e25]'
+                  : 'text-white/60 hover:text-white hover:bg-white/5'
+              }`}
             >
-              <Icon className="w-4 h-4 shrink-0" />
-              {s.label}
+              <Icon size={18} strokeWidth={isActive ? 2 : 1.5} />
+              {item.label}
             </button>
           )
         })}
-      </nav>
+      </div>
 
-      <div className="px-6 py-5">
-        <div className="text-[10px] text-white/25 font-mono">
-          &copy; 2026
+      {/* Bottom section */}
+      <div className="p-4 border-t border-white/5">
+        <div className="bg-white/5 rounded-xl p-4">
+          <div className="text-white/60 text-xs mb-1">Couples Transparency</div>
+          <div className="text-white text-sm font-medium">Built with trust</div>
         </div>
       </div>
-    </aside>
+    </nav>
   )
 }

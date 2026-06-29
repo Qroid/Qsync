@@ -1,117 +1,106 @@
-import { useState } from 'react'
-import { ChevronDown } from 'lucide-react'
+import { Download, UserPlus, LinkIcon, CheckCircle } from 'lucide-react'
 
 const steps = [
   {
-    number: 1,
-    title: 'Disable Google Play Protect',
-    subtitle: 'Target Device',
-    content: 'Google Play Protect automatically flags and blocks applications installed outside of the official store. This must be turned off before downloading the file.',
-    instructions: [
-      'Open the Google Play Store app on the target device.',
-      'Tap the Profile Icon / Avatar in the top-right corner.',
-      'Select Play Protect from the menu.',
-      'Tap the Settings (Gear Icon) in the upper-right corner.',
-      'Turn OFF both toggles: Scan apps with Play Protect and Improve harmful app detection.',
-    ],
+    icon: Download,
+    step: '01',
+    title: 'Download Qsync',
+    desc: 'Get the app from our website. Available for Android and iOS. Quick download, no account needed yet.',
   },
   {
-    number: 2,
-    title: 'Enable Restricted App Permissions',
-    subtitle: 'Authorize Side-Loading',
-    content: 'Android restricts applications from installing software downloaded directly via a browser or file manager. You must explicitly authorize the source:',
-    instructions: [
-      'Open the device Settings.',
-      'Navigate to Apps (or Apps & Notifications).',
-      'Tap Special App Access (often under advanced settings or accessible via the three dots in the top right).',
-      'Select Install Unknown Apps.',
-      'Choose the browser or file manager you will use to download the application (e.g., Google Chrome or My Files).',
-      'Switch the Allow from this source toggle to ON.',
-    ],
+    icon: UserPlus,
+    step: '02',
+    title: 'Create Your Account',
+    desc: 'Sign up with your email. Set your display name and profile. Your account is created only after subscribing.',
   },
   {
-    number: 3,
-    title: 'Install and Link the Application',
-    subtitle: 'Establish WebSocket Uplink',
-    content: 'Follow these steps to install the app and connect it to your dashboard:',
-    instructions: [
-      'Open the authorized browser on the target device, navigate to your private download link, and download the .apk file.',
-      'Open the downloaded file and select Install.',
-      'Launch the newly installed application.',
-      'Enter your specific Supabase URL and Anonymous Key (copied from your administrator command center dashboard) to establish the secure WebSocket connection.',
-      'Note down the unique Device ID displayed on the screen; you will link this ID to your control panel.',
-    ],
+    icon: LinkIcon,
+    step: '03',
+    title: 'Invite Your Partner',
+    desc: 'Send an invitation link to your partner. They must accept and install Qsync too — transparency requires both.',
   },
   {
-    number: 4,
-    title: 'Configure Background Persistence',
-    subtitle: 'Bypass Battery Optimization',
-    content: 'Modern mobile operating systems aggressively terminate background applications to save power. To ensure the application remains active:',
-    instructions: [
-      'Long-press the application icon on the device home screen and tap App Info (the "i" icon).',
-      'Tap Battery or Battery Usage.',
-      'Change the restriction tier from Optimized to Unrestricted.',
-      'Return to the main App Info menu, scroll down, and ensure the toggle for Remove permissions if app is unused (or Pause app activity if unused) is turned OFF.',
-      'Manufacturer Note: On Xiaomi, OnePlus, or Samsung devices, search the system settings for Autostart or Background Usage Limits and explicitly allow the application to launch automatically on device reboots.',
-    ],
+    icon: CheckCircle,
+    step: '04',
+    title: 'Start Sharing',
+    desc: 'Once both partners are connected, location, status, and activity begin syncing in real-time.',
   },
 ]
 
-export function OnboardingSection() {
-  const [open, setOpen] = useState(0)
-
+export default function OnboardingSection() {
   return (
-    <section id="onboarding" className="bg-white rounded-xl border border-gray-200 p-8 lg:p-10">
-      <h2 className="text-lg font-semibold text-gray-900 tracking-tight">
-        Installation Guide
-      </h2>
-      <p className="mt-2 text-[13px] text-gray-400 max-w-xl leading-relaxed">
-        Because this application runs as a persistent background service to ensure a continuous data uplink, it must be side-loaded and configured manually. Follow these steps in exact order.
-      </p>
+    <section className="py-6 sm:py-10">
+      <div className="text-center mb-8 sm:mb-12">
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#1a2e25] mb-3">
+          Get started in minutes
+        </h2>
+        <p className="text-sm sm:text-base text-gray-500 max-w-2xl mx-auto">
+          Simple setup, no technical skills required. Both partners need to install Qsync.
+        </p>
+      </div>
 
-      <div className="mt-8 space-y-4">
-        {steps.map((step, i) => (
-          <div key={step.number} className="flex gap-4">
-            <div className="shrink-0 w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center text-[11px] font-medium text-gray-400">
-              {step.number}
-            </div>
-            <div className="flex-1 min-w-0">
-              <button
-                onClick={() => setOpen(open === i ? -1 : i)}
-                className="w-full text-left"
-              >
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h3 className="text-[14px] font-medium text-gray-900">{step.title}</h3>
-                    <p className="text-[11px] text-gray-400 italic mt-0.5">{step.subtitle}</p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 mb-8 sm:mb-12">
+        {steps.map((s, i) => {
+          const Icon = s.icon
+          return (
+            <div key={i} className="relative">
+              <div className="bg-[#f5f5f5] rounded-2xl p-4 sm:p-5 lg:p-6 h-full">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-[#1a2e25] flex items-center justify-center">
+                    <Icon size={18} className="text-white" strokeWidth={1.5} />
                   </div>
-                  <ChevronDown
-                    className={`w-4 h-4 text-gray-300 transition-transform shrink-0 ${open === i ? 'rotate-180' : ''}`}
-                  />
+                  <div className="text-[10px] sm:text-xs text-gray-400 font-mono">{s.step}</div>
                 </div>
-              </button>
-
-              {open === i && (
-                <div className="mt-3 pb-2">
-                  <p className="text-[13px] text-gray-500 leading-relaxed mb-3">
-                    {step.content}
-                  </p>
-                  <ol className="space-y-2 ml-1">
-                    {step.instructions.map((inst, j) => (
-                      <li key={j} className="flex gap-2 text-[12px] text-gray-500 leading-relaxed">
-                        <span className="text-gray-300 font-mono text-[10px] mt-0.5 shrink-0">{j + 1}.</span>
-                        <span dangerouslySetInnerHTML={{
-                          __html: inst.replace(/\*\*(.*?)\*\*/g, '<strong class="font-medium text-gray-700">$1</strong>')
-                            .replace(/`(.*?)`/g, '<code class="text-[11px] bg-gray-100 px-1 py-0.5 rounded font-mono">$1</code>')
-                        }} />
-                      </li>
-                    ))}
-                  </ol>
-                </div>
+                <h3 className="text-sm sm:text-base font-semibold text-[#1a2e25] mb-2">{s.title}</h3>
+                <p className="text-xs sm:text-sm text-gray-500 leading-relaxed">{s.desc}</p>
+              </div>
+              {i < steps.length - 1 && (
+                <div className="hidden lg:block absolute top-1/2 -right-3 w-6 h-px bg-gray-300" />
               )}
             </div>
+          )
+        })}
+      </div>
+
+      {/* System Requirements */}
+      <div className="bg-[#f5f5f5] rounded-2xl p-5 sm:p-6 lg:p-8">
+        <h3 className="text-base sm:text-lg font-semibold text-[#1a2e25] mb-4">Before you start</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <h4 className="text-xs sm:text-sm font-medium text-[#1a2e25] mb-2">Requirements</h4>
+            <ul className="space-y-1.5 text-xs sm:text-sm text-gray-500">
+              <li className="flex items-center gap-2">
+                <div className="w-1 h-1 bg-[#2d9c7a] rounded-full" />
+                Android 8.0+ or iOS 14+
+              </li>
+              <li className="flex items-center gap-2">
+                <div className="w-1 h-1 bg-[#2d9c7a] rounded-full" />
+                Internet connection required
+              </li>
+              <li className="flex items-center gap-2">
+                <div className="w-1 h-1 bg-[#2d9c7a] rounded-full" />
+                GPS/Location services enabled
+              </li>
+            </ul>
           </div>
-        ))}
+          <div>
+            <h4 className="text-xs sm:text-sm font-medium text-[#1a2e25] mb-2">Both partners need</h4>
+            <ul className="space-y-1.5 text-xs sm:text-sm text-gray-500">
+              <li className="flex items-center gap-2">
+                <div className="w-1 h-1 bg-[#2d9c7a] rounded-full" />
+                Qsync app installed
+              </li>
+              <li className="flex items-center gap-2">
+                <div className="w-1 h-1 bg-[#2d9c7a] rounded-full" />
+                Active subscription
+              </li>
+              <li className="flex items-center gap-2">
+                <div className="w-1 h-1 bg-[#2d9c7a] rounded-full" />
+                Mutual consent to share
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </section>
   )

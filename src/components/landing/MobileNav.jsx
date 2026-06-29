@@ -1,84 +1,95 @@
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Menu, X, LayoutDashboard, Target, Lightbulb, Monitor, CreditCard, Download } from 'lucide-react'
+import { X } from 'lucide-react'
+import Logo from '../Logo'
+import {
+  MapPin,
+  Shield,
+  Layers,
+  CreditCard,
+  Download,
+  Activity,
+} from 'lucide-react'
 
-const sections = [
-  { id: 'overview', label: 'Overview', icon: LayoutDashboard },
-  { id: 'mission', label: 'Mission', icon: Target },
-  { id: 'ecosystem', label: 'How It Works', icon: Lightbulb },
-  { id: 'interfaces', label: 'Demo', icon: Monitor },
+const navItems = [
+  { id: 'overview', label: 'Overview', icon: MapPin },
+  { id: 'mission', label: 'Mission', icon: Shield },
+  { id: 'how-it-works', label: 'How It Works', icon: Layers },
   { id: 'pricing', label: 'Pricing', icon: CreditCard },
-  { id: 'onboarding', label: 'Installation', icon: Download },
+  { id: 'get-started', label: 'Get Started', icon: Download },
+  { id: 'live-demo', label: 'Live Demo', icon: Activity },
 ]
 
-export function MobileNav({ active, onNavigate }) {
-  const [open, setOpen] = useState(false)
-
-  const handleNavigate = (id) => {
-    onNavigate(id)
-    setOpen(false)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
-
+export default function MobileNav({ isOpen, onClose, activeSection, onNavigate }) {
   return (
     <>
-      {/* Top bar */}
-      <header className="lg:hidden sticky top-0 z-50 bg-[#1a2e25] flex items-center justify-between px-4 h-14">
-        <Link to="/" onClick={() => onNavigate('overview')}>
-          <img src="/logo/icon.svg" alt="Qsync" className="h-6" />
-        </Link>
-        <button onClick={() => setOpen(true)} className="p-2 text-white/80" aria-label="Menu">
-          <Menu className="w-5 h-5" />
-        </button>
-      </header>
-
-      {/* Overlay */}
-      {open && (
+      {/* Backdrop */}
+      {isOpen && (
         <div
-          className="lg:hidden fixed inset-0 bg-black/50 z-50"
-          onClick={() => setOpen(false)}
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden backdrop-blur-sm"
+          onClick={onClose}
         />
       )}
 
-      {/* Side drawer */}
-      <nav
-        className={`lg:hidden fixed top-0 left-0 h-full w-72 bg-[#1a2e25] z-50 transform transition-transform duration-300 ${
-          open ? 'translate-x-0' : '-translate-x-full'
+      {/* Drawer */}
+      <div
+        className={`fixed top-0 left-0 w-64 sm:w-72 h-full bg-[#1a2e25] z-50 lg:hidden transform transition-transform duration-200 ease-out ${
+          isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        <div className="flex items-center justify-between px-6 py-5">
-          <Link to="/" onClick={() => { onNavigate('overview'); setOpen(false) }}>
-            <img src="/logo/icon.svg" alt="Qsync" className="h-6" />
-          </Link>
-          <button onClick={() => setOpen(false)} className="text-white/60 hover:text-white">
-            <X className="w-5 h-5" />
-          </button>
-        </div>
+        <div className="flex flex-col h-full">
+          {/* Header */}
+          <div className="flex items-center justify-between p-4 border-b border-white/5">
+            <Link to="/" onClick={onClose} className="flex items-center gap-2.5">
+              <Logo className="w-7 h-7 text-white" />
+              <span className="text-white font-semibold text-sm tracking-tight">Qsync</span>
+            </Link>
+            <button
+              onClick={onClose}
+              className="w-8 h-8 flex items-center justify-center text-white/60 hover:text-white transition-colors"
+              aria-label="Close menu"
+            >
+              <X size={20} />
+            </button>
+          </div>
 
-        <nav className="px-3 pb-6 space-y-1">
-          {sections.map((s) => {
-            const Icon = s.icon
-            return (
-              <button
-                key={s.id}
-                onClick={() => handleNavigate(s.id)}
-                className={`w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors flex items-center gap-3 ${
-                  active === s.id
-                    ? 'bg-white/10 text-white'
-                    : 'text-white/50 hover:bg-white/5 hover:text-white/80'
-                }`}
-              >
-                <Icon className="w-4 h-4" />
-                {s.label}
-              </button>
-            )
-          })}
-        </nav>
+          {/* Navigation */}
+          <div className="flex-1 p-3 space-y-1">
+            {navItems.map((item) => {
+              const Icon = item.icon
+              const isActive = activeSection === item.id
 
-        <div className="absolute bottom-0 left-0 right-0 px-6 py-5 border-t border-white/10">
-          <div className="text-[10px] text-white/25 font-mono">&copy; 2026 Qsync</div>
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => onNavigate(item.id)}
+                  className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl text-sm font-medium transition-all duration-150 ${
+                    isActive
+                      ? 'bg-white text-[#1a2e25]'
+                      : 'text-white/60 hover:text-white hover:bg-white/5'
+                  }`}
+                >
+                  <Icon size={18} strokeWidth={isActive ? 2 : 1.5} />
+                  {item.label}
+                </button>
+              )
+            })}
+          </div>
+
+          {/* Bottom */}
+          <div className="p-4 border-t border-white/5">
+            <Link
+              to="/plan"
+              onClick={onClose}
+              className="block w-full text-center bg-white text-[#1a2e25] font-semibold py-3 rounded-xl hover:bg-gray-100 transition-colors"
+            >
+              Subscribe
+            </Link>
+            <div className="mt-3 text-center text-white/40 text-[11px]">
+              Couples Transparency App
+            </div>
+          </div>
         </div>
-      </nav>
+      </div>
     </>
   )
 }

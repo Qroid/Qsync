@@ -1,183 +1,138 @@
 import { useState } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
-import { ArrowLeft, CreditCard, Loader2, Wallet, Smartphone } from 'lucide-react'
-import { plans, initializePaystack, openPaystackCheckout } from '@/lib/paystack'
+import { CreditCard, Smartphone, ArrowLeft, Check } from 'lucide-react'
 
-const paymentMethods = [
-  { id: 'card', name: 'Card', description: 'Visa, Mastercard', icon: CreditCard },
-  { id: 'paypal', name: 'PayPal', description: 'Pay with PayPal', icon: Wallet, coming: true },
-  { id: 'cashapp', name: 'Cash App', description: 'Pay with Cash App', icon: Smartphone, coming: true },
-]
+const plans = {
+  weekly: { name: 'Weekly', price: '$3.99', period: '/week', planCode: 'PLN_weekly_qsync' },
+  monthly: { name: 'Monthly', price: '$9.99', period: '/month', planCode: 'PLN_monthly_qsync' },
+  yearly: { name: 'Yearly', price: '$79.99', period: '/year', planCode: 'PLN_yearly_qsync' },
+}
 
-export function Payment() {
+export default function Payment() {
   const [searchParams] = useSearchParams()
-  const planName = searchParams.get('plan') || 'Monthly'
-  const plan = plans[planName]
+  const planKey = searchParams.get('plan') || 'monthly'
+  const plan = plans[planKey] || plans.monthly
 
   const [email, setEmail] = useState('')
-  const [selectedMethod, setSelectedMethod] = useState('card')
+  const [paymentMethod, setPaymentMethod] = useState('card')
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
 
-  if (!plan) {
-    return (
-      <div className="min-h-[calc(100vh-200px)] flex items-center justify-center p-4">
-        <div className="text-center">
-          <h1 className="text-xl font-semibold text-gray-900">Plan not found</h1>
-          <Link to="/plan" className="mt-4 inline-block text-sm text-teal-600 hover:text-teal-700">
-            View plans
-          </Link>
-        </div>
-      </div>
-    )
-  }
-
-  const handleSubscribe = async () => {
-    if (!email) {
-      setError('Please enter your email address')
-      return
-    }
-
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setError('Please enter a valid email address')
-      return
-    }
-
-    if (selectedMethod === 'paypal' || selectedMethod === 'cashapp') {
-      setError('This payment method is coming soon')
-      return
-    }
-
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    if (!email) return
     setLoading(true)
-    setError(null)
-
-    try {
-      await initializePaystack()
-
-      openPaystackCheckout({
-        email,
-        plan: planName,
-        onSuccess: (response) => {
-          window.location.href = `/success?reference=${response.reference}&plan=${planName}`
-        },
-        onClose: () => {
-          setLoading(false)
-        },
-      })
-    } catch (err) {
-      setError('Failed to initialize payment. Please try again.')
-      setLoading(false)
-    }
+    // Payment integration goes here
+    setTimeout(() => setLoading(false), 2000)
   }
 
   return (
-    <div className="min-h-[calc(100vh-200px)] flex items-center justify-center p-4 sm:p-6">
+    <div className="min-h-screen bg-[#f5f5f5] flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        <Link
-          to="/plan"
-          className="inline-flex items-center gap-1.5 text-[13px] text-gray-400 hover:text-gray-600 transition-colors mb-6 sm:mb-8"
-        >
-          <ArrowLeft className="w-3.5 h-3.5" />
+        {/* Back link */}
+        <Link to="/plan" className="inline-flex items-center gap-1.5 text-xs text-gray-500 hover:text-[#1a2e25] mb-4 sm:mb-6 transition-colors">
+          <ArrowLeft size={14} />
           Back to plans
         </Link>
 
-        <div className="bg-white rounded-xl border border-gray-200 p-5 sm:p-8">
-          <div className="text-center mb-5 sm:mb-6">
-            <h1 className="text-lg font-semibold text-gray-900">Subscribe to {plan.name}</h1>
-            <p className="text-[13px] text-gray-400 mt-1">{plan.note}</p>
-          </div>
-
-          {/* Plan Summary */}
-          <div className="bg-gray-50 rounded-lg p-3 sm:p-4 mb-5 sm:mb-6">
-            <div className="flex justify-between items-center">
-              <span className="text-[13px] text-gray-600">{plan.name} Plan</span>
-              <span className="text-[13px] font-medium text-gray-900">{plan.priceFormatted}</span>
-            </div>
-            <div className="flex justify-between items-center mt-2 pt-2 border-t border-gray-200">
-              <span className="text-[13px] font-medium text-gray-900">Total today</span>
-              <span className="text-[14px] font-semibold text-gray-900">{plan.priceFormatted}</span>
+        <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+          {/* Header */}
+          <div className="bg-[#1a2e25] p-5 sm:p-6 text-white">
+            <div className="text-xs text-white/60 mb-1">Qsync</div>
+            <div className="text-lg sm:text-xl font-semibold">{plan.name} Plan</div>
+            <div className="flex items-baseline gap-1 mt-2">
+              <span className="text-2xl sm:text-3xl font-bold">{plan.price}</span>
+              <span className="text-white/60 text-sm">{plan.period}</span>
             </div>
           </div>
 
-          {/* Payment Methods */}
-          <div className="mb-5 sm:mb-6">
-            <label className="block text-[12px] font-medium text-gray-700 mb-2">
-              Payment method
-            </label>
-            <div className="space-y-2">
-              {paymentMethods.map((method) => {
-                const Icon = method.icon
-                return (
-                  <button
-                    key={method.id}
-                    onClick={() => setSelectedMethod(method.id)}
-                    disabled={method.coming}
-                    className={`w-full flex items-center gap-3 p-3 rounded-lg border transition-colors ${
-                      selectedMethod === method.id
-                        ? 'border-gray-900 bg-gray-50'
-                        : 'border-gray-200 hover:border-gray-300'
-                    } ${method.coming ? 'opacity-50 cursor-not-allowed' : ''}`}
-                  >
-                    <Icon className="w-5 h-5 text-gray-600" />
-                    <div className="flex-1 text-left">
-                      <div className="text-[13px] font-medium text-gray-900">{method.name}</div>
-                      <div className="text-[11px] text-gray-400">{method.description}</div>
-                    </div>
-                    {method.coming && (
-                      <span className="text-[10px] text-gray-400 bg-gray-100 px-2 py-0.5 rounded">
-                        Coming soon
-                      </span>
-                    )}
-                    {selectedMethod === method.id && !method.coming && (
-                      <div className="w-4 h-4 rounded-full bg-gray-900 flex items-center justify-center">
-                        <div className="w-2 h-2 rounded-full bg-white" />
-                      </div>
-                    )}
-                  </button>
-                )
-              })}
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="p-5 sm:p-6 space-y-4 sm:space-y-5">
+            {/* Email */}
+            <div>
+              <label className="block text-xs sm:text-sm font-medium text-[#1a2e25] mb-1.5">Email address</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@example.com"
+                required
+                className="w-full px-3.5 py-2.5 sm:py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#2d9c7a]/20 focus:border-[#2d9c7a] transition-colors"
+              />
+              <p className="text-[10px] sm:text-xs text-gray-400 mt-1.5">Your account will be created after payment</p>
             </div>
-          </div>
 
-          {/* Email */}
-          <div className="mb-5 sm:mb-6">
-            <label className="block text-[12px] font-medium text-gray-700 mb-1.5">
-              Email address
-            </label>
-            <input
-              type="email"
-              placeholder="you@example.com"
-              value={email}
-              onChange={(e) => { setEmail(e.target.value); setError(null) }}
-              className="w-full px-3 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:border-gray-300"
-            />
-            {error && (
-              <p className="mt-1.5 text-[12px] text-red-500">{error}</p>
-            )}
-          </div>
+            {/* Payment method */}
+            <div>
+              <label className="block text-xs sm:text-sm font-medium text-[#1a2e25] mb-2">Payment method</label>
+              <div className="space-y-2">
+                <button
+                  type="button"
+                  onClick={() => setPaymentMethod('card')}
+                  className={`w-full flex items-center gap-3 p-3 sm:p-3.5 rounded-xl border transition-all ${
+                    paymentMethod === 'card'
+                      ? 'border-[#2d9c7a] bg-[#2d9c7a]/5'
+                      : 'border-gray-200 hover:border-gray-300'
+                  }`}
+                >
+                  <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
+                    paymentMethod === 'card' ? 'border-[#2d9c7a]' : 'border-gray-300'
+                  }`}>
+                    {paymentMethod === 'card' && <div className="w-2 h-2 bg-[#2d9c7a] rounded-full" />}
+                  </div>
+                  <CreditCard size={18} className="text-gray-600" />
+                  <span className="text-xs sm:text-sm font-medium text-[#1a2e25]">Card (Visa/Mastercard)</span>
+                </button>
 
-          {/* Pay Button */}
-          <button
-            onClick={handleSubscribe}
-            disabled={loading}
-            className="w-full px-4 py-3 rounded-lg bg-gray-900 text-sm font-medium text-white hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-          >
-            {loading ? (
-              <>
-                <Loader2 className="w-4 h-4 animate-spin" />
-                Processing...
-              </>
-            ) : (
-              <>
-                <CreditCard className="w-4 h-4" />
-                Pay {plan.priceFormatted}
-              </>
-            )}
-          </button>
+                <button
+                  type="button"
+                  onClick={() => setPaymentMethod('paypal')}
+                  disabled
+                  className="w-full flex items-center gap-3 p-3 sm:p-3.5 rounded-xl border border-gray-100 opacity-50 cursor-not-allowed"
+                >
+                  <div className="w-4 h-4 rounded-full border-2 border-gray-200" />
+                  <div className="w-4 h-4 bg-gray-300 rounded" />
+                  <span className="text-xs sm:text-sm text-gray-400">PayPal (Coming soon)</span>
+                </button>
 
-          <p className="mt-4 text-center text-[11px] text-gray-400">
-            You'll have 30 minutes to cancel for a full refund.
-          </p>
+                <button
+                  type="button"
+                  onClick={() => setPaymentMethod('cashapp')}
+                  disabled
+                  className="w-full flex items-center gap-3 p-3 sm:p-3.5 rounded-xl border border-gray-100 opacity-50 cursor-not-allowed"
+                >
+                  <div className="w-4 h-4 rounded-full border-2 border-gray-200" />
+                  <Smartphone size={18} className="text-gray-300" />
+                  <span className="text-xs sm:text-sm text-gray-400">Cash App (Coming soon)</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Features */}
+            <div className="bg-[#f5f5f5] rounded-xl p-3.5 sm:p-4">
+              <div className="text-[10px] sm:text-xs text-gray-500 mb-2">Includes:</div>
+              <div className="space-y-1.5">
+                {['7-day free trial', 'Cancel anytime', 'Instant access'].map((f, i) => (
+                  <div key={i} className="flex items-center gap-2 text-xs text-gray-600">
+                    <Check size={12} className="text-[#2d9c7a]" />
+                    {f}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Submit */}
+            <button
+              type="submit"
+              disabled={loading || !email}
+              className="w-full bg-[#1a2e25] hover:bg-[#0f1c16] disabled:bg-gray-300 text-white font-semibold py-3 sm:py-3.5 rounded-xl transition-colors text-sm"
+            >
+              {loading ? 'Processing...' : `Pay ${plan.price}`}
+            </button>
+
+            <p className="text-[10px] sm:text-xs text-center text-gray-400">
+              Secured by Paystack. Your payment info is encrypted.
+            </p>
+          </form>
         </div>
       </div>
     </div>

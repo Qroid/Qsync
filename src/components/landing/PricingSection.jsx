@@ -7,112 +7,158 @@ const plans = [
     name: 'Weekly',
     price: '$3.99',
     period: '/week',
-    note: '30-min free trial',
+    badge: null,
+    bg: 'bg-white',
+    accent: 'text-[#1a2e25]',
+    button: 'bg-[#1a2e25] hover:bg-[#0f1c16] text-white',
     Mockup: WeeklyMacBookMockup,
     features: [
-      { name: 'Live Location Sharing', included: true },
-      { name: 'Battery Status', included: true },
-      { name: 'Activity Feed', included: true },
-      { name: 'Safety Check-Ins', included: false },
-      { name: 'Screen Time Together', included: false },
-      { name: 'Priority Support', included: false },
-      { name: 'Location History', included: true },
-      { name: 'Arrival Alerts', included: true },
-      { name: 'Privacy Controls', included: true },
+      { text: 'Real-time location sharing', included: true },
+      { text: 'Partner status & availability', included: true },
+      { text: 'Battery & connection level', included: true },
+      { text: 'Basic activity feed (7 days)', included: true },
+      { text: 'Location history', included: false },
+      { text: 'Safety check-ins', included: false },
+      { text: 'Screen time together', included: false },
+      { text: 'Priority support', included: false },
+      { text: 'Advanced privacy controls', included: false },
     ],
   },
   {
     name: 'Monthly',
     price: '$9.99',
-    period: '/mo',
-    note: 'Most popular',
+    period: '/month',
+    badge: 'Popular',
+    bg: 'bg-[#1a2e25]',
+    accent: 'text-white',
+    button: 'bg-white hover:bg-gray-100 text-[#1a2e25]',
     Mockup: MonthlyMacBookMockup,
     features: [
-      { name: 'Live Location Sharing', included: true },
-      { name: 'Battery Status', included: true },
-      { name: 'Activity Feed', included: true },
-      { name: 'Safety Check-Ins', included: true },
-      { name: 'Screen Time Together', included: true },
-      { name: 'Priority Support', included: false },
-      { name: 'Location History', included: true },
-      { name: 'Arrival Alerts', included: true },
-      { name: 'Privacy Controls', included: true },
+      { text: 'Real-time location sharing', included: true },
+      { text: 'Partner status & availability', included: true },
+      { text: 'Battery & connection level', included: true },
+      { text: 'Activity feed (14 days)', included: true },
+      { text: 'Location history', included: true },
+      { text: 'Safety check-ins', included: true },
+      { text: 'Screen time together', included: true },
+      { text: 'Priority support', included: false },
+      { text: 'Advanced privacy controls', included: false },
     ],
   },
   {
     name: 'Yearly',
     price: '$79.99',
-    period: '/yr',
-    note: 'Save 33%',
+    period: '/year',
+    badge: 'Best value',
+    bg: 'bg-white',
+    accent: 'text-[#1a2e25]',
+    button: 'bg-[#1a2e25] hover:bg-[#0f1c16] text-white',
     Mockup: YearlyMacBookMockup,
     features: [
-      { name: 'Live Location Sharing', included: true },
-      { name: 'Battery Status', included: true },
-      { name: 'Activity Feed', included: true },
-      { name: 'Safety Check-Ins', included: true },
-      { name: 'Screen Time Together', included: true },
-      { name: 'Priority Support', included: true },
-      { name: 'Location History', included: true },
-      { name: 'Arrival Alerts', included: true },
-      { name: 'Privacy Controls', included: true },
+      { text: 'Real-time location sharing', included: true },
+      { text: 'Partner status & availability', included: true },
+      { text: 'Battery & connection level', included: true },
+      { text: 'Activity feed (unlimited)', included: true },
+      { text: 'Location history (30 days)', included: true },
+      { text: 'Safety check-ins', included: true },
+      { text: 'Screen time together', included: true },
+      { text: 'Priority support', included: true },
+      { text: 'Advanced privacy controls', included: true },
     ],
   },
 ]
 
-export function PricingSection() {
+export default function PricingSection() {
   return (
-    <section id="pricing" className="bg-white rounded-xl border border-gray-200 p-6 sm:p-8 lg:p-10">
-      <h2 className="text-lg font-semibold text-gray-900 tracking-tight">
-        Choose a plan
-      </h2>
-      <p className="mt-2 text-[13px] text-gray-400">
-        Subscribe to start your free trial. Cancel anytime.
-      </p>
+    <section className="py-8 sm:py-12">
+      <div className="text-center mb-8 sm:mb-12">
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#1a2e25] mb-3">
+          Simple, transparent pricing
+        </h2>
+        <p className="text-sm sm:text-base text-gray-500 max-w-xl mx-auto">
+          Choose the plan that fits your relationship. All plans include core features.
+        </p>
+      </div>
 
-      <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
-        {plans.map((plan) => {
-          const Mockup = plan.Mockup
-          return (
-            <div key={plan.name} className="rounded-xl border border-gray-200 overflow-hidden bg-gray-50">
-              {/* MacBook mockup as card background */}
-              <div className="bg-gradient-to-b from-gray-100 to-gray-50 p-4">
-                <Mockup />
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+        {plans.map((plan) => (
+          <div
+            key={plan.name}
+            className={`${plan.bg} rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-200 flex flex-col relative ${
+              plan.badge === 'Popular' ? 'ring-2 ring-[#1a2e25] lg:scale-105 lg:z-10' : ''
+            }`}
+          >
+            {/* Badge */}
+            {plan.badge && (
+              <div className={`absolute top-3 right-3 sm:top-4 sm:right-4 px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-medium ${
+                plan.badge === 'Popular'
+                  ? 'bg-[#1a2e25] text-white'
+                  : 'bg-[#f0f7e6] text-[#1a2e25]'
+              }`}>
+                {plan.badge}
               </div>
+            )}
 
-              {/* Plan details */}
-              <div className="p-5">
-                <div className="text-[12px] font-medium text-gray-900 text-center">{plan.name}</div>
-                <div className="mt-2 flex items-baseline justify-center gap-0.5">
-                  <span className="text-2xl font-semibold text-gray-900">{plan.price}</span>
-                  <span className="text-[12px] text-gray-400">{plan.period}</span>
-                </div>
-                <div className="mt-1 text-[11px] text-gray-400 text-center">{plan.note}</div>
-
-                <ul className="mt-5 space-y-2.5">
-                  {plan.features.map((f) => (
-                    <li key={f.name} className="flex items-center gap-2 text-[12px]">
-                      {f.included ? (
-                        <Check className="w-3 h-3 text-gray-900 shrink-0" />
-                      ) : (
-                        <X className="w-3 h-3 text-gray-200 shrink-0" />
-                      )}
-                      <span className={f.included ? 'text-gray-600' : 'text-gray-300'}>
-                        {f.name}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-
-                <Link
-                  to={`/plan/${plan.name}`}
-                  className="mt-5 block w-full px-4 py-2.5 rounded-lg bg-gray-900 text-[12px] font-medium text-white hover:bg-gray-800 transition-colors text-center"
-                >
-                  Get started
-                </Link>
-              </div>
+            {/* MacBook Mockup */}
+            <div className="px-4 pt-4 sm:px-6 sm:pt-6">
+              <plan.Mockup />
             </div>
-          )
-        })}
+
+            {/* Plan details */}
+            <div className="p-4 sm:p-6 flex flex-col flex-1">
+              <div className="mb-4">
+                <div className="flex items-baseline gap-1">
+                  <span className={`text-3xl sm:text-4xl font-bold ${plan.accent}`}>{plan.price}</span>
+                  <span className={`text-sm ${plan.accent} opacity-60`}>{plan.period}</span>
+                </div>
+              </div>
+
+              <h3 className={`text-lg sm:text-xl font-semibold mb-4 ${plan.accent}`}>{plan.name}</h3>
+
+              <ul className="space-y-2.5 sm:space-y-3 mb-6 flex-1">
+                {plan.features.map((feature, i) => (
+                  <li key={i} className="flex items-start gap-2.5">
+                    {feature.included ? (
+                      <div className="w-4.5 h-4.5 sm:w-5 sm:h-5 rounded-full bg-[#2d9c7a]/10 flex items-center justify-center shrink-0 mt-0.5">
+                        <Check size={12} className="text-[#2d9c7a]" />
+                      </div>
+                    ) : (
+                      <div className="w-4.5 h-4.5 sm:w-5 sm:h-5 rounded-full bg-gray-100 flex items-center justify-center shrink-0 mt-0.5">
+                        <X size={12} className="text-gray-400" />
+                      </div>
+                    )}
+                    <span className={`text-xs sm:text-sm ${feature.included ? (plan.bg === 'bg-[#1a2e25]' ? 'text-white/80' : 'text-gray-600') : (plan.bg === 'bg-[#1a2e25]' ? 'text-white/30' : 'text-gray-400')}`}>
+                      {feature.text}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+
+              <Link
+                to={`/payment?plan=${plan.name.toLowerCase()}`}
+                className={`block w-full text-center ${plan.button} font-semibold py-3 sm:py-3.5 rounded-xl transition-colors text-sm sm:text-base`}
+              >
+                Get {plan.name}
+              </Link>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Trust indicators */}
+      <div className="mt-8 sm:mt-12 flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-[10px] sm:text-xs text-gray-400">
+        <div className="flex items-center gap-1.5">
+          <div className="w-1.5 h-1.5 bg-[#2d9c7a] rounded-full" />
+          30-day money-back guarantee
+        </div>
+        <div className="flex items-center gap-1.5">
+          <div className="w-1.5 h-1.5 bg-[#2d9c7a] rounded-full" />
+          Cancel anytime
+        </div>
+        <div className="flex items-center gap-1.5">
+          <div className="w-1.5 h-1.5 bg-[#2d9c7a] rounded-full" />
+          Secure payments via Paystack
+        </div>
       </div>
     </section>
   )

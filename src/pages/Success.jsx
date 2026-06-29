@@ -1,72 +1,62 @@
-import { useEffect, useState } from 'react'
-import { useSearchParams, Link } from 'react-router-dom'
-import { CheckCircle, ArrowLeft, Download, Loader2 } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { CheckCircle, Download, ArrowRight } from 'lucide-react'
 
-export function Success() {
-  const [searchParams] = useSearchParams()
-  const reference = searchParams.get('reference')
-  const plan = searchParams.get('plan')
-  const [status, setStatus] = useState('verifying')
-
-  useEffect(() => {
-    if (reference) {
-      setTimeout(() => {
-        setStatus('success')
-      }, 2000)
-    }
-  }, [reference])
-
+export default function Success() {
   return (
-    <div className="min-h-[calc(100vh-200px)] flex items-center justify-center p-4 sm:p-6">
+    <div className="min-h-screen bg-[#f5f5f5] flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        <div className="bg-white rounded-xl border border-gray-200 p-6 sm:p-8 text-center">
-          {status === 'verifying' && (
-            <>
-              <Loader2 className="w-12 h-12 text-gray-400 animate-spin mx-auto" />
-              <h1 className="mt-4 text-lg font-semibold text-gray-900">
-                Verifying payment...
-              </h1>
-              <p className="mt-2 text-[13px] text-gray-400">
-                This will only take a moment.
-              </p>
-            </>
-          )}
+        <div className="bg-white rounded-2xl shadow-sm overflow-hidden text-center">
+          {/* Success header */}
+          <div className="bg-[#2d9c7a] p-6 sm:p-8">
+            <div className="w-14 h-14 sm:w-16 sm:h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+              <CheckCircle size={32} className="text-white" />
+            </div>
+            <h1 className="text-xl sm:text-2xl font-bold text-white mb-1">Payment Successful!</h1>
+            <p className="text-white/80 text-xs sm:text-sm">Welcome to Qsync</p>
+          </div>
 
-          {status === 'success' && (
-            <>
-              <CheckCircle className="w-12 h-12 text-green-500 mx-auto" />
-              <h1 className="mt-4 text-lg font-semibold text-gray-900">
-                Welcome to Qsync!
-              </h1>
-              <p className="mt-2 text-[13px] text-gray-400">
-                Your {plan} subscription is now active.
-              </p>
+          {/* Content */}
+          <div className="p-5 sm:p-6 space-y-4 sm:space-y-5">
+            <div className="bg-[#f5f5f5] rounded-xl p-4">
+              <div className="text-xs text-gray-500 mb-2">Your subscription is active</div>
+              <div className="text-sm font-medium text-[#1a2e25]">Monthly Plan — $9.99/month</div>
+              <div className="text-xs text-gray-400 mt-1">Next billing: July 2026</div>
+            </div>
 
-              <div className="mt-4 p-3 bg-gray-50 rounded-lg">
-                <p className="text-[11px] text-gray-400">
-                  Reference: {reference}
-                </p>
+            <div className="space-y-2.5">
+              <div className="text-xs sm:text-sm font-medium text-[#1a2e25]">Next steps:</div>
+              <div className="flex items-start gap-3 text-xs sm:text-sm text-gray-600">
+                <div className="w-5 h-5 rounded-full bg-[#2d9c7a]/10 flex items-center justify-center shrink-0 mt-0.5">
+                  <span className="text-[#2d9c7a] text-[10px] font-bold">1</span>
+                </div>
+                Download the Qsync app
               </div>
-
-              <div className="mt-6 space-y-3">
-                <a
-                  href="#"
-                  className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-lg bg-gray-900 text-sm font-medium text-white hover:bg-gray-800 transition-colors"
-                >
-                  <Download className="w-4 h-4" />
-                  Download Qsync APK
-                </a>
-
-                <Link
-                  to="/"
-                  className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  Back to home
-                </Link>
+              <div className="flex items-start gap-3 text-xs sm:text-sm text-gray-600">
+                <div className="w-5 h-5 rounded-full bg-[#2d9c7a]/10 flex items-center justify-center shrink-0 mt-0.5">
+                  <span className="text-[#2d9c7a] text-[10px] font-bold">2</span>
+                </div>
+                Create your account with this email
               </div>
-            </>
-          )}
+              <div className="flex items-start gap-3 text-xs sm:text-sm text-gray-600">
+                <div className="w-5 h-5 rounded-full bg-[#2d9c7a]/10 flex items-center justify-center shrink-0 mt-0.5">
+                  <span className="text-[#2d9c7a] text-[10px] font-bold">3</span>
+                </div>
+                Invite your partner to connect
+              </div>
+            </div>
+
+            <button className="w-full bg-[#1a2e25] hover:bg-[#0f1c16] text-white font-semibold py-3 rounded-xl transition-colors flex items-center justify-center gap-2 text-sm">
+              <Download size={16} />
+              Download Qsync APK
+            </button>
+
+            <Link
+              to="/"
+              className="block w-full text-center text-xs text-gray-400 hover:text-[#1a2e25] transition-colors py-2"
+            >
+              Return to home
+            </Link>
+          </div>
         </div>
       </div>
     </div>

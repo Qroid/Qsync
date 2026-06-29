@@ -1,94 +1,72 @@
-export function Refund() {
+import PolicyPageLayout from './Layout'
+
+export default function Refund() {
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-8 lg:p-10">
-      <h1 className="text-2xl font-semibold text-gray-900 tracking-tight">Refund Policy</h1>
-      <p className="mt-2 text-[12px] text-gray-400">Last updated: June 29, 2026</p>
+    <PolicyPageLayout>
+      <div className="max-w-3xl">
+        <h1 className="text-2xl sm:text-3xl font-bold text-[#1a2e25] mb-4 sm:mb-6">Refund Policy</h1>
+        <p className="text-xs text-gray-400 mb-6 sm:mb-8">Last updated: June 2026</p>
 
-      <div className="mt-10 space-y-8 text-[13px] text-gray-500 leading-relaxed">
-        <section>
-          <h2 className="text-[14px] font-medium text-gray-900 mb-2">1. Free Trial</h2>
-          <p>
-            Qsync offers a 30-minute free trial with all subscription plans. This allows you to explore the app and its features before committing. To avoid being charged, you must cancel before the 30-minute trial period ends.
-          </p>
-        </section>
+        <div className="space-y-6 sm:space-y-8 text-sm sm:text-base text-gray-600 leading-relaxed">
+          <section>
+            <h2 className="text-lg sm:text-xl font-semibold text-[#1a2e25] mb-3">30-Minute Free Trial</h2>
+            <p>When you first subscribe to Qsync, you receive a 30-minute free trial period. During this time, you can evaluate the full features of your chosen plan. If you decide Qsync is not for you, cancel within 30 minutes for a full refund.</p>
+          </section>
 
-        <section>
-          <h2 className="text-[14px] font-medium text-gray-900 mb-2">2. Refund Policy</h2>
-          <p>
-            Due to the nature of our service, which includes secure account setup and dedicated server provisioning, we are unable to offer full refunds. However, we do offer partial refunds based on your subscription plan:
-          </p>
-          <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-            <div className="space-y-3">
-              <div className="flex justify-between items-center">
-                <span className="text-gray-600">Weekly Plan ($3.99)</span>
-                <span className="font-medium text-gray-900">Refund $2.00</span>
+          <section>
+            <h2 className="text-lg sm:text-xl font-semibold text-[#1a2e25] mb-3">Refund Amounts</h2>
+            <p>After the 30-minute trial period, refunds are partially deducted to account for account setup costs and server resources already allocated:</p>
+
+            <div className="mt-4 bg-[#f5f5f5] rounded-xl p-4 sm:p-5 space-y-3">
+              <div className="flex items-center justify-between py-2 border-b border-gray-200">
+                <div>
+                  <span className="font-medium text-[#1a2e25]">Weekly Plan</span>
+                  <span className="text-gray-400 text-xs ml-2">($3.99)</span>
+                </div>
+                <span className="font-medium text-[#2d9c7a]">Refund: $2.00</span>
               </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-600">Monthly Plan ($9.99)</span>
-                <span className="font-medium text-gray-900">Refund $6.99</span>
+
+              <div className="flex items-center justify-between py-2 border-b border-gray-200">
+                <div>
+                  <span className="font-medium text-[#1a2e25]">Monthly Plan</span>
+                  <span className="text-gray-400 text-xs ml-2">($9.99)</span>
+                </div>
+                <span className="font-medium text-[#2d9c7a]">Refund: $6.99</span>
               </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-600">Yearly Plan ($79.99)</span>
-                <span className="font-medium text-gray-900">Refund $71.99</span>
+
+              <div className="flex items-center justify-between py-2">
+                <div>
+                  <span className="font-medium text-[#1a2e25]">Yearly Plan</span>
+                  <span className="text-gray-400 text-xs ml-2">($79.99)</span>
+                </div>
+                <span className="font-medium text-[#2d9c7a]">Refund: $71.99</span>
               </div>
             </div>
-          </div>
-        </section>
 
-        <section>
-          <h2 className="text-[14px] font-medium text-gray-900 mb-2">3. Why No Full Refunds?</h2>
-          <p>
-            When you subscribe, we immediately allocate resources for:
-          </p>
-          <ul className="mt-2 ml-4 space-y-1 list-disc">
-            <li>Secure account creation and configuration</li>
-            <li>Dedicated server space allocation</li>
-            <li>Real-time data synchronization setup</li>
-            <li>Background service infrastructure</li>
-          </ul>
-          <p className="mt-3">
-            These costs are incurred regardless of subscription duration, which is why partial refunds reflect the actual resources consumed.
-          </p>
-        </section>
+            <p className="mt-4 text-xs text-gray-400">Note: No full (100%) refunds are available. Partial deductions account for account creation, server setup, and resource allocation costs incurred upon subscription.</p>
+          </section>
 
-        <section>
-          <h2 className="text-[14px] font-medium text-gray-900 mb-2">4. How to Request a Refund</h2>
-          <p>
-            To request a refund, contact us at support@qsync.app with:
-          </p>
-          <ul className="mt-2 ml-4 space-y-1 list-disc">
-            <li>Your email address used for subscription</li>
-            <li>Date of purchase</li>
-            <li>Reason for refund request</li>
-          </ul>
-        </section>
+          <section>
+            <h2 className="text-lg sm:text-xl font-semibold text-[#1a2e25] mb-3">How to Request a Refund</h2>
+            <p>To request a refund, contact us at <a href="mailto:support@qsync.app" className="text-[#2d9c7a] hover:underline">support@qsync.app</a> with your account email and reason for refund. Refunds are processed within 5-7 business days to the original payment method.</p>
+          </section>
 
-        <section>
-          <h2 className="text-[14px] font-medium text-gray-900 mb-2">5. Processing Time</h2>
-          <p>
-            Refund requests are processed within 5-10 business days. The refund will be credited to your original payment method. Depending on your bank or card issuer, it may take additional time for the refund to appear on your statement.
-          </p>
-        </section>
+          <section>
+            <h2 className="text-lg sm:text-xl font-semibold text-[#1a2e25] mb-3">Exceptions</h2>
+            <p>Refunds may be denied if:</p>
+            <ul className="list-disc pl-5 mt-2 space-y-1">
+              <li>The request is made after significant usage of the Service</li>
+              <li>The account was used in violation of our Terms of Service</li>
+              <li>The refund request is made more than 30 days after purchase</li>
+            </ul>
+          </section>
 
-        <section>
-          <h2 className="text-[14px] font-medium text-gray-900 mb-2">6. Non-Refundable Items</h2>
-          <p>
-            The following are not eligible for refunds:
-          </p>
-          <ul className="mt-2 ml-4 space-y-1 list-disc">
-            <li>Subscriptions cancelled after 30 days from purchase date</li>
-            <li>Accounts terminated for violation of our Terms of Service</li>
-            <li>Partial subscription periods beyond the refund window</li>
-          </ul>
-        </section>
-
-        <section>
-          <h2 className="text-[14px] font-medium text-gray-900 mb-2">7. Contact</h2>
-          <p>
-            For refund inquiries, contact us at support@qsync.app. We aim to respond to all requests within 24 hours.
-          </p>
-        </section>
+          <section>
+            <h2 className="text-lg sm:text-xl font-semibold text-[#1a2e25] mb-3">Contact</h2>
+            <p>For refund inquiries, contact us at <a href="mailto:support@qsync.app" className="text-[#2d9c7a] hover:underline">support@qsync.app</a>.</p>
+          </section>
+        </div>
       </div>
-    </div>
+    </PolicyPageLayout>
   )
 }

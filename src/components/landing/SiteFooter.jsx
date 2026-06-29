@@ -1,25 +1,33 @@
 import { Link } from 'react-router-dom'
+import { Mail, Shield, FileText } from 'lucide-react'
+import Logo from '../Logo'
 
-export function SiteFooter() {
+export default function SiteFooter() {
   return (
-    <footer className="px-4 sm:px-8 lg:px-12 py-4 border-t border-gray-200 bg-white">
-      {/* Mobile: stacked layout */}
-      <div className="lg:hidden flex flex-col items-center gap-3">
-        <span className="text-[11px] text-gray-400">&copy; 2026 Qsync</span>
-        <div className="flex items-center gap-4">
-          <Link to="/terms" className="text-[11px] text-gray-400 hover:text-gray-600 transition-colors">Terms</Link>
-          <Link to="/privacy" className="text-[11px] text-gray-400 hover:text-gray-600 transition-colors">Privacy</Link>
-          <Link to="/refund" className="text-[11px] text-gray-400 hover:text-gray-600 transition-colors">Refund</Link>
-        </div>
-      </div>
+    <footer className="bg-[#0d0f12] border-t border-white/5 text-gray-400 text-[10px] sm:text-xs mt-auto">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+          {/* Logo + Copyright */}
+          <div className="flex items-center gap-3">
+            <Logo className="w-5 h-5 sm:w-6 sm:h-6 text-gray-500" />
+            <div className="text-gray-600">© 2026 Qsync</div>
+          </div>
 
-      {/* Desktop: inline layout */}
-      <div className="hidden lg:flex items-center justify-between text-[11px] text-gray-400">
-        <span>&copy; 2026 Qsync</span>
-        <div className="flex items-center gap-4">
-          <Link to="/terms" className="hover:text-gray-600 transition-colors">Terms</Link>
-          <Link to="/privacy" className="hover:text-gray-600 transition-colors">Privacy</Link>
-          <Link to="/refund" className="hover:text-gray-600 transition-colors">Refund</Link>
+          {/* Links */}
+          <div className="flex items-center gap-4 sm:gap-6">
+            <Link to="/terms" className="hover:text-white transition-colors flex items-center gap-1.5">
+              <FileText size={12} />
+              Terms
+            </Link>
+            <Link to="/privacy" className="hover:text-white transition-colors flex items-center gap-1.5">
+              <Shield size={12} />
+              Privacy
+            </Link>
+            <Link to="/refund" className="hover:text-white transition-colors flex items-center gap-1.5">
+              <Mail size={12} />
+              Refunds
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
