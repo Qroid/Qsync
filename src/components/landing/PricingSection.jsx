@@ -102,7 +102,7 @@ export default function PricingSection() {
               <plan.Mockup />
             </div>
 
-            <div className="p-4 sm:p-6 flex flex-col flex-1">
+            <div className="p-4 sm:p-6 flex flex-col flex-1 items-center text-center">
               <div className="flex items-baseline gap-1 mb-4">
                 <span className={`text-3xl sm:text-4xl font-bold ${plan.accent}`}>{plan.price}</span>
                 <span className={`text-sm ${plan.accent} opacity-60`}>{plan.period}</span>
@@ -110,13 +110,13 @@ export default function PricingSection() {
 
               <h3 className={`text-lg sm:text-xl font-semibold mb-4 ${plan.accent}`}>{plan.name}</h3>
 
-              <ul className="space-y-2.5 sm:space-y-3 mb-6 flex-1">
+              <ul className="space-y-2.5 sm:space-y-3 mb-6 flex-1 w-full">
                 {plan.features.map((feature, i) => (
-                  <li key={i} className="flex items-start gap-2.5">
+                  <li key={i} className="flex items-center justify-center gap-2.5">
                     {feature.included ? (
-                      <Check size={14} className="text-[#2d9c7a] mt-0.5 shrink-0" />
+                      <Check size={14} className="text-[#2d9c7a] shrink-0" />
                     ) : (
-                      <X size={14} className="text-gray-300 mt-0.5 shrink-0" />
+                      <X size={14} className="text-gray-300 shrink-0" />
                     )}
                     <span className={`text-xs sm:text-sm ${feature.included ? (plan.bg === 'bg-[#1a2e25]' ? 'text-white/80' : 'text-gray-600') : (plan.bg === 'bg-[#1a2e25]' ? 'text-white/30' : 'text-gray-400')}`}>
                       {feature.text}
