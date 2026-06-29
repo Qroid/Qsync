@@ -40,7 +40,7 @@ export function Layout() {
           <main className="flex-1 flex flex-col overflow-hidden bg-[#f5f5f5]">
             <SiteHeader onNavigate={setActive} />
 
-            <div className="flex-1 overflow-y-auto">
+            <div className="flex-1 overflow-y-auto scroll-container">
               <div className="max-w-4xl mx-auto px-8 lg:px-12 py-8">
                 <Outlet />
               </div>

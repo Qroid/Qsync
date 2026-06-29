@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Menu, X, LayoutDashboard, Target, Lightbulb, Monitor, CreditCard, Download } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { Menu, X, ChevronUp, LayoutDashboard, Target, Lightbulb, Monitor, CreditCard, Download } from 'lucide-react'
 
 const sections = [
   { id: 'overview', label: 'Overview', icon: LayoutDashboard },
@@ -13,14 +14,35 @@ const sections = [
 export function MobileNav({ active, onNavigate }) {
   const [open, setOpen] = useState(false)
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const handleNavigate = (id) => {
+    onNavigate(id)
+    setOpen(false)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   return (
     <>
       {/* Top bar */}
       <header className="lg:hidden sticky top-0 z-50 bg-[#1a2e25] flex items-center justify-between px-4 h-14">
-        <img src="/logo/icon.svg" alt="Qsync" className="h-6" />
-        <button onClick={() => setOpen(true)} className="p-2 text-white/80" aria-label="Menu">
-          <Menu className="w-5 h-5" />
-        </button>
+        <Link to="/" onClick={() => onNavigate('overview')}>
+          <img src="/logo/icon.svg" alt="Qsync" className="h-6" />
+        </Link>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={scrollToTop}
+            className="p-2 text-white/60 hover:text-white"
+            aria-label="Scroll to top"
+          >
+            <ChevronUp className="w-5 h-5 text-teal-400" />
+          </button>
+          <button onClick={() => setOpen(true)} className="p-2 text-white/80" aria-label="Menu">
+            <Menu className="w-5 h-5" />
+          </button>
+        </div>
       </header>
 
       {/* Overlay */}
@@ -38,7 +60,9 @@ export function MobileNav({ active, onNavigate }) {
         }`}
       >
         <div className="flex items-center justify-between px-6 py-5">
-          <img src="/logo/icon.svg" alt="Qsync" className="h-6" />
+          <Link to="/" onClick={() => { onNavigate('overview'); setOpen(false) }}>
+            <img src="/logo/icon.svg" alt="Qsync" className="h-6" />
+          </Link>
           <button onClick={() => setOpen(false)} className="text-white/60 hover:text-white">
             <X className="w-5 h-5" />
           </button>
@@ -50,7 +74,7 @@ export function MobileNav({ active, onNavigate }) {
             return (
               <button
                 key={s.id}
-                onClick={() => { onNavigate(s.id); setOpen(false) }}
+                onClick={() => handleNavigate(s.id)}
                 className={`w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors flex items-center gap-3 ${
                   active === s.id
                     ? 'bg-white/10 text-white'
