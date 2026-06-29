@@ -38,7 +38,7 @@ export default function MobileNav({ isOpen, onClose, activeSection, onNavigate }
             </button>
           </div>
 
-          <nav className="flex-1 py-2">
+          <nav className="flex-1 py-2 flex flex-col px-2">
             {sections.map((s) => {
               const Icon = s.icon
               return (

@@ -17,7 +17,7 @@ export default function SideNav({ activeSection, onNavigate }) {
         <img src="/logo/icon.svg" alt="Qsync" className="h-6" />
       </Link>
 
-      <nav className="flex-1 py-2">
+      <nav className="flex-1 py-2 flex flex-col px-2">
         {sections.map((s) => {
           const Icon = s.icon
           return (
