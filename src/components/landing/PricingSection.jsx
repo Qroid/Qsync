@@ -85,12 +85,11 @@ export default function PricingSection() {
           <div
             key={plan.name}
             className={`${plan.bg} rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-200 flex flex-col relative ${
-              plan.badge === 'Popular' ? 'ring-2 ring-[#1a2e25] lg:scale-105 lg:z-10' : ''
+              plan.badge === 'Popular' ? 'ring-2 ring-[#1a2e25] lg:scale-105 lg:z-10' : 'border border-gray-100'
             }`}
           >
-            {/* Badge */}
             {plan.badge && (
-              <div className={`absolute top-3 right-3 sm:top-4 sm:right-4 px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-medium ${
+              <div className={`px-3 py-1.5 text-[11px] font-medium text-center ${
                 plan.badge === 'Popular'
                   ? 'bg-[#1a2e25] text-white'
                   : 'bg-[#f0f7e6] text-[#1a2e25]'
@@ -99,18 +98,14 @@ export default function PricingSection() {
               </div>
             )}
 
-            {/* MacBook Mockup */}
             <div className="px-4 pt-4 sm:px-6 sm:pt-6">
               <plan.Mockup />
             </div>
 
-            {/* Plan details */}
             <div className="p-4 sm:p-6 flex flex-col flex-1">
-              <div className="mb-4">
-                <div className="flex items-baseline gap-1">
-                  <span className={`text-3xl sm:text-4xl font-bold ${plan.accent}`}>{plan.price}</span>
-                  <span className={`text-sm ${plan.accent} opacity-60`}>{plan.period}</span>
-                </div>
+              <div className="flex items-baseline gap-1 mb-4">
+                <span className={`text-3xl sm:text-4xl font-bold ${plan.accent}`}>{plan.price}</span>
+                <span className={`text-sm ${plan.accent} opacity-60`}>{plan.period}</span>
               </div>
 
               <h3 className={`text-lg sm:text-xl font-semibold mb-4 ${plan.accent}`}>{plan.name}</h3>
@@ -119,13 +114,9 @@ export default function PricingSection() {
                 {plan.features.map((feature, i) => (
                   <li key={i} className="flex items-start gap-2.5">
                     {feature.included ? (
-                      <div className="w-4.5 h-4.5 sm:w-5 sm:h-5 rounded-full bg-[#2d9c7a]/10 flex items-center justify-center shrink-0 mt-0.5">
-                        <Check size={12} className="text-[#2d9c7a]" />
-                      </div>
+                      <Check size={14} className="text-[#2d9c7a] mt-0.5 shrink-0" />
                     ) : (
-                      <div className="w-4.5 h-4.5 sm:w-5 sm:h-5 rounded-full bg-gray-100 flex items-center justify-center shrink-0 mt-0.5">
-                        <X size={12} className="text-gray-400" />
-                      </div>
+                      <X size={14} className="text-gray-300 mt-0.5 shrink-0" />
                     )}
                     <span className={`text-xs sm:text-sm ${feature.included ? (plan.bg === 'bg-[#1a2e25]' ? 'text-white/80' : 'text-gray-600') : (plan.bg === 'bg-[#1a2e25]' ? 'text-white/30' : 'text-gray-400')}`}>
                       {feature.text}
@@ -145,18 +136,17 @@ export default function PricingSection() {
         ))}
       </div>
 
-      {/* Trust indicators */}
       <div className="mt-8 sm:mt-12 flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-[10px] sm:text-xs text-gray-400">
         <div className="flex items-center gap-1.5">
-          <div className="w-1.5 h-1.5 bg-[#2d9c7a] rounded-full" />
+          <span className="w-1.5 h-1.5 bg-[#2d9c7a] rounded-full" />
           30-day money-back guarantee
         </div>
         <div className="flex items-center gap-1.5">
-          <div className="w-1.5 h-1.5 bg-[#2d9c7a] rounded-full" />
+          <span className="w-1.5 h-1.5 bg-[#2d9c7a] rounded-full" />
           Cancel anytime
         </div>
         <div className="flex items-center gap-1.5">
-          <div className="w-1.5 h-1.5 bg-[#2d9c7a] rounded-full" />
+          <span className="w-1.5 h-1.5 bg-[#2d9c7a] rounded-full" />
           Secure payments via Paystack
         </div>
       </div>

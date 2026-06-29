@@ -1,92 +1,67 @@
 import { Link } from 'react-router-dom'
-import { X } from 'lucide-react'
-import Logo from '../Logo'
-import {
-  MapPin,
-  Shield,
-  Layers,
-  CreditCard,
-  Download,
-  Activity,
-} from 'lucide-react'
+import { X, LayoutDashboard, Target, Lightbulb, Monitor, CreditCard, Download } from 'lucide-react'
 
-const navItems = [
-  { id: 'overview', label: 'Overview', icon: MapPin },
-  { id: 'mission', label: 'Mission', icon: Shield },
-  { id: 'how-it-works', label: 'How It Works', icon: Layers },
+const sections = [
+  { id: 'overview', label: 'Overview', icon: LayoutDashboard },
+  { id: 'mission', label: 'Mission', icon: Target },
+  { id: 'how-it-works', label: 'How It Works', icon: Lightbulb },
   { id: 'pricing', label: 'Pricing', icon: CreditCard },
   { id: 'get-started', label: 'Get Started', icon: Download },
-  { id: 'live-demo', label: 'Live Demo', icon: Activity },
+  { id: 'live-demo', label: 'Live Demo', icon: Monitor },
 ]
 
 export default function MobileNav({ isOpen, onClose, activeSection, onNavigate }) {
   return (
     <>
-      {/* Backdrop */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden backdrop-blur-sm"
+          className="fixed inset-0 bg-black/40 z-40 lg:hidden"
           onClick={onClose}
         />
       )}
 
-      {/* Drawer */}
       <div
-        className={`fixed top-0 left-0 w-64 sm:w-72 h-full bg-[#1a2e25] z-50 lg:hidden transform transition-transform duration-200 ease-out ${
+        className={`fixed top-0 left-0 w-64 h-full bg-[#1a2e25] z-50 lg:hidden transform transition-transform duration-200 ease-out ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         <div className="flex flex-col h-full">
-          {/* Header */}
-          <div className="flex items-center justify-between p-4 border-b border-white/5">
-            <Link to="/" onClick={onClose} className="flex items-center gap-2.5">
-              <Logo className="w-7 h-7" />
-              <span className="text-white font-semibold text-sm tracking-tight">Qsync</span>
+          <div className="flex items-center justify-between px-6 py-5 border-b border-white/5">
+            <Link to="/" onClick={onClose}>
+              <img src="/logo/icon.svg" alt="Qsync" className="h-5" />
             </Link>
             <button
               onClick={onClose}
-              className="w-8 h-8 flex items-center justify-center text-white/60 hover:text-white transition-colors"
-              aria-label="Close menu"
+              className="text-white/50 hover:text-white transition-colors"
             >
-              <X size={20} />
+              <X size={18} />
             </button>
           </div>
 
-          {/* Navigation */}
-          <div className="flex-1 p-3 space-y-1">
-            {navItems.map((item) => {
-              const Icon = item.icon
-              const isActive = activeSection === item.id
-
+          <nav className="flex-1 py-2">
+            {sections.map((s) => {
+              const Icon = s.icon
               return (
                 <button
-                  key={item.id}
-                  onClick={() => onNavigate(item.id)}
-                  className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl text-sm font-medium transition-all duration-150 ${
-                    isActive
-                      ? 'bg-white text-[#1a2e25]'
-                      : 'text-white/60 hover:text-white hover:bg-white/5'
-                  }`}
+                  key={s.id}
+                  onClick={() => { onNavigate(s.id); onClose() }}
+                  className={`sidebar-item ${activeSection === s.id ? 'active' : ''}`}
                 >
-                  <Icon size={18} strokeWidth={isActive ? 2 : 1.5} />
-                  {item.label}
+                  <Icon className="w-4 h-4 shrink-0" />
+                  {s.label}
                 </button>
               )
             })}
-          </div>
+          </nav>
 
-          {/* Bottom */}
-          <div className="p-4 border-t border-white/5">
+          <div className="px-6 py-5 border-t border-white/5">
             <Link
               to="/plan"
               onClick={onClose}
-              className="block w-full text-center bg-white text-[#1a2e25] font-semibold py-3 rounded-xl hover:bg-gray-100 transition-colors"
+              className="block w-full text-center bg-white text-[#1a2e25] text-[13px] font-medium py-2.5 rounded-lg hover:bg-gray-100 transition-colors"
             >
               Subscribe
             </Link>
-            <div className="mt-3 text-center text-white/40 text-[11px]">
-              Couples Transparency App
-            </div>
           </div>
         </div>
       </div>

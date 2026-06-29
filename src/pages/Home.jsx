@@ -11,10 +11,18 @@ import PricingSection from '../components/landing/PricingSection'
 import OnboardingSection from '../components/landing/OnboardingSection'
 import LiveWorkspace from '../components/landing/LiveWorkspace'
 
-const SECTION_IDS = ['overview', 'mission', 'how-it-works', 'pricing', 'get-started', 'live-demo']
+const sections = {
+  overview: OverviewSection,
+  mission: MissionSection,
+  'how-it-works': EcosystemSection,
+  pricing: PricingSection,
+  'get-started': OnboardingSection,
+  'live-demo': LiveWorkspace,
+}
 
 export default function Home({ activeSection, setActiveSection }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const ActiveSection = sections[activeSection] || OverviewSection
 
   const handleSectionChange = (section) => {
     setActiveSection(section)
@@ -25,56 +33,38 @@ export default function Home({ activeSection, setActiveSection }) {
     }
   }
 
-  const renderSection = () => {
-    switch (activeSection) {
-      case 'overview':
-        return <OverviewSection />
-      case 'mission':
-        return <MissionSection />
-      case 'how-it-works':
-        return <EcosystemSection />
-      case 'pricing':
-        return <PricingSection />
-      case 'get-started':
-        return <OnboardingSection />
-      case 'live-demo':
-        return <LiveWorkspace />
-      default:
-        return <OverviewSection />
-    }
-  }
-
   return (
-    <div className="flex h-screen bg-[#e8e8e8] overflow-hidden rounded-xl shadow-2xl">
-      {/* Desktop Sidebar */}
-      <div className="hidden lg:block">
-        <SideNav activeSection={activeSection} onNavigate={handleSectionChange} />
-      </div>
-
-      {/* Mobile Nav */}
-      <MobileNav
-        isOpen={mobileMenuOpen}
-        onClose={() => setMobileMenuOpen(false)}
-        activeSection={activeSection}
-        onNavigate={handleSectionChange}
-      />
-
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col min-w-0 bg-white overflow-hidden">
+    <div className="min-h-screen bg-[#f5f5f5] flex flex-col">
+      {/* Mobile Layout */}
+      <div className="lg:hidden flex flex-col min-h-screen">
+        <MobileNav isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} activeSection={activeSection} onNavigate={handleSectionChange} />
         <SiteHeader onMenuClick={() => setMobileMenuOpen(true)} />
-
-        <main
-          id="scroll-container"
-          className="flex-1 overflow-y-auto overscroll-contain"
-        >
-          <div className="px-4 sm:px-6 lg:px-8 py-4 sm:py-6 max-w-6xl mx-auto">
-            {renderSection()}
-          </div>
-          <SiteFooter />
+        <main id="scroll-container" className="flex-1 px-4 py-6 overflow-y-auto">
+          <ActiveSection />
         </main>
-
-        <ScrollToTopButton />
+        <SiteFooter />
       </div>
+
+      {/* Desktop Layout */}
+      <div className="hidden lg:flex items-center justify-center p-6 lg:p-10 min-h-screen">
+        <div className="w-full max-w-[1400px] h-[90vh] min-h-[700px] flex rounded-2xl overflow-hidden shadow-2xl border border-gray-200">
+          <SideNav activeSection={activeSection} onNavigate={handleSectionChange} />
+
+          <main className="flex-1 flex flex-col overflow-hidden bg-[#f5f5f5]">
+            <SiteHeader onMenuClick={() => setMobileMenuOpen(true)} />
+
+            <div id="scroll-container" className="flex-1 overflow-y-auto scroll-container">
+              <div className="max-w-4xl mx-auto px-8 lg:px-12 py-8">
+                <ActiveSection />
+              </div>
+            </div>
+
+            <SiteFooter />
+          </main>
+        </div>
+      </div>
+
+      <ScrollToTopButton />
     </div>
   )
 }

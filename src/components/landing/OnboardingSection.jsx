@@ -5,7 +5,7 @@ const steps = [
     icon: Download,
     step: '01',
     title: 'Download Qsync',
-    desc: 'Get the app from our website. Available for Android and iOS. Quick download, no account needed yet.',
+    desc: 'Get the app from our website. Android only. Quick download, no account needed yet.',
   },
   {
     icon: UserPlus,
@@ -29,7 +29,7 @@ const steps = [
 
 export default function OnboardingSection() {
   return (
-    <section className="py-6 sm:py-10">
+    <section className="py-8 sm:py-12">
       <div className="text-center mb-8 sm:mb-12">
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#1a2e25] mb-3">
           Get started in minutes
@@ -44,11 +44,9 @@ export default function OnboardingSection() {
           const Icon = s.icon
           return (
             <div key={i} className="relative">
-              <div className="bg-[#f5f5f5] rounded-2xl p-4 sm:p-5 lg:p-6 h-full">
+              <div className="bg-white rounded-2xl p-4 sm:p-5 lg:p-6 border border-gray-100 h-full">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-[#1a2e25] flex items-center justify-center">
-                    <Icon size={18} className="text-white" strokeWidth={1.5} />
-                  </div>
+                  <Icon className="w-5 h-5 text-[#1a2e25]" strokeWidth={1.5} />
                   <div className="text-[10px] sm:text-xs text-gray-400 font-mono">{s.step}</div>
                 </div>
                 <h3 className="text-sm sm:text-base font-semibold text-[#1a2e25] mb-2">{s.title}</h3>
@@ -62,23 +60,22 @@ export default function OnboardingSection() {
         })}
       </div>
 
-      {/* System Requirements */}
-      <div className="bg-[#f5f5f5] rounded-2xl p-5 sm:p-6 lg:p-8">
+      <div className="bg-white rounded-2xl p-5 sm:p-6 lg:p-8 border border-gray-100">
         <h3 className="text-base sm:text-lg font-semibold text-[#1a2e25] mb-4">Before you start</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <h4 className="text-xs sm:text-sm font-medium text-[#1a2e25] mb-2">Requirements</h4>
             <ul className="space-y-1.5 text-xs sm:text-sm text-gray-500">
               <li className="flex items-center gap-2">
-                <div className="w-1 h-1 bg-[#2d9c7a] rounded-full" />
-                Android 8.0+ or iOS 14+
+                <span className="w-1 h-1 bg-[#2d9c7a] rounded-full" />
+                Android 8.0+
               </li>
               <li className="flex items-center gap-2">
-                <div className="w-1 h-1 bg-[#2d9c7a] rounded-full" />
+                <span className="w-1 h-1 bg-[#2d9c7a] rounded-full" />
                 Internet connection required
               </li>
               <li className="flex items-center gap-2">
-                <div className="w-1 h-1 bg-[#2d9c7a] rounded-full" />
+                <span className="w-1 h-1 bg-[#2d9c7a] rounded-full" />
                 GPS/Location services enabled
               </li>
             </ul>
@@ -87,15 +84,15 @@ export default function OnboardingSection() {
             <h4 className="text-xs sm:text-sm font-medium text-[#1a2e25] mb-2">Both partners need</h4>
             <ul className="space-y-1.5 text-xs sm:text-sm text-gray-500">
               <li className="flex items-center gap-2">
-                <div className="w-1 h-1 bg-[#2d9c7a] rounded-full" />
+                <span className="w-1 h-1 bg-[#2d9c7a] rounded-full" />
                 Qsync app installed
               </li>
               <li className="flex items-center gap-2">
-                <div className="w-1 h-1 bg-[#2d9c7a] rounded-full" />
+                <span className="w-1 h-1 bg-[#2d9c7a] rounded-full" />
                 Active subscription
               </li>
               <li className="flex items-center gap-2">
-                <div className="w-1 h-1 bg-[#2d9c7a] rounded-full" />
+                <span className="w-1 h-1 bg-[#2d9c7a] rounded-full" />
                 Mutual consent to share
               </li>
             </ul>

@@ -18,13 +18,12 @@ const features = [
   { icon: Users, label: 'Status & Mood', desc: 'Share how you\'re doing' },
   { icon: Lock, label: 'Privacy Controls', desc: 'You control what\'s shared' },
   { icon: Bell, label: 'Smart Alerts', desc: 'Arrival & departure notices' },
-  { icon: Smartphone, label: 'Cross-Platform', desc: 'Android & iOS support' },
+  { icon: Smartphone, label: 'Android Only', desc: 'Android device support' },
 ]
 
 export default function OverviewSection() {
   return (
-    <section className="py-6 sm:py-10">
-      {/* Hero */}
+    <section className="py-8 sm:py-12">
       <div className="text-center mb-8 sm:mb-12">
         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#1a2e25] mb-4 tracking-tight">
           Transparency built on trust
@@ -35,23 +34,19 @@ export default function OverviewSection() {
         </p>
       </div>
 
-      {/* MacBook Hero */}
       <div className="mb-10 sm:mb-16">
         <HeroMacBookMockup />
       </div>
 
-      {/* Feature Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
         {features.map((f, i) => {
           const Icon = f.icon
           return (
             <div
               key={i}
-              className="bg-[#f5f5f5] rounded-xl p-3 sm:p-4 lg:p-5 hover:bg-[#f0f7e6] transition-colors duration-150 group"
+              className="bg-white rounded-xl p-3 sm:p-4 lg:p-5 hover:bg-[#f0f7e6] transition-colors duration-150 border border-gray-100"
             >
-              <div className="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 rounded-lg bg-[#1a2e25] flex items-center justify-center mb-2.5 sm:mb-3 group-hover:bg-[#2d9c7a] transition-colors">
-                <Icon size={18} className="text-white" strokeWidth={1.5} />
-              </div>
+              <Icon className="w-5 h-5 text-[#1a2e25] mb-3" strokeWidth={1.5} />
               <div className="text-xs sm:text-sm font-semibold text-[#1a2e25] mb-1">{f.label}</div>
               <div className="text-[10px] sm:text-xs text-gray-500 leading-relaxed">{f.desc}</div>
             </div>

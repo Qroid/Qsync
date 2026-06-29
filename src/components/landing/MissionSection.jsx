@@ -20,7 +20,7 @@ const pillars = [
 
 export default function MissionSection() {
   return (
-    <section className="py-6 sm:py-10">
+    <section className="py-8 sm:py-12">
       <div className="text-center mb-8 sm:mb-12">
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#1a2e25] mb-3">
           Built for trust, not surveillance
@@ -37,11 +37,9 @@ export default function MissionSection() {
           return (
             <div
               key={i}
-              className="bg-white border border-gray-100 rounded-2xl p-5 sm:p-6 hover:border-[#2d9c7a]/30 transition-colors"
+              className="bg-white border border-gray-100 rounded-2xl p-5 sm:p-6"
             >
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-[#1a2e25] flex items-center justify-center mb-4">
-                <Icon size={22} className="text-white" strokeWidth={1.5} />
-              </div>
+              <Icon className="w-5 h-5 text-[#1a2e25] mb-4" strokeWidth={1.5} />
               <h3 className="text-base sm:text-lg font-semibold text-[#1a2e25] mb-2">{p.title}</h3>
               <p className="text-xs sm:text-sm text-gray-500 leading-relaxed">{p.desc}</p>
             </div>
