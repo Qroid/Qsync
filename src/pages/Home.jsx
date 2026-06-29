@@ -41,7 +41,7 @@ export default function Home({ activeSection, setActiveSection }) {
       <div className="lg:hidden flex flex-col min-h-screen">
         <MobileNav isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} activeSection={activeSection} onNavigate={handleSectionChange} />
         <SiteHeader onMenuClick={() => setMobileMenuOpen(true)} />
-        <main id="scroll-container" className="flex-1 px-4 py-6 overflow-y-auto">
+        <main id="scroll-container" className="flex-1 px-4 py-6 overflow-y-auto relative z-10">
           <ActiveSection />
         </main>
         <SiteFooter />
@@ -55,7 +55,7 @@ export default function Home({ activeSection, setActiveSection }) {
           <main className="flex-1 flex flex-col overflow-hidden bg-[#f5f5f5]">
             <SiteHeader onMenuClick={() => setMobileMenuOpen(true)} />
 
-            <div id="scroll-container" className="flex-1 overflow-y-auto scroll-container">
+            <div id="scroll-container" className="flex-1 overflow-y-auto scroll-container relative z-10">
               <div className="max-w-4xl mx-auto px-8 lg:px-12 py-8">
                 <ActiveSection />
               </div>

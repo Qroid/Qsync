@@ -20,8 +20,8 @@ export default function SiteHeader({ onMenuClick }) {
         onClick={() => window.location.href = '/plan'}
         className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg transition-colors lg:hover:bg-[#e4efd4] hover:bg-white/10"
       >
-        <User className="w-4 h-4 text-white lg:text-gray-600" />
         <span className="text-[12px] font-medium text-white lg:text-gray-600">Subscribe</span>
+        <User className="w-4 h-4 text-white lg:text-gray-600" />
       </button>
     </header>
   )

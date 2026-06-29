@@ -17,7 +17,7 @@ export default function PolicyPageLayout({ children }) {
       <div className="lg:hidden flex flex-col min-h-screen">
         <MobileNav isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} activeSection="overview" onNavigate={() => {}} />
         <SiteHeader onMenuClick={() => setMobileMenuOpen(true)} />
-        <main className="flex-1 px-4 py-6 overflow-y-auto">
+        <main className="flex-1 px-4 py-6 overflow-y-auto relative z-10">
           <div className="flex items-center gap-1.5 text-[11px] text-gray-400 mb-6">
             <Link to="/" className="hover:text-gray-600 transition-colors">Home</Link>
             <span>/</span>
