@@ -17,7 +17,7 @@ export function HeroMacBookMockup() {
                 <div className="hidden sm:flex w-40 lg:w-48 flex-col bg-white rounded-xl p-3 lg:p-4 border border-gray-200 shadow-sm">
                   {/* Logo */}
                   <div className="flex items-center gap-2.5 mb-6">
-                    <img src="/logo/icon.svg" className="w-7 h-7" alt="Qsync" />
+                    <img src="/logo/darkicon.svg" className="w-7 h-7" alt="Qsync" />
                     <span className="text-gray-900 font-semibold text-xs lg:text-sm">Qsync</span>
                   </div>
                   {/* Nav items */}
@@ -191,7 +191,7 @@ export function WeeklyMacBookMockup() {
               <div className="flex-1 flex flex-col gap-1.5 sm:gap-2">
                 {/* Header with logo */}
                 <div className="bg-white rounded-lg p-1.5 sm:p-2 flex items-center gap-1.5 border border-gray-200 shadow-sm">
-                  <img src="/logo/icon.svg" className="w-3 h-3 sm:w-4 sm:h-4" alt="Qsync" />
+                  <img src="/logo/darkicon.svg" className="w-3 h-3 sm:w-4 sm:h-4" alt="Qsync" />
                   <span className="text-gray-900 text-[6px] sm:text-[8px] font-semibold">Weekly Plan</span>
                 </div>
                 {/* Feature cards */}
@@ -250,7 +250,7 @@ export function MonthlyMacBookMockup() {
                 {/* Header */}
                 <div className="bg-[#f0f7e6] rounded-lg p-1.5 sm:p-2 flex items-center justify-between border border-[#2d9c7a]/20">
                   <div className="flex items-center gap-1.5">
-                    <img src="/logo/icon.svg" className="w-3 h-3 sm:w-4 sm:h-4" alt="Qsync" />
+                    <img src="/logo/darkicon.svg" className="w-3 h-3 sm:w-4 sm:h-4" alt="Qsync" />
                     <span className="text-gray-900 text-[6px] sm:text-[8px] font-semibold">Monthly Plan</span>
                   </div>
                   <span className="text-[#2d9c7a] text-[5px] sm:text-[7px] font-medium">Safety</span>
@@ -325,7 +325,7 @@ export function YearlyMacBookMockup() {
                 {/* Premium header */}
                 <div className="bg-[#f0f7e6] rounded-lg p-1.5 sm:p-2 flex items-center justify-between border border-[#2d9c7a]/30">
                   <div className="flex items-center gap-1.5">
-                    <img src="/logo/icon.svg" className="w-3 h-3 sm:w-4 sm:h-4" alt="Qsync" />
+                    <img src="/logo/darkicon.svg" className="w-3 h-3 sm:w-4 sm:h-4" alt="Qsync" />
                     <span className="text-gray-900 text-[6px] sm:text-[8px] font-semibold">Yearly Plan</span>
                   </div>
                   <span className="px-1.5 py-0.5 bg-[#2d9c7a] rounded text-[5px] sm:text-[7px] text-white font-medium">Premium</span>

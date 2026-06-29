@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { X, LayoutDashboard, Target, Lightbulb, Monitor, CreditCard, Download } from 'lucide-react'
+import Logo from '../Logo'
 
 const sections = [
   { id: 'overview', label: 'Overview', icon: LayoutDashboard },
@@ -28,7 +29,7 @@ export default function MobileNav({ isOpen, onClose, activeSection, onNavigate }
         <div className="flex flex-col h-full">
           <div className="flex items-center justify-between px-6 py-5 border-b border-[#1a2e25]/10">
             <Link to="/" onClick={onClose}>
-              <img src="/logo/icon.svg" alt="Qsync" className="h-5" />
+              <Logo className="h-5" dark />
             </Link>
             <button
               onClick={onClose}

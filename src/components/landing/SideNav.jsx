@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { LayoutDashboard, Target, Lightbulb, Monitor, CreditCard, Download } from 'lucide-react'
+import Logo from '../Logo'
 
 const sections = [
   { id: 'overview', label: 'Overview', icon: LayoutDashboard },
@@ -14,7 +15,7 @@ export default function SideNav({ activeSection, onNavigate }) {
   return (
     <aside className="hidden lg:flex flex-col w-56 shrink-0 bg-[#1a2e25]">
       <Link to="/" className="px-6 py-6 block">
-        <img src="/logo/icon.svg" alt="Qsync" className="h-6" />
+        <Logo className="h-6" />
       </Link>
 
       <nav className="flex-1 py-2 flex flex-col px-2">
