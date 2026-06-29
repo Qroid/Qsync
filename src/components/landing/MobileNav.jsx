@@ -40,7 +40,7 @@ export default function MobileNav({ isOpen, onClose, activeSection, onNavigate }
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b border-white/5">
             <Link to="/" onClick={onClose} className="flex items-center gap-2.5">
-              <Logo className="w-7 h-7 text-white" />
+              <Logo className="w-7 h-7" />
               <span className="text-white font-semibold text-sm tracking-tight">Qsync</span>
             </Link>
             <button

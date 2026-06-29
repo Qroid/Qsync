@@ -24,7 +24,7 @@ export default function SideNav({ activeSection, onNavigate }) {
       {/* Logo */}
       <div className="p-5 border-b border-white/5">
         <Link to="/" className="flex items-center gap-2.5">
-          <Logo className="w-8 h-8 text-white" />
+          <Logo className="w-8 h-8" />
           <span className="text-white font-semibold text-base tracking-tight">Qsync</span>
         </Link>
       </div>

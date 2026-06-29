@@ -1,11 +1,10 @@
 import { Menu } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import Logo from '../Logo'
 
 export default function SiteHeader({ onMenuClick }) {
   return (
     <header className="bg-[#f0f7e6] border-b border-gray-200 px-4 sm:px-6 h-14 sm:h-16 flex items-center justify-between shrink-0">
-      {/* Mobile: Hamburger + Logo */}
+      {/* Mobile: Hamburger only */}
       <div className="flex items-center gap-3 lg:hidden">
         <button
           onClick={onMenuClick}
@@ -14,17 +13,10 @@ export default function SiteHeader({ onMenuClick }) {
         >
           <Menu size={20} />
         </button>
-        <Link to="/" className="flex items-center gap-2.5">
-          <Logo className="w-7 h-7 text-[#1a2e25]" />
-          <span className="text-[#1a2e25] font-semibold text-sm sm:text-base tracking-tight">Qsync</span>
-        </Link>
       </div>
 
-      {/* Desktop: Logo */}
-      <Link to="/" className="hidden lg:flex items-center gap-2.5">
-        <Logo className="w-7 h-7 text-[#1a2e25]" />
-        <span className="text-[#1a2e25] font-semibold text-base tracking-tight">Qsync</span>
-      </Link>
+      {/* Desktop: empty space */}
+      <div className="hidden lg:block" />
 
       {/* Right side */}
       <div className="flex items-center gap-3">
