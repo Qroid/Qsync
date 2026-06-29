@@ -22,7 +22,7 @@ export default function MobileNav({ isOpen, onClose, activeSection, onNavigate }
       )}
 
       <div
-        className={`fixed top-0 left-0 w-56 h-full bg-[#f0f7e6] z-50 lg:hidden transform transition-transform duration-200 ease-out ${
+        className={`fixed top-0 left-0 w-48 h-full bg-[#f0f7e6] z-50 lg:hidden transform transition-transform duration-200 ease-out ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
