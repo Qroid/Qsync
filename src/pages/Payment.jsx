@@ -4,9 +4,9 @@ import { CreditCard, Smartphone, ArrowLeft, Check, Loader2 } from 'lucide-react'
 import { initializePaystack, openPaystackCheckout, plans as paystackPlans } from '../lib/paystack'
 
 const plans = {
-  weekly: { name: 'Weekly', price: '\u20a63,000', period: '/week', paystackKey: 'Weekly' },
-  monthly: { name: 'Monthly', price: '\u20a68,500', period: '/month', paystackKey: 'Monthly' },
-  yearly: { name: 'Yearly', price: '\u20a665,000', period: '/year', paystackKey: 'Yearly' },
+  weekly: { name: 'Weekly', price: '$3', period: '/week', paystackKey: 'Weekly' },
+  monthly: { name: 'Monthly', price: '$8.50', period: '/month', paystackKey: 'Monthly' },
+  yearly: { name: 'Yearly', price: '$65', period: '/year', paystackKey: 'Yearly' },
 }
 
 export default function Payment() {

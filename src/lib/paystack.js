@@ -3,24 +3,24 @@ const PAYSTACK_PUBLIC_KEY = (import.meta.env.VITE_PAYSTACK_PUBLIC_KEY || '').tri
 export const plans = {
   Weekly: {
     name: 'Weekly',
-    price: 300000,
-    priceFormatted: '\u20a63,000',
+    price: 300,
+    priceFormatted: '$3',
     period: '/week',
     periodLabel: 'weekly',
     note: '30-min free trial',
   },
   Monthly: {
     name: 'Monthly',
-    price: 850000,
-    priceFormatted: '\u20a68,500',
+    price: 850,
+    priceFormatted: '$8.50',
     period: '/mo',
     periodLabel: 'monthly',
     note: 'Most popular',
   },
   Yearly: {
     name: 'Yearly',
-    price: 6500000,
-    priceFormatted: '\u20a665,000',
+    price: 6500,
+    priceFormatted: '$65',
     period: '/yr',
     periodLabel: 'yearly',
     note: 'Save 33%',
@@ -56,7 +56,7 @@ export function openPaystackCheckout({ email, plan, onSuccess, onClose }) {
     key: PAYSTACK_PUBLIC_KEY,
     email,
     amount: planData.price,
-    currency: 'NGN',
+    currency: 'USD',
     metadata: {
       plan_name: planData.name,
       custom_fields: [
