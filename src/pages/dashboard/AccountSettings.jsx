@@ -4,7 +4,7 @@ import { useAuth } from '../../contexts/AuthContext'
 
 const mockSubscription = {
   tier: 'Monthly',
-  price: '$8.50',
+  price: '\u20a68,500',
   period: 'month',
   expiresAt: '2026-07-29',
   status: 'active',

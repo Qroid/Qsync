@@ -2,9 +2,9 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { CheckCircle, Download, ArrowRight } from 'lucide-react'
 
 const planDetails = {
-  weekly: { name: 'Weekly Plan', price: '$3/week', nextBilling: 'Next week' },
-  monthly: { name: 'Monthly Plan', price: '$8.50/month', nextBilling: 'Next month' },
-  yearly: { name: 'Yearly Plan', price: '$65/year', nextBilling: 'Next year' },
+  weekly: { name: 'Weekly Plan', price: '\u20a63,000/week', nextBilling: 'Next week' },
+  monthly: { name: 'Monthly Plan', price: '\u20a68,500/month', nextBilling: 'Next month' },
+  yearly: { name: 'Yearly Plan', price: '\u20a665,000/year', nextBilling: 'Next year' },
 }
 
 export default function Success() {

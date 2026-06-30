@@ -5,7 +5,7 @@ import { WeeklyMacBookMockup, MonthlyMacBookMockup, YearlyMacBookMockup } from '
 const plans = [
   {
     name: 'Weekly',
-    price: '$3',
+    price: '\u20a63,000',
     period: '/week',
     badge: null,
     bg: 'bg-white',
@@ -26,7 +26,7 @@ const plans = [
   },
   {
     name: 'Monthly',
-    price: '$8.50',
+    price: '\u20a68,500',
     period: '/month',
     badge: 'Popular',
     bg: 'bg-[#1a2e25]',
@@ -47,7 +47,7 @@ const plans = [
   },
   {
     name: 'Yearly',
-    price: '$65',
+    price: '\u20a665,000',
     period: '/year',
     badge: 'Best value',
     bg: 'bg-white',
