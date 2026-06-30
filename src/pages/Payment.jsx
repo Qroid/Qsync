@@ -31,7 +31,7 @@ export default function Payment() {
         email,
         plan: plan.paystackKey,
         onSuccess: (response) => {
-          navigate(`/success?reference=${response.reference}&plan=${planKey}`)
+          navigate(`/success?reference=${response.reference}&plan=${planKey}&email=${encodeURIComponent(email)}`)
         },
         onClose: () => {
           setLoading(false)

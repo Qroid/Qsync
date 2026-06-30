@@ -10,7 +10,13 @@ const planDetails = {
 export default function Success() {
   const [searchParams] = useSearchParams()
   const planKey = searchParams.get('plan') || 'monthly'
+  const reference = searchParams.get('reference') || ''
+  const email = searchParams.get('email') || ''
   const plan = planDetails[planKey] || planDetails.monthly
+
+  const downloadUrl = reference && email
+    ? `/api/download?reference=${encodeURIComponent(reference)}&email=${encodeURIComponent(email)}`
+    : null
 
   return (
     <div className="min-h-screen bg-[#f5f5f5] flex items-center justify-center p-4">
@@ -55,10 +61,19 @@ export default function Success() {
               </div>
             </div>
 
-            <button className="w-full bg-[#1a2e25] hover:bg-[#0f1c16] text-white font-semibold py-3 rounded-xl transition-colors flex items-center justify-center gap-2 text-sm">
-              <Download size={16} />
-              Download Qsync APK
-            </button>
+            {downloadUrl ? (
+              <a
+                href={downloadUrl}
+                className="w-full bg-[#1a2e25] hover:bg-[#0f1c16] text-white font-semibold py-3 rounded-xl transition-colors flex items-center justify-center gap-2 text-sm"
+              >
+                <Download size={16} />
+                Download Qsync APK
+              </a>
+            ) : (
+              <div className="w-full bg-gray-100 text-gray-400 font-semibold py-3 rounded-xl text-sm text-center">
+                Download link expired — check your email
+              </div>
+            )}
 
             <Link
               to="/login"
