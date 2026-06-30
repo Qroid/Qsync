@@ -1,15 +1,17 @@
 import { useState } from 'react'
-import { useSearchParams, Link } from 'react-router-dom'
-import { CreditCard, Smartphone, ArrowLeft, Check } from 'lucide-react'
+import { useSearchParams, Link, useNavigate } from 'react-router-dom'
+import { CreditCard, Smartphone, ArrowLeft, Check, Loader2 } from 'lucide-react'
+import { initializePaystack, openPaystackCheckout, plans as paystackPlans } from '../lib/paystack'
 
 const plans = {
-  weekly: { name: 'Weekly', price: '$3', period: '/week', planCode: 'PLN_weekly_qsync' },
-  monthly: { name: 'Monthly', price: '$8.50', period: '/month', planCode: 'PLN_monthly_qsync' },
-  yearly: { name: 'Yearly', price: '$65', period: '/year', planCode: 'PLN_yearly_qsync' },
+  weekly: { name: 'Weekly', price: '$3', period: '/week', paystackKey: 'Weekly' },
+  monthly: { name: 'Monthly', price: '$8.50', period: '/month', paystackKey: 'Monthly' },
+  yearly: { name: 'Yearly', price: '$65', period: '/year', paystackKey: 'Yearly' },
 }
 
 export default function Payment() {
   const [searchParams] = useSearchParams()
+  const navigate = useNavigate()
   const planKey = searchParams.get('plan') || 'monthly'
   const plan = plans[planKey] || plans.monthly
 
@@ -21,8 +23,24 @@ export default function Payment() {
     e.preventDefault()
     if (!email) return
     setLoading(true)
-    // Payment integration goes here
-    setTimeout(() => setLoading(false), 2000)
+
+    try {
+      await initializePaystack()
+
+      openPaystackCheckout({
+        email,
+        plan: plan.paystackKey,
+        onSuccess: (response) => {
+          navigate(`/success?reference=${response.reference}&plan=${planKey}`)
+        },
+        onClose: () => {
+          setLoading(false)
+        },
+      })
+    } catch (err) {
+      console.error('Paystack error:', err)
+      setLoading(false)
+    }
   }
 
   return (
@@ -124,9 +142,16 @@ export default function Payment() {
             <button
               type="submit"
               disabled={loading || !email}
-              className="w-full bg-[#1a2e25] hover:bg-[#0f1c16] disabled:bg-gray-300 text-white font-semibold py-3 sm:py-3.5 rounded-xl transition-colors text-sm"
+              className="w-full bg-[#1a2e25] hover:bg-[#0f1c16] disabled:bg-gray-300 text-white font-semibold py-3 sm:py-3.5 rounded-xl transition-colors text-sm flex items-center justify-center gap-2"
             >
-              {loading ? 'Processing...' : `Pay ${plan.price}`}
+              {loading ? (
+                <>
+                  <Loader2 size={18} className="animate-spin" />
+                  Processing...
+                </>
+              ) : (
+                `Pay ${plan.price}`
+              )}
             </button>
 
             <p className="text-[10px] sm:text-xs text-center text-gray-400">

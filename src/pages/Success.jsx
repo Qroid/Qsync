@@ -1,7 +1,17 @@
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { CheckCircle, Download, ArrowRight } from 'lucide-react'
 
+const planDetails = {
+  weekly: { name: 'Weekly Plan', price: '$3/week', nextBilling: 'Next week' },
+  monthly: { name: 'Monthly Plan', price: '$8.50/month', nextBilling: 'Next month' },
+  yearly: { name: 'Yearly Plan', price: '$65/year', nextBilling: 'Next year' },
+}
+
 export default function Success() {
+  const [searchParams] = useSearchParams()
+  const planKey = searchParams.get('plan') || 'monthly'
+  const plan = planDetails[planKey] || planDetails.monthly
+
   return (
     <div className="min-h-screen bg-[#f5f5f5] flex items-center justify-center p-4">
       <div className="w-full max-w-md">
@@ -19,8 +29,8 @@ export default function Success() {
           <div className="p-5 sm:p-6 space-y-4 sm:space-y-5">
             <div className="bg-[#f5f5f5] rounded-xl p-4">
               <div className="text-xs text-gray-500 mb-2">Your subscription is active</div>
-              <div className="text-sm font-medium text-[#1a2e25]">Monthly Plan — $9.99/month</div>
-              <div className="text-xs text-gray-400 mt-1">Next billing: July 2026</div>
+              <div className="text-sm font-medium text-[#1a2e25]">{plan.name} — {plan.price}</div>
+              <div className="text-xs text-gray-400 mt-1">{plan.nextBilling}</div>
             </div>
 
             <div className="space-y-2.5">
@@ -49,6 +59,13 @@ export default function Success() {
               <Download size={16} />
               Download Qsync APK
             </button>
+
+            <Link
+              to="/login"
+              className="block w-full bg-[#2d9c7a] hover:bg-[#24806a] text-white font-semibold py-3 rounded-xl transition-colors text-sm"
+            >
+              Go to Dashboard
+            </Link>
 
             <Link
               to="/"
