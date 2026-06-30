@@ -1,4 +1,4 @@
-const PAYSTACK_PUBLIC_KEY = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY || 'pk_test_xxxxxxxxxxxx'
+const PAYSTACK_PUBLIC_KEY = (import.meta.env.VITE_PAYSTACK_PUBLIC_KEY || '').trim()
 
 export const plans = {
   Weekly: {
@@ -8,7 +8,6 @@ export const plans = {
     period: '/week',
     periodLabel: 'weekly',
     note: '30-min free trial',
-    planCode: 'PLN_weekly_qsync',
   },
   Monthly: {
     name: 'Monthly',
@@ -17,7 +16,6 @@ export const plans = {
     period: '/mo',
     periodLabel: 'monthly',
     note: 'Most popular',
-    planCode: 'PLN_monthly_qsync',
   },
   Yearly: {
     name: 'Yearly',
@@ -26,12 +24,11 @@ export const plans = {
     period: '/yr',
     periodLabel: 'yearly',
     note: 'Save 33%',
-    planCode: 'PLN_yearly_qsync',
   },
 }
 
 export function initializePaystack() {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     if (window.PaystackPop) {
       resolve()
       return
@@ -39,6 +36,7 @@ export function initializePaystack() {
     const script = document.createElement('script')
     script.src = 'https://js.paystack.co/v1/inline.js'
     script.onload = () => resolve()
+    script.onerror = () => reject(new Error('Failed to load Paystack script'))
     document.head.appendChild(script)
   })
 }
@@ -47,6 +45,11 @@ export function openPaystackCheckout({ email, plan, onSuccess, onClose }) {
   const planData = plans[plan]
   if (!planData) return
 
+  if (!PAYSTACK_PUBLIC_KEY) {
+    alert('Payment is not configured. Please contact support.')
+    return
+  }
+
   const baseUrl = window.location.origin
 
   const handler = window.PaystackPop.setup({
@@ -54,11 +57,8 @@ export function openPaystackCheckout({ email, plan, onSuccess, onClose }) {
     email,
     amount: planData.price,
     currency: 'USD',
-    plan: planData.planCode,
-    callback_url: `${baseUrl}/success`,
     metadata: {
       plan_name: planData.name,
-      cancel_action: `${baseUrl}/payment?plan=${planData.name.toLowerCase()}`,
       custom_fields: [
         {
           display_name: 'Plan',
