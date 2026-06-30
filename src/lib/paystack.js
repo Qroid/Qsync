@@ -47,14 +47,18 @@ export function openPaystackCheckout({ email, plan, onSuccess, onClose }) {
   const planData = plans[plan]
   if (!planData) return
 
+  const baseUrl = window.location.origin
+
   const handler = window.PaystackPop.setup({
     key: PAYSTACK_PUBLIC_KEY,
     email,
     amount: planData.price,
     currency: 'USD',
     plan: planData.planCode,
+    callback_url: `${baseUrl}/success`,
     metadata: {
       plan_name: planData.name,
+      cancel_action: `${baseUrl}/payment?plan=${planData.name.toLowerCase()}`,
       custom_fields: [
         {
           display_name: 'Plan',
