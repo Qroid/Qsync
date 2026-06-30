@@ -112,3 +112,9 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #9ca3af;
 }
+
+/* Paystack popup overlay customization */
+.paystack-backdrop,
+#paystack-backdrop {
+  background-color: rgba(26, 46, 37, 0.6) !important;
+}
