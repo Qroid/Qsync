@@ -1,28 +1,37 @@
-import { Phone, ArrowUpRight, ArrowDownLeft, PhoneMissed, Search, Clock } from 'lucide-react'
+import { Phone, ArrowUpRight, ArrowDownLeft, PhoneMissed, Search, Clock, Loader2 } from 'lucide-react'
 import { useState } from 'react'
-
-const mockCalls = [
-  { contact: 'Mom', phone: '+1 (555) 123-4567', direction: 'incoming', duration: '5:32', time: '3:00 PM', date: 'Today' },
-  { contact: 'Jordan', phone: '+1 (555) 987-6543', direction: 'outgoing', duration: '12:45', time: '2:15 PM', date: 'Today' },
-  { contact: 'Office', phone: '+1 (555) 456-7890', direction: 'missed', duration: null, time: '1:30 PM', date: 'Today' },
-  { contact: 'Jordan', phone: '+1 (555) 987-6543', direction: 'incoming', duration: '8:20', time: '11:00 AM', date: 'Today' },
-  { contact: 'Delivery', phone: '+1 (555) 321-0987', direction: 'outgoing', duration: '2:15', time: '10:30 AM', date: 'Today' },
-  { contact: 'Mom', phone: '+1 (555) 123-4567', direction: 'incoming', duration: '15:00', time: '8:00 PM', date: 'Yesterday' },
-  { contact: 'Jordan', phone: '+1 (555) 987-6543', direction: 'outgoing', duration: '22:10', time: '6:30 PM', date: 'Yesterday' },
-]
+import { useDeviceId } from '../../hooks/useDeviceId'
+import { useCallLogs } from '../../hooks/useSupabaseData'
 
 const directionConfig = {
-  incoming: { icon: ArrowDownLeft, color: 'bg-blue-100 text-blue-600', label: 'Incoming' },
-  outgoing: { icon: ArrowUpRight, color: 'bg-[#2d9c7a]/10 text-[#2d9c7a]', label: 'Outgoing' },
-  missed: { icon: PhoneMissed, color: 'bg-red-100 text-red-500', label: 'Missed' },
+  1: { icon: ArrowDownLeft, color: 'bg-blue-100 text-blue-600', label: 'Incoming' },
+  2: { icon: ArrowUpRight, color: 'bg-[#2d9c7a]/10 text-[#2d9c7a]', label: 'Outgoing' },
+  3: { icon: PhoneMissed, color: 'bg-red-100 text-red-500', label: 'Missed' },
 }
 
 export default function CallLog() {
+  const { deviceId } = useDeviceId()
+  const { data: calls, loading } = useCallLogs(deviceId, 200)
   const [search, setSearch] = useState('')
 
   const filtered = search
-    ? mockCalls.filter(c => c.contact.toLowerCase().includes(search.toLowerCase()) || c.phone.includes(search))
-    : mockCalls
+    ? calls?.filter(c =>
+        (c.number || '').includes(search) ||
+        (c.contact_name || '').toLowerCase().includes(search.toLowerCase())
+      )
+    : calls
+
+  const formatTime = (ts) => {
+    if (!ts) return ''
+    return new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+  }
+
+  const formatDuration = (secs) => {
+    if (!secs) return null
+    const m = Math.floor(secs / 60)
+    const s = secs % 60
+    return `${m}:${s.toString().padStart(2, '0')}`
+  }
 
   return (
     <div className="space-y-4 sm:space-y-6 max-w-4xl">
@@ -45,34 +54,42 @@ export default function CallLog() {
         <div className="flex items-center gap-2 mb-5">
           <Phone size={18} className="text-[#2d9c7a]" />
           <h3 className="font-semibold text-[#1a2e25]">Call History</h3>
-          <span className="text-xs text-gray-400 ml-auto">{filtered.length} calls</span>
+          <span className="text-xs text-gray-400 ml-auto">{filtered?.length || 0} calls</span>
         </div>
 
-        <div className="space-y-1">
-          {filtered.map((call, i) => {
-            const config = directionConfig[call.direction]
-            return (
-              <div key={i} className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors">
-                <div className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 ${config.color}`}>
-                  <config.icon size={16} />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-[#1a2e25]">{call.contact}</p>
-                  <p className="text-xs text-gray-400">{call.phone}</p>
-                </div>
-                <div className="text-right shrink-0">
-                  {call.duration && (
-                    <p className="text-sm text-[#1a2e25] font-medium">{call.duration}</p>
-                  )}
-                  <div className="flex items-center gap-1 text-xs text-gray-400 justify-end">
-                    <Clock size={12} />
-                    {call.time}
+        {loading ? (
+          <div className="flex justify-center py-8">
+            <Loader2 size={24} className="animate-spin text-[#2d9c7a]" />
+          </div>
+        ) : filtered?.length > 0 ? (
+          <div className="space-y-1">
+            {filtered.map((call, i) => {
+              const config = directionConfig[call.type] || directionConfig[1]
+              return (
+                <div key={i} className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors">
+                  <div className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 ${config.color}`}>
+                    <config.icon size={16} />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-[#1a2e25]">{call.contact_name || call.number || 'Unknown'}</p>
+                    <p className="text-xs text-gray-400">{call.number}</p>
+                  </div>
+                  <div className="text-right shrink-0">
+                    {call.duration > 0 && (
+                      <p className="text-sm text-[#1a2e25] font-medium">{formatDuration(call.duration)}</p>
+                    )}
+                    <div className="flex items-center gap-1 text-xs text-gray-400 justify-end">
+                      <Clock size={12} />
+                      {formatTime(call.timestamp)}
+                    </div>
                   </div>
                 </div>
-              </div>
-            )
-          })}
-        </div>
+              )
+            })}
+          </div>
+        ) : (
+          <p className="text-sm text-gray-400 text-center py-8">No calls yet</p>
+        )}
       </div>
     </div>
   )

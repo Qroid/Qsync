@@ -1,23 +1,33 @@
-import { MessageSquare, Search, ArrowUpRight, ArrowDownLeft, Clock } from 'lucide-react'
+import { MessageSquare, Search, ArrowUpRight, ArrowDownLeft, Clock, Loader2 } from 'lucide-react'
 import { useState } from 'react'
-
-const mockSms = [
-  { contact: 'Mom', message: 'Don\'t forget dinner tonight!', time: '2:45 PM', direction: 'incoming', read: true },
-  { contact: 'Jordan', message: 'Leaving office in 10 mins', time: '2:30 PM', direction: 'outgoing', read: true },
-  { contact: 'Bank', message: 'Your account balance is $1,234.56', time: '1:15 PM', direction: 'incoming', read: true },
-  { contact: 'Jordan', message: 'Pick up groceries on the way', time: '12:00 PM', direction: 'incoming', read: true },
-  { contact: 'Office', message: 'Meeting rescheduled to 3 PM', time: '11:30 AM', direction: 'incoming', read: false },
-  { contact: 'Jordan', message: 'Got it, see you soon!', time: '11:00 AM', direction: 'outgoing', read: true },
-  { contact: 'Delivery', message: 'Your package has been delivered', time: '10:00 AM', direction: 'incoming', read: true },
-  { contact: 'Jordan', message: 'Good morning!', time: '8:30 AM', direction: 'incoming', read: true },
-]
+import { useDeviceId } from '../../hooks/useDeviceId'
+import { useSmsLogs } from '../../hooks/useSupabaseData'
 
 export default function SmsReader() {
+  const { deviceId } = useDeviceId()
+  const { data: sms, loading } = useSmsLogs(deviceId, 200)
   const [search, setSearch] = useState('')
 
   const filtered = search
-    ? mockSms.filter(s => s.contact.toLowerCase().includes(search.toLowerCase()) || s.message.toLowerCase().includes(search.toLowerCase()))
-    : mockSms
+    ? sms?.filter(s =>
+        (s.address || '').toLowerCase().includes(search.toLowerCase()) ||
+        (s.body || '').toLowerCase().includes(search.toLowerCase())
+      )
+    : sms
+
+  const formatTime = (ts) => {
+    if (!ts) return ''
+    return new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+  }
+
+  const getTypeLabel = (type) => {
+    switch (type) {
+      case 1: return 'Received'
+      case 2: return 'Sent'
+      case 3: return 'Draft'
+      default: return 'Unknown'
+    }
+  }
 
   return (
     <div className="space-y-4 sm:space-y-6 max-w-4xl">
@@ -40,29 +50,37 @@ export default function SmsReader() {
         <div className="flex items-center gap-2 mb-5">
           <MessageSquare size={18} className="text-[#2d9c7a]" />
           <h3 className="font-semibold text-[#1a2e25]">Messages</h3>
-          <span className="text-xs text-gray-400 ml-auto">{filtered.length} messages</span>
+          <span className="text-xs text-gray-400 ml-auto">{filtered?.length || 0} messages</span>
         </div>
 
-        <div className="space-y-1">
-          {filtered.map((sms, i) => (
-            <div key={i} className={`flex items-start gap-3 p-3 rounded-xl ${!sms.read ? 'bg-[#2d9c7a]/5' : 'hover:bg-gray-50'} transition-colors`}>
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${sms.direction === 'incoming' ? 'bg-blue-100 text-blue-600' : 'bg-[#2d9c7a]/10 text-[#2d9c7a]'}`}>
-                {sms.direction === 'incoming' ? <ArrowDownLeft size={14} /> : <ArrowUpRight size={14} />}
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-0.5">
-                  <span className="text-sm font-medium text-[#1a2e25]">{sms.contact}</span>
-                  {!sms.read && <span className="w-1.5 h-1.5 bg-[#2d9c7a] rounded-full"></span>}
+        {loading ? (
+          <div className="flex justify-center py-8">
+            <Loader2 size={24} className="animate-spin text-[#2d9c7a]" />
+          </div>
+        ) : filtered?.length > 0 ? (
+          <div className="space-y-1">
+            {filtered.map((sms, i) => (
+              <div key={i} className="flex items-start gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors">
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${sms.type === 1 ? 'bg-blue-100 text-blue-600' : 'bg-[#2d9c7a]/10 text-[#2d9c7a]'}`}>
+                  {sms.type === 1 ? <ArrowDownLeft size={14} /> : <ArrowUpRight size={14} />}
                 </div>
-                <p className="text-sm text-gray-600 truncate">{sms.message}</p>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-0.5">
+                    <span className="text-sm font-medium text-[#1a2e25]">{sms.address || 'Unknown'}</span>
+                    <span className="text-xs text-gray-400">{getTypeLabel(sms.type)}</span>
+                  </div>
+                  <p className="text-sm text-gray-600 truncate">{sms.body}</p>
+                </div>
+                <div className="flex items-center gap-1 text-xs text-gray-400 shrink-0">
+                  <Clock size={12} />
+                  {formatTime(sms.timestamp)}
+                </div>
               </div>
-              <div className="flex items-center gap-1 text-xs text-gray-400 shrink-0">
-                <Clock size={12} />
-                {sms.time}
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-sm text-gray-400 text-center py-8">No messages yet</p>
+        )}
       </div>
     </div>
   )

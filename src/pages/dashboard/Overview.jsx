@@ -1,43 +1,107 @@
-import { MapPin, Battery, Wifi, Clock, Shield, Activity } from 'lucide-react'
+import { MapPin, Battery, Wifi, Clock, Shield, Activity, Loader2, Smartphone } from 'lucide-react'
+import { useDeviceId } from '../../hooks/useDeviceId'
+import { useLatestLocation, useLocations, useSmsLogs, useCallLogs, useCommands } from '../../hooks/useSupabaseData'
+import { supabase, isSupabaseConfigured } from '../../lib/supabase'
+import { useQuery } from '@tanstack/react-query'
 
-const mockPartner = {
-  name: 'Jordan',
-  status: 'At Office',
-  battery: 72,
-  connection: 'Wi-Fi',
-  lastSeen: '2 min ago',
-  safe: true,
+function useDeviceInfo(deviceId) {
+  return useQuery({
+    queryKey: ['device_info', deviceId],
+    queryFn: async () => {
+      if (!supabase || !deviceId) return null
+      const { data } = await supabase
+        .from('commands')
+        .select('*')
+        .eq('target_device_id', deviceId)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .maybeSingle()
+      return data
+    },
+    enabled: !!deviceId && isSupabaseConfigured,
+    refetchInterval: 10000,
+  })
 }
 
-const mockActivity = [
-  { time: '2:30 PM', event: 'Arrived at Office', type: 'location' },
-  { time: '1:15 PM', event: 'Left Home', type: 'location' },
-  { time: '12:00 PM', event: 'Status: Working', type: 'status' },
-  { time: '8:30 AM', event: 'Arrived at Home', type: 'location' },
-  { time: '8:00 AM', event: 'Device connected', type: 'system' },
-]
+function useTodayCount(table, deviceId) {
+  return useQuery({
+    queryKey: [`today_${table}`, deviceId],
+    queryFn: async () => {
+      if (!supabase || !deviceId) return 0
+      const today = new Date()
+      today.setHours(0, 0, 0, 0)
+      const { count } = await supabase
+        .from(table)
+        .select('*', { count: 'exact', head: true })
+        .eq('device_id', deviceId)
+        .gte('timestamp', today.toISOString())
+      return count || 0
+    },
+    enabled: !!deviceId && isSupabaseConfigured,
+    refetchInterval: 30000,
+  })
+}
 
-const typeColors = {
-  location: 'bg-[#2d9c7a]',
-  status: 'bg-blue-500',
-  system: 'bg-purple-500',
+function formatTimeAgo(timestamp) {
+  if (!timestamp) return 'Never'
+  const diff = Date.now() - new Date(timestamp).getTime()
+  const mins = Math.floor(diff / 60000)
+  if (mins < 1) return 'Just now'
+  if (mins < 60) return `${mins}m ago`
+  const hours = Math.floor(mins / 60)
+  if (hours < 24) return `${hours}h ago`
+  const days = Math.floor(hours / 24)
+  return `${days}d ago`
 }
 
 export default function Overview() {
+  const { deviceId, loading: deviceLoading } = useDeviceId()
+  const { data: location } = useLatestLocation(deviceId)
+  const { data: locations } = useLocations(deviceId, 50)
+  const { data: sms } = useSmsLogs(deviceId, 50)
+  const { data: calls } = useCallLogs(deviceId, 50)
+  const { data: commands } = useCommands(deviceId)
+  const { data: smsToday } = useTodayCount('sms_logs', deviceId)
+  const { data: callsToday } = useTodayCount('call_logs', deviceId)
+  const { data: locToday } = useTodayCount('locations', deviceId)
+
+  const battery = commands?.find(c => c.type === 'battery')?.battery_level || null
+  const connection = commands?.find(c => c.type === 'connection')?.connection_type || null
+
+  if (deviceLoading) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <Loader2 size={24} className="animate-spin text-[#2d9c7a]" />
+      </div>
+    )
+  }
+
+  if (!deviceId) {
+    return (
+      <div className="flex flex-col items-center justify-center py-20 text-center">
+        <Smartphone size={48} className="text-gray-300 mb-4" />
+        <h2 className="text-lg font-semibold text-[#1a2e25] mb-2">No device linked</h2>
+        <p className="text-sm text-gray-500 max-w-sm">
+          Link your Android device to start monitoring. Go to Settings to enter your Device ID.
+        </p>
+      </div>
+    )
+  }
+
   return (
     <div className="space-y-4 sm:space-y-6 max-w-5xl">
-      {/* Partner Status Card */}
+      {/* Device Status Card */}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 sm:p-6">
         <div className="flex items-center gap-4 mb-5">
           <div className="w-12 h-12 rounded-full bg-[#2d9c7a] flex items-center justify-center text-white text-lg font-bold">
-            {mockPartner.name.charAt(0)}
+            <Smartphone size={20} />
           </div>
           <div className="flex-1">
-            <h2 className="text-lg font-semibold text-[#1a2e25]">{mockPartner.name}</h2>
-            <p className="text-sm text-gray-500">Last seen {mockPartner.lastSeen}</p>
+            <h2 className="text-lg font-semibold text-[#1a2e25]">Linked Device</h2>
+            <p className="text-sm text-gray-500">Last seen {formatTimeAgo(location?.timestamp)}</p>
           </div>
-          <div className={`px-3 py-1 rounded-full text-xs font-medium ${mockPartner.safe ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
-            {mockPartner.safe ? 'Safe' : 'Alert'}
+          <div className="px-3 py-1 rounded-full text-xs font-medium bg-green-50 text-green-700">
+            {location ? 'Online' : 'Offline'}
           </div>
         </div>
 
@@ -47,43 +111,69 @@ export default function Overview() {
               <MapPin size={14} />
               <span className="text-xs">Location</span>
             </div>
-            <p className="text-sm font-medium text-[#1a2e25]">{mockPartner.status}</p>
+            <p className="text-sm font-medium text-[#1a2e25]">
+              {location ? `${location.lat?.toFixed(4)}, ${location.lng?.toFixed(4)}` : 'No data'}
+            </p>
           </div>
           <div className="bg-gray-50 rounded-xl p-3">
             <div className="flex items-center gap-2 text-gray-400 mb-1">
               <Battery size={14} />
               <span className="text-xs">Battery</span>
             </div>
-            <p className="text-sm font-medium text-[#1a2e25]">{mockPartner.battery}%</p>
+            <p className="text-sm font-medium text-[#1a2e25]">
+              {battery != null ? `${battery}%` : 'No data'}
+            </p>
           </div>
           <div className="bg-gray-50 rounded-xl p-3">
             <div className="flex items-center gap-2 text-gray-400 mb-1">
               <Wifi size={14} />
               <span className="text-xs">Connection</span>
             </div>
-            <p className="text-sm font-medium text-[#1a2e25]">{mockPartner.connection}</p>
+            <p className="text-sm font-medium text-[#1a2e25]">
+              {connection || 'No data'}
+            </p>
           </div>
           <div className="bg-gray-50 rounded-xl p-3">
             <div className="flex items-center gap-2 text-gray-400 mb-1">
               <Clock size={14} />
               <span className="text-xs">Last Sync</span>
             </div>
-            <p className="text-sm font-medium text-[#1a2e25]">{mockPartner.lastSeen}</p>
+            <p className="text-sm font-medium text-[#1a2e25]">
+              {formatTimeAgo(location?.timestamp)}
+            </p>
           </div>
         </div>
       </div>
 
-      {/* Map Placeholder */}
+      {/* Map */}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 sm:p-6">
         <div className="flex items-center gap-2 mb-4">
           <MapPin size={18} className="text-[#2d9c7a]" />
           <h3 className="font-semibold text-[#1a2e25]">Live Location</h3>
+          {location && (
+            <div className="flex items-center gap-1.5 text-xs text-[#2d9c7a] ml-auto">
+              <span className="w-2 h-2 bg-[#2d9c7a] rounded-full animate-pulse"></span>
+              Live
+            </div>
+          )}
         </div>
         <div className="bg-gray-100 rounded-xl h-64 sm:h-80 flex items-center justify-center">
-          <div className="text-center text-gray-400">
-            <MapPin size={40} className="mx-auto mb-2 opacity-50" />
-            <p className="text-sm">Map will display when device is connected</p>
-          </div>
+          {location ? (
+            <div className="text-center">
+              <MapPin size={40} className="mx-auto mb-2 text-[#2d9c7a]" />
+              <p className="text-sm font-medium text-[#1a2e25]">
+                {location.lat?.toFixed(6)}, {location.lng?.toFixed(6)}
+              </p>
+              <p className="text-xs text-gray-400 mt-1">
+                Accuracy: {location.accuracy?.toFixed(0)}m
+              </p>
+            </div>
+          ) : (
+            <div className="text-center text-gray-400">
+              <MapPin size={40} className="mx-auto mb-2 opacity-50" />
+              <p className="text-sm">Waiting for location data...</p>
+            </div>
+          )}
         </div>
       </div>
 
@@ -94,32 +184,52 @@ export default function Overview() {
           <h3 className="font-semibold text-[#1a2e25]">Recent Activity</h3>
         </div>
         <div className="space-y-3">
-          {mockActivity.map((item, i) => (
+          {locations?.slice(0, 5).map((loc, i) => (
             <div key={i} className="flex items-center gap-3">
-              <div className={`w-2 h-2 rounded-full ${typeColors[item.type]}`}></div>
-              <span className="text-sm text-gray-500 w-20 shrink-0">{item.time}</span>
-              <span className="text-sm text-[#1a2e25]">{item.event}</span>
+              <div className="w-2 h-2 rounded-full bg-[#2d9c7a]"></div>
+              <span className="text-sm text-gray-500 w-20 shrink-0">
+                {new Date(loc.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              </span>
+              <span className="text-sm text-[#1a2e25]">
+                {loc.event_type === 'arrived' ? `Arrived at ${loc.place_name || 'location'}` :
+                 loc.event_type === 'departed' ? `Left ${loc.place_name || 'location'}` :
+                 'Location updated'}
+              </span>
             </div>
           ))}
+          {sms?.slice(0, 3).map((msg, i) => (
+            <div key={`sms-${i}`} className="flex items-center gap-3">
+              <div className="w-2 h-2 rounded-full bg-blue-500"></div>
+              <span className="text-sm text-gray-500 w-20 shrink-0">
+                {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              </span>
+              <span className="text-sm text-[#1a2e25]">
+                SMS from {msg.address || 'Unknown'}
+              </span>
+            </div>
+          ))}
+          {(!locations || locations.length === 0) && (!sms || sms.length === 0) && (
+            <p className="text-sm text-gray-400 text-center py-4">No activity yet</p>
+          )}
         </div>
       </div>
 
       {/* Quick Stats */}
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 text-center">
-          <Shield size={20} className="mx-auto mb-2 text-[#2d9c7a]" />
-          <p className="text-2xl font-bold text-[#1a2e25]">24</p>
-          <p className="text-xs text-gray-500">Hours Safe</p>
-        </div>
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 text-center">
           <MapPin size={20} className="mx-auto mb-2 text-[#2d9c7a]" />
-          <p className="text-2xl font-bold text-[#1a2e25]">3</p>
+          <p className="text-2xl font-bold text-[#1a2e25]">{locToday || 0}</p>
           <p className="text-xs text-gray-500">Locations Today</p>
         </div>
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 text-center col-span-2 sm:col-span-1">
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 text-center">
           <Activity size={20} className="mx-auto mb-2 text-[#2d9c7a]" />
-          <p className="text-2xl font-bold text-[#1a2e25]">12</p>
-          <p className="text-xs text-gray-500">Events Today</p>
+          <p className="text-2xl font-bold text-[#1a2e25]">{smsToday || 0}</p>
+          <p className="text-xs text-gray-500">SMS Today</p>
+        </div>
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 text-center col-span-2 sm:col-span-1">
+          <Shield size={20} className="mx-auto mb-2 text-[#2d9c7a]" />
+          <p className="text-2xl font-bold text-[#1a2e25]">{callsToday || 0}</p>
+          <p className="text-xs text-gray-500">Calls Today</p>
         </div>
       </div>
     </div>

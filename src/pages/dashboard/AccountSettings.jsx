@@ -1,24 +1,40 @@
-import { Settings, CreditCard, Users, ArrowUpRight, ArrowDownLeft, Shield, AlertTriangle, CheckCircle, ExternalLink } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import { Settings, CreditCard, Users, Shield, AlertTriangle, CheckCircle, Smartphone, Link, Loader2 } from 'lucide-react'
 import { useAuth } from '../../contexts/AuthContext'
-
-const mockSubscription = {
-  tier: 'Monthly',
-  price: '$8.50',
-  period: 'month',
-  expiresAt: '2026-07-29',
-  status: 'active',
-}
-
-const mockPartner = {
-  name: 'Jordan',
-  email: 'jordan@example.com',
-  connected: true,
-  since: '2026-05-15',
-}
+import { useDeviceId } from '../../hooks/useDeviceId'
+import { supabase, isSupabaseConfigured } from '../../lib/supabase'
 
 export default function AccountSettings() {
   const { user } = useAuth()
+  const { deviceId, setDevice, loading: deviceLoading } = useDeviceId()
+  const [inputDeviceId, setInputDeviceId] = useState('')
+  const [linking, setLinking] = useState(false)
+  const [linkSuccess, setLinkSuccess] = useState(false)
+
+  const handleLinkDevice = async (e) => {
+    e.preventDefault()
+    if (!inputDeviceId.trim()) return
+    setLinking(true)
+    setLinkSuccess(false)
+
+    try {
+      if (isSupabaseConfigured && supabase && user) {
+        await supabase.from('device_registry').upsert({
+          device_id: inputDeviceId.trim(),
+          user_id: user.id,
+          linked_at: new Date().toISOString(),
+        }, { onConflict: 'device_id' })
+      }
+      setDevice(inputDeviceId.trim())
+      setInputDeviceId('')
+      setLinkSuccess(true)
+      setTimeout(() => setLinkSuccess(false), 3000)
+    } catch (err) {
+      console.error('Link error:', err)
+    } finally {
+      setLinking(false)
+    }
+  }
 
   return (
     <div className="space-y-4 sm:space-y-6 max-w-3xl">
@@ -36,75 +52,69 @@ export default function AccountSettings() {
           </div>
           <div className="flex items-center justify-between py-3 border-b border-gray-50">
             <span className="text-sm text-gray-500">Member since</span>
-            <span className="text-sm font-medium text-[#1a2e25]">May 2026</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Subscription */}
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 sm:p-6">
-        <div className="flex items-center gap-2 mb-5">
-          <CreditCard size={18} className="text-[#2d9c7a]" />
-          <h3 className="font-semibold text-[#1a2e25]">Subscription</h3>
-        </div>
-
-        <div className="bg-gray-50 rounded-xl p-4 mb-4">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-lg font-semibold text-[#1a2e25]">{mockSubscription.tier} Plan</span>
-            <span className="flex items-center gap-1.5 text-xs font-medium text-green-600 bg-green-50 px-2.5 py-1 rounded-full">
-              <CheckCircle size={14} />
-              Active
+            <span className="text-sm font-medium text-[#1a2e25]">
+              {user?.created_at ? new Date(user.created_at).toLocaleDateString() : 'N/A'}
             </span>
           </div>
-          <p className="text-sm text-gray-500">
-            {mockSubscription.price}/{mockSubscription.period} · Renews {mockSubscription.expiresAt}
-          </p>
-        </div>
-
-        <div className="flex gap-3">
-          <Link
-            to="/plan"
-            className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-[#2d9c7a] text-white rounded-xl text-sm font-medium hover:bg-[#24806a] transition-colors"
-          >
-            <ArrowUpRight size={16} />
-            Upgrade Plan
-          </Link>
-          <button className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-gray-100 text-gray-600 rounded-xl text-sm font-medium hover:bg-gray-200 transition-colors">
-            <ArrowDownLeft size={16} />
-            Downgrade
-          </button>
         </div>
       </div>
 
-      {/* Partner Connection */}
+      {/* Device Linking */}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 sm:p-6">
         <div className="flex items-center gap-2 mb-5">
-          <Users size={18} className="text-[#2d9c7a]" />
-          <h3 className="font-semibold text-[#1a2e25]">Partner Connection</h3>
+          <Smartphone size={18} className="text-[#2d9c7a]" />
+          <h3 className="font-semibold text-[#1a2e25]">Linked Device</h3>
         </div>
 
-        {mockPartner.connected ? (
+        {deviceLoading ? (
+          <div className="flex justify-center py-4">
+            <Loader2 size={20} className="animate-spin text-[#2d9c7a]" />
+          </div>
+        ) : deviceId ? (
           <div className="bg-[#2d9c7a]/5 border border-[#2d9c7a]/20 rounded-xl p-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-[#2d9c7a] flex items-center justify-center text-white font-semibold">
-                {mockPartner.name.charAt(0)}
+              <div className="w-10 h-10 rounded-full bg-[#2d9c7a] flex items-center justify-center text-white">
+                <Smartphone size={18} />
               </div>
               <div className="flex-1">
-                <p className="text-sm font-medium text-[#1a2e25]">{mockPartner.name}</p>
-                <p className="text-xs text-gray-500">{mockPartner.email}</p>
+                <p className="text-sm font-medium text-[#1a2e25]">Device Linked</p>
+                <p className="text-xs text-gray-500 font-mono">{deviceId}</p>
               </div>
-              <span className="text-xs text-[#2d9c7a] font-medium">Connected</span>
+              <span className="text-xs text-[#2d9c7a] font-medium flex items-center gap-1">
+                <CheckCircle size={14} />
+                Active
+              </span>
             </div>
-            <p className="text-xs text-gray-400 mt-3">Connected since {mockPartner.since}</p>
           </div>
         ) : (
-          <div className="text-center py-6">
-            <Users size={32} className="mx-auto mb-3 text-gray-300" />
-            <p className="text-sm text-gray-500 mb-3">No partner connected yet</p>
-            <button className="px-4 py-2 bg-[#2d9c7a] text-white rounded-xl text-sm font-medium hover:bg-[#24806a] transition-colors">
-              Invite Partner
-            </button>
-          </div>
+          <form onSubmit={handleLinkDevice} className="space-y-3">
+            <p className="text-sm text-gray-500">
+              Enter your Android Device ID to start monitoring. Find it in the Qsync app settings.
+            </p>
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={inputDeviceId}
+                onChange={(e) => setInputDeviceId(e.target.value)}
+                placeholder="Enter Device ID"
+                className="flex-1 px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#2d9c7a]/20 focus:border-[#2d9c7a] font-mono"
+              />
+              <button
+                type="submit"
+                disabled={linking || !inputDeviceId.trim()}
+                className="px-4 py-2.5 bg-[#2d9c7a] text-white rounded-xl text-sm font-medium hover:bg-[#24806a] transition-colors disabled:opacity-50 flex items-center gap-2"
+              >
+                {linking ? <Loader2 size={16} className="animate-spin" /> : <Link size={16} />}
+                Link
+              </button>
+            </div>
+            {linkSuccess && (
+              <p className="text-xs text-[#2d9c7a] flex items-center gap-1">
+                <CheckCircle size={14} />
+                Device linked successfully!
+              </p>
+            )}
+          </form>
         )}
       </div>
 
@@ -130,23 +140,6 @@ export default function AccountSettings() {
             </div>
             <button className="text-sm text-[#2d9c7a] hover:underline">View</button>
           </div>
-        </div>
-      </div>
-
-      {/* Danger Zone */}
-      <div className="bg-white rounded-2xl shadow-sm border border-red-100 p-5 sm:p-6">
-        <div className="flex items-center gap-2 mb-5">
-          <AlertTriangle size={18} className="text-red-500" />
-          <h3 className="font-semibold text-red-600">Danger Zone</h3>
-        </div>
-
-        <div className="space-y-3">
-          <button className="w-full py-2.5 bg-red-50 text-red-600 rounded-xl text-sm font-medium hover:bg-red-100 transition-colors">
-            Cancel Subscription
-          </button>
-          <button className="w-full py-2.5 bg-red-50 text-red-600 rounded-xl text-sm font-medium hover:bg-red-100 transition-colors">
-            Delete Account
-          </button>
         </div>
       </div>
     </div>
