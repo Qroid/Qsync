@@ -50,7 +50,7 @@ export default function AccountCreation() {
 
     try {
       await signUp(email, password, {
-        username,
+        display_name: username,
         role,
         plan
       })
