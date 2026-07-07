@@ -46,21 +46,21 @@ export default function Sidebar({ open, onClose }) {
 
       {/* Sidebar */}
       <aside className={`
-        fixed top-0 left-0 h-full w-64 bg-[#1a2e25] z-50 flex flex-col
+        fixed top-0 left-0 h-full w-64 bg-[#f0f7e6] z-50 flex flex-col
         transition-transform duration-300
         lg:translate-x-0 lg:static lg:z-auto
         ${open ? 'translate-x-0' : '-translate-x-full'}
       `}>
         {/* Logo */}
-        <div className="p-5 flex items-center justify-between border-b border-white/10">
-          <Logo className="w-7 h-7" />
-          <button onClick={onClose} className="lg:hidden text-white/60 hover:text-white">
+        <div className="p-5 flex items-center justify-between">
+          <Logo dark className="w-7 h-7" />
+          <button onClick={onClose} className="lg:hidden text-[#1a2e25]/40 hover:text-[#1a2e25]">
             <X size={20} />
           </button>
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 py-4 px-3 space-y-1 overflow-y-auto">
+        <nav className="flex-1 py-2 px-3 space-y-1 overflow-y-auto">
           {navItems.map((item) => (
             <NavLink
               key={item.to}
@@ -69,8 +69,8 @@ export default function Sidebar({ open, onClose }) {
               className={({ isActive }) =>
                 `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                   isActive
-                    ? 'bg-white/15 text-white'
-                    : 'text-white/60 hover:text-white hover:bg-white/5'
+                    ? 'bg-[#1a2e25] text-white'
+                    : 'text-[#1a2e25]/60 hover:text-[#1a2e25] hover:bg-[#1a2e25]/5'
                 }`
               }
             >
@@ -81,19 +81,19 @@ export default function Sidebar({ open, onClose }) {
         </nav>
 
         {/* User section */}
-        <div className="p-4 border-t border-white/10">
+        <div className="p-4 border-t border-[#1a2e25]/10">
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-8 h-8 rounded-full bg-[#2d9c7a] flex items-center justify-center text-white text-sm font-semibold">
+            <div className="w-8 h-8 rounded-full bg-[#1a2e25] flex items-center justify-center text-white text-sm font-semibold">
               {displayName.charAt(0).toUpperCase()}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-white text-sm font-medium truncate">{displayName}</p>
-              <p className="text-white/40 text-xs">{roleLabel}</p>
+              <p className="text-[#1a2e25] text-sm font-medium truncate">{displayName}</p>
+              <p className="text-[#1a2e25]/40 text-xs">{roleLabel}</p>
             </div>
           </div>
           <button
             onClick={handleSignOut}
-            className="w-full flex items-center gap-2 px-3 py-2 text-white/50 hover:text-white hover:bg-white/5 rounded-lg text-sm transition-colors"
+            className="w-full flex items-center gap-2 px-3 py-2 text-[#1a2e25]/50 hover:text-[#1a2e25] hover:bg-[#1a2e25]/5 rounded-lg text-sm transition-colors"
           >
             <LogOut size={16} />
             Sign out
