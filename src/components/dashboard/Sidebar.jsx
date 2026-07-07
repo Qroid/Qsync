@@ -30,8 +30,6 @@ export default function Sidebar({ open, onClose }) {
     await signOut()
   }
 
-  const roleLabel = profile?.role === 'hubby' ? 'Hubby' : profile?.role === 'honey' ? 'Honey' : profile?.role === 'qid' ? 'Qid' : 'Subscriber'
-
   const displayName = profile?.display_name || user?.email?.split('@')[0] || 'User'
 
   return (
@@ -46,21 +44,21 @@ export default function Sidebar({ open, onClose }) {
 
       {/* Sidebar */}
       <aside className={`
-        fixed top-0 left-0 h-full w-64 bg-[#f0f7e6] z-50 flex flex-col
+        fixed top-0 left-0 h-full w-48 lg:w-56 bg-[#f0f7e6] z-50 flex flex-col
         transition-transform duration-300
         lg:translate-x-0 lg:static lg:z-auto
         ${open ? 'translate-x-0' : '-translate-x-full'}
       `}>
-        {/* Logo */}
-        <div className="p-5 flex items-center justify-between">
-          <Logo dark className="w-7 h-7" />
-          <button onClick={onClose} className="lg:hidden text-[#1a2e25]/40 hover:text-[#1a2e25]">
-            <X size={20} />
+        {/* Logo header */}
+        <div className="px-6 py-5 flex items-center justify-between border-b border-[#1a2e25]/10">
+          <Logo className="h-5" dark />
+          <button onClick={onClose} className="lg:hidden text-[#1a2e25]/50 hover:text-[#1a2e25]">
+            <X size={18} />
           </button>
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 py-2 px-3 space-y-1 overflow-y-auto">
+        <nav className="flex-1 py-2 px-2 overflow-y-auto">
           {navItems.map((item) => (
             <NavLink
               key={item.to}
@@ -74,21 +72,20 @@ export default function Sidebar({ open, onClose }) {
                 }`
               }
             >
-              <item.icon size={18} />
+              <item.icon size={16} />
               {item.label}
             </NavLink>
           ))}
         </nav>
 
         {/* User section */}
-        <div className="p-4 border-t border-[#1a2e25]/10">
+        <div className="px-6 py-5 border-t border-[#1a2e25]/10">
           <div className="flex items-center gap-3 mb-3">
             <div className="w-8 h-8 rounded-full bg-[#1a2e25] flex items-center justify-center text-white text-sm font-semibold">
               {displayName.charAt(0).toUpperCase()}
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-[#1a2e25] text-sm font-medium truncate">{displayName}</p>
-              <p className="text-[#1a2e25]/40 text-xs">{roleLabel}</p>
             </div>
           </div>
           <button
