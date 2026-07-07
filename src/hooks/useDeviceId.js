@@ -4,6 +4,7 @@ import { supabase, isSupabaseConfigured } from '../lib/supabase'
 export function useDeviceId() {
   const [deviceId, setDeviceId] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [devices, setDevices] = useState([])
 
   useEffect(() => {
     if (!isSupabaseConfigured || !supabase) {
@@ -11,7 +12,7 @@ export function useDeviceId() {
       return
     }
 
-    async function getDeviceId() {
+    async function detectDevice() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) {
         setLoading(false)
@@ -25,22 +26,40 @@ export function useDeviceId() {
         return
       }
 
-      const { data } = await supabase
+      const { data: registry } = await supabase
         .from('device_registry')
         .select('device_id')
         .eq('user_id', user.id)
         .limit(1)
-        .single()
+        .maybeSingle()
 
-      if (data?.device_id) {
-        localStorage.setItem('qsync_device_id', data.device_id)
-        setDeviceId(data.device_id)
+      if (registry?.device_id) {
+        localStorage.setItem('qsync_device_id', registry.device_id)
+        setDeviceId(registry.device_id)
+        setLoading(false)
+        return
+      }
+
+      const { data: locDevices } = await supabase
+        .from('locations')
+        .select('device_id')
+        .order('timestamp', { ascending: false })
+        .limit(10)
+
+      if (locDevices?.length > 0) {
+        const unique = [...new Set(locDevices.map(d => d.device_id))]
+        setDevices(unique)
+
+        if (unique.length === 1) {
+          localStorage.setItem('qsync_device_id', unique[0])
+          setDeviceId(unique[0])
+        }
       }
 
       setLoading(false)
     }
 
-    getDeviceId()
+    detectDevice()
   }, [])
 
   const setDevice = (id) => {
@@ -48,5 +67,10 @@ export function useDeviceId() {
     setDeviceId(id)
   }
 
-  return { deviceId, setDevice, loading }
+  const clearDevice = () => {
+    localStorage.removeItem('qsync_device_id')
+    setDeviceId(null)
+  }
+
+  return { deviceId, devices, setDevice, clearDevice, loading }
 }
