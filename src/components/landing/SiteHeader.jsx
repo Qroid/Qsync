@@ -16,13 +16,12 @@ export default function SiteHeader({ onMenuClick }) {
           <Logo className="h-5" />
         </Link>
       </div>
-      <button
-        onClick={() => window.location.href = '/plan'}
-        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg transition-colors lg:hover:bg-[#e4efd4] hover:bg-white/10"
+      <Link
+        to="/login"
+        className="inline-flex items-center p-2 rounded-lg transition-colors lg:hover:bg-[#e4efd4] hover:bg-white/10"
       >
-        <span className="text-[12px] font-medium text-white lg:text-gray-600">Subscribe</span>
-        <User className="w-4 h-4 text-white lg:text-gray-600" />
-      </button>
+        <User className="w-5 h-5 text-white lg:text-gray-600" />
+      </Link>
     </header>
   )
 }
