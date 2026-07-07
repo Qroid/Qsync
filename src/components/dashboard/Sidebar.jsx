@@ -16,21 +16,23 @@ import {
 
 const navItems = [
   { to: '/dashboard/overview', icon: LayoutDashboard, label: 'Overview' },
-  { to: '/dashboard/location', icon: MapPin, label: 'Location' },
-  { to: '/dashboard/activity', icon: Activity, label: 'Activity' },
-  { to: '/dashboard/sms', icon: MessageSquare, label: 'SMS' },
-  { to: '/dashboard/calls', icon: Phone, label: 'Calls' },
+  { to: '/dashboard/location', icon: MapPin, label: 'Live Location' },
+  { to: '/dashboard/activity', icon: Activity, label: 'Activity Feed' },
+  { to: '/dashboard/sms', icon: MessageSquare, label: 'Messages' },
+  { to: '/dashboard/calls', icon: Phone, label: 'Call History' },
   { to: '/dashboard/notifications', icon: Bell, label: 'Notifications' },
-  { to: '/dashboard/screen', icon: Monitor, label: 'Screen' },
+  { to: '/dashboard/screen', icon: Monitor, label: 'App Usage' },
   { to: '/dashboard/settings', icon: Settings, label: 'Settings' },
 ]
 
 export default function Sidebar({ open, onClose }) {
-  const { user, signOut } = useAuth()
+  const { user, profile, signOut } = useAuth()
 
   const handleSignOut = async () => {
     await signOut()
   }
+
+  const roleLabel = profile?.role === 'hubby' ? 'Hubby' : profile?.role === 'honey' ? 'Honey' : profile?.role === 'qid' ? 'Qid' : 'Subscriber'
 
   return (
     <>
@@ -89,7 +91,7 @@ export default function Sidebar({ open, onClose }) {
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-white text-sm font-medium truncate">{user?.email}</p>
-              <p className="text-white/40 text-xs">Subscriber</p>
+              <p className="text-white/40 text-xs">{roleLabel}</p>
             </div>
           </div>
           <button

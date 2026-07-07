@@ -73,19 +73,19 @@ export default function Overview() {
   const roleConfig = {
     hubby: {
       title: 'Hubby Dashboard',
-      subtitle: 'Monitor your linked device',
+      subtitle: "Your partner's device status",
       icon: Smartphone,
       color: '#1a2e25'
     },
     honey: {
       title: 'Honey Dashboard',
-      subtitle: 'Keep track of what matters',
+      subtitle: "Your partner's device status",
       icon: Heart,
       color: '#2d9c7a'
     },
     qid: {
       title: 'Qid Dashboard',
-      subtitle: 'Full system oversight',
+      subtitle: 'Full transparency overview',
       icon: Eye,
       color: '#1a2e25'
     }
@@ -106,9 +106,9 @@ export default function Overview() {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-center">
         <Smartphone size={48} className="text-gray-300 mb-4" />
-        <h2 className="text-lg font-semibold text-[#1a2e25] mb-2">No device linked</h2>
+        <h2 className="text-lg font-semibold text-[#1a2e25] mb-2">No device linked yet</h2>
         <p className="text-sm text-gray-500 max-w-sm">
-          Link your Android device to start monitoring. Go to Settings to enter your Device ID.
+          Link your partner's Android device to start seeing their location, activity, and status. Go to Settings to enter the Device ID.
         </p>
       </div>
     )
@@ -123,8 +123,8 @@ export default function Overview() {
             <config.icon size={20} />
           </div>
           <div className="flex-1">
-            <h2 className="text-lg font-semibold text-[#1a2e25]">{config.title}</h2>
-            <p className="text-sm text-gray-500">{config.subtitle}</p>
+            <h2 className="text-lg font-semibold text-[#1a2e25]">Partner's Device</h2>
+            <p className="text-sm text-gray-500">Last seen {formatTimeAgo(location?.timestamp)}</p>
           </div>
           <div className="px-3 py-1 rounded-full text-xs font-medium bg-green-50 text-green-700">
             {location ? 'Online' : 'Offline'}

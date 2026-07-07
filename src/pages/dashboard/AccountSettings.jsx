@@ -75,7 +75,7 @@ export default function AccountSettings() {
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center gap-2">
             <Smartphone size={18} className="text-[#2d9c7a]" />
-            <h3 className="font-semibold text-[#1a2e25]">Linked Device</h3>
+            <h3 className="font-semibold text-[#1a2e25]">Partner's Device</h3>
           </div>
           {deviceId && (
             <button
