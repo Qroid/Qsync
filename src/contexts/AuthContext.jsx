@@ -66,19 +66,6 @@ export function AuthProvider({ children }) {
       }
     })
     if (error) throw error
-
-    if (data.user) {
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .insert({
-          id: data.user.id,
-          email: email,
-          display_name: metadata.display_name || '',
-          role: metadata.role || 'hubby',
-          plan: metadata.plan || 'monthly'
-        })
-      if (profileError) throw profileError
-    }
   }
 
   const signIn = async (email, password) => {
