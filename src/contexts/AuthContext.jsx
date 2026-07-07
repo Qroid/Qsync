@@ -28,9 +28,24 @@ export function AuthProvider({ children }) {
     return () => subscription.unsubscribe()
   }, [])
 
-  const signInWithEmail = async (email) => {
+  const signUp = async (email, password, metadata = {}) => {
     if (!isSupabaseConfigured) throw new Error('Supabase is not configured')
-    const { error } = await supabase.auth.signInWithOtp({ email })
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: metadata
+      }
+    })
+    if (error) throw error
+  }
+
+  const signIn = async (email, password) => {
+    if (!isSupabaseConfigured) throw new Error('Supabase is not configured')
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password
+    })
     if (error) throw error
   }
 
@@ -41,7 +56,7 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, session, loading, signInWithEmail, signOut, isAuthenticated: !!user }}>
+    <AuthContext.Provider value={{ user, session, loading, signUp, signIn, signOut, isAuthenticated: !!user }}>
       {children}
     </AuthContext.Provider>
   )

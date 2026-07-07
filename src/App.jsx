@@ -10,6 +10,7 @@ import Terms from './pages/Terms'
 import Privacy from './pages/Privacy'
 import Refund from './pages/Refund'
 import Login from './pages/Login'
+import AccountCreation from './pages/AccountCreation'
 import DashboardLayout from './layouts/DashboardLayout'
 import ProtectedRoute from './components/dashboard/ProtectedRoute'
 import Overview from './pages/dashboard/Overview'
@@ -43,6 +44,7 @@ export default function App() {
 
             {/* Auth Route */}
             <Route path="/login" element={<Login />} />
+            <Route path="/create-account" element={<AccountCreation />} />
 
             {/* Dashboard Routes (Protected) */}
             <Route
