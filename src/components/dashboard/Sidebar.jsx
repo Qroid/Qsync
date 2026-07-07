@@ -45,9 +45,9 @@ export default function Sidebar({ open, onClose }) {
 
       {/* Sidebar */}
       <aside className={`
-        fixed top-0 left-0 h-full w-48 lg:w-56 bg-[#f0f7e6] z-50 flex flex-col
+        fixed top-0 left-0 h-full w-48 lg:w-56 bg-[#f0f7e6] z-50 flex flex-col shrink-0
         transition-transform duration-300
-        lg:translate-x-0 lg:static lg:z-auto
+        lg:translate-x-0 lg:sticky lg:top-0 lg:h-screen lg:z-auto
         ${open ? 'translate-x-0' : '-translate-x-full'}
       `}>
         {/* Logo header */}
