@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useSearchParams, Link, useNavigate } from 'react-router-dom'
 import { CreditCard, Smartphone, ArrowLeft, Check, Loader2 } from 'lucide-react'
 import { initializePaystack, openPaystackCheckout, plans as paystackPlans } from '../lib/paystack'
+import { supabase, isSupabaseConfigured } from '../lib/supabase'
 
 const plans = {
   weekly: { name: 'Weekly', price: '$3', period: '/week', paystackKey: 'Weekly' },
@@ -19,6 +20,18 @@ export default function Payment() {
   const [paymentMethod, setPaymentMethod] = useState('card')
   const [loading, setLoading] = useState(false)
 
+  const sendMagicLink = async (emailAddress) => {
+    if (!isSupabaseConfigured || !supabase) return false
+    try {
+      const { error } = await supabase.auth.signInWithOtp({ email: emailAddress })
+      if (error) throw error
+      return true
+    } catch (err) {
+      console.error('Magic link error:', err)
+      return false
+    }
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (!email) return
@@ -30,7 +43,8 @@ export default function Payment() {
       openPaystackCheckout({
         email,
         plan: plan.paystackKey,
-        onSuccess: (response) => {
+        onSuccess: async (response) => {
+          await sendMagicLink(email)
           navigate(`/success?reference=${response.reference}&plan=${planKey}&email=${encodeURIComponent(email)}`)
         },
         onClose: () => {

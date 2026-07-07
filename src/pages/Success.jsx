@@ -1,5 +1,5 @@
 import { Link, useSearchParams } from 'react-router-dom'
-import { CheckCircle, Download, ArrowRight } from 'lucide-react'
+import { CheckCircle, Download, Mail, ArrowRight } from 'lucide-react'
 
 const planDetails = {
   weekly: { name: 'Weekly Plan', price: '$3/week', nextBilling: 'Next week' },
@@ -33,34 +33,52 @@ export default function Success() {
 
           {/* Content */}
           <div className="p-5 sm:p-6 space-y-4 sm:space-y-5">
+            {/* Subscription info */}
             <div className="bg-[#f5f5f5] rounded-xl p-4">
               <div className="text-xs text-gray-500 mb-2">Your subscription is active</div>
               <div className="text-sm font-medium text-[#1a2e25]">{plan.name} — {plan.price}</div>
               <div className="text-xs text-gray-400 mt-1">{plan.nextBilling}</div>
             </div>
 
+            {/* Magic link notification */}
+            <div className="bg-[#2d9c7a]/5 border border-[#2d9c7a]/20 rounded-xl p-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-[#2d9c7a] flex items-center justify-center shrink-0">
+                  <Mail size={18} className="text-white" />
+                </div>
+                <div className="text-left">
+                  <p className="text-sm font-medium text-[#1a2e25]">Check your email</p>
+                  <p className="text-xs text-gray-500">
+                    We sent a login link to <span className="font-medium">{email}</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Next steps */}
             <div className="space-y-2.5">
               <div className="text-xs sm:text-sm font-medium text-[#1a2e25]">Next steps:</div>
               <div className="flex items-start gap-3 text-xs sm:text-sm text-gray-600">
                 <div className="w-5 h-5 rounded-full bg-[#2d9c7a]/10 flex items-center justify-center shrink-0 mt-0.5">
                   <span className="text-[#2d9c7a] text-[10px] font-bold">1</span>
                 </div>
-                Download the Qsync app
+                <span>Check your email and click the login link</span>
               </div>
               <div className="flex items-start gap-3 text-xs sm:text-sm text-gray-600">
                 <div className="w-5 h-5 rounded-full bg-[#2d9c7a]/10 flex items-center justify-center shrink-0 mt-0.5">
                   <span className="text-[#2d9c7a] text-[10px] font-bold">2</span>
                 </div>
-                Create your account with this email
+                <span>Download the Qsync app on your Android device</span>
               </div>
               <div className="flex items-start gap-3 text-xs sm:text-sm text-gray-600">
                 <div className="w-5 h-5 rounded-full bg-[#2d9c7a]/10 flex items-center justify-center shrink-0 mt-0.5">
                   <span className="text-[#2d9c7a] text-[10px] font-bold">3</span>
                 </div>
-                Invite your partner to connect
+                <span>Link your device in the dashboard settings</span>
               </div>
             </div>
 
+            {/* Download button */}
             {downloadUrl ? (
               <a
                 href={downloadUrl}
