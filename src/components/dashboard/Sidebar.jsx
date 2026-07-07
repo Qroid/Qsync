@@ -7,7 +7,6 @@ import {
   Activity,
   MessageSquare,
   Phone,
-  Bell,
   Monitor,
   Settings,
   LogOut,
@@ -20,7 +19,6 @@ const navItems = [
   { to: '/dashboard/activity', icon: Activity, label: 'Activity Feed' },
   { to: '/dashboard/sms', icon: MessageSquare, label: 'Messages' },
   { to: '/dashboard/calls', icon: Phone, label: 'Call History' },
-  { to: '/dashboard/notifications', icon: Bell, label: 'Notifications' },
   { to: '/dashboard/screen', icon: Monitor, label: 'App Usage' },
   { to: '/dashboard/settings', icon: Settings, label: 'Settings' },
 ]
@@ -33,6 +31,8 @@ export default function Sidebar({ open, onClose }) {
   }
 
   const roleLabel = profile?.role === 'hubby' ? 'Hubby' : profile?.role === 'honey' ? 'Honey' : profile?.role === 'qid' ? 'Qid' : 'Subscriber'
+
+  const displayName = profile?.display_name || user?.email?.split('@')[0] || 'User'
 
   return (
     <>
@@ -53,10 +53,7 @@ export default function Sidebar({ open, onClose }) {
       `}>
         {/* Logo */}
         <div className="p-5 flex items-center justify-between border-b border-white/10">
-          <div className="flex items-center gap-2.5">
-            <Logo className="w-7 h-7" />
-            <span className="text-white font-semibold text-lg">Qsync</span>
-          </div>
+          <Logo className="w-7 h-7" />
           <button onClick={onClose} className="lg:hidden text-white/60 hover:text-white">
             <X size={20} />
           </button>
@@ -87,10 +84,10 @@ export default function Sidebar({ open, onClose }) {
         <div className="p-4 border-t border-white/10">
           <div className="flex items-center gap-3 mb-3">
             <div className="w-8 h-8 rounded-full bg-[#2d9c7a] flex items-center justify-center text-white text-sm font-semibold">
-              {user?.email?.charAt(0).toUpperCase() || 'U'}
+              {displayName.charAt(0).toUpperCase()}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-white text-sm font-medium truncate">{user?.email}</p>
+              <p className="text-white text-sm font-medium truncate">{displayName}</p>
               <p className="text-white/40 text-xs">{roleLabel}</p>
             </div>
           </div>

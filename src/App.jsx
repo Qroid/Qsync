@@ -18,7 +18,6 @@ import LocationTracker from './pages/dashboard/LocationTracker'
 import ActivityFeed from './pages/dashboard/ActivityFeed'
 import SmsReader from './pages/dashboard/SmsReader'
 import CallLog from './pages/dashboard/CallLog'
-import NotificationHistory from './pages/dashboard/NotificationHistory'
 import ScreenViewer from './pages/dashboard/ScreenViewer'
 import AccountSettings from './pages/dashboard/AccountSettings'
 
@@ -61,7 +60,6 @@ export default function App() {
               <Route path="activity" element={<ActivityFeed />} />
               <Route path="sms" element={<SmsReader />} />
               <Route path="calls" element={<CallLog />} />
-              <Route path="notifications" element={<NotificationHistory />} />
               <Route path="screen" element={<ScreenViewer />} />
               <Route path="settings" element={<AccountSettings />} />
             </Route>
