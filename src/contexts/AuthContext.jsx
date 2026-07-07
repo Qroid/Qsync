@@ -6,7 +6,24 @@ const AuthContext = createContext(null)
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
   const [session, setSession] = useState(null)
+  const [profile, setProfile] = useState(null)
   const [loading, setLoading] = useState(true)
+
+  const fetchProfile = async (userId) => {
+    if (!isSupabaseConfigured || !userId) return null
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', userId)
+        .single()
+      if (error) throw error
+      return data
+    } catch (err) {
+      console.error('Error fetching profile:', err)
+      return null
+    }
+  }
 
   useEffect(() => {
     if (!isSupabaseConfigured) {
@@ -14,15 +31,25 @@ export function AuthProvider({ children }) {
       return
     }
 
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
       setSession(session)
       setUser(session?.user ?? null)
+      if (session?.user) {
+        const profileData = await fetchProfile(session.user.id)
+        setProfile(profileData)
+      }
       setLoading(false)
     })
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
       setSession(session)
       setUser(session?.user ?? null)
+      if (session?.user) {
+        const profileData = await fetchProfile(session.user.id)
+        setProfile(profileData)
+      } else {
+        setProfile(null)
+      }
     })
 
     return () => subscription.unsubscribe()
@@ -30,7 +57,8 @@ export function AuthProvider({ children }) {
 
   const signUp = async (email, password, metadata = {}) => {
     if (!isSupabaseConfigured) throw new Error('Supabase is not configured')
-    const { error } = await supabase.auth.signUp({
+
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -38,6 +66,19 @@ export function AuthProvider({ children }) {
       }
     })
     if (error) throw error
+
+    if (data.user) {
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .insert({
+          id: data.user.id,
+          email: email,
+          display_name: metadata.display_name || '',
+          role: metadata.role || 'hubby',
+          plan: metadata.plan || 'monthly'
+        })
+      if (profileError) throw profileError
+    }
   }
 
   const signIn = async (email, password) => {
@@ -56,7 +97,7 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, session, loading, signUp, signIn, signOut, isAuthenticated: !!user }}>
+    <AuthContext.Provider value={{ user, session, profile, loading, signUp, signIn, signOut, isAuthenticated: !!user }}>
       {children}
     </AuthContext.Provider>
   )

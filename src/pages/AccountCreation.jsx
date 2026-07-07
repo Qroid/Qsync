@@ -15,7 +15,7 @@ export default function AccountCreation() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [role, setRole] = useState('husband')
+  const [role, setRole] = useState('hubby')
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
@@ -173,28 +173,39 @@ export default function AccountCreation() {
             {/* Role Toggle */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">I am the</label>
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-3 gap-2">
                 <button
                   type="button"
-                  onClick={() => setRole('husband')}
+                  onClick={() => setRole('hubby')}
                   className={`py-3 rounded-xl text-sm font-medium transition-all ${
-                    role === 'husband'
+                    role === 'hubby'
                       ? 'bg-[#1a2e25] text-white'
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                   }`}
                 >
-                  Husband
+                  Hubby
                 </button>
                 <button
                   type="button"
-                  onClick={() => setRole('wife')}
+                  onClick={() => setRole('honey')}
                   className={`py-3 rounded-xl text-sm font-medium transition-all ${
-                    role === 'wife'
+                    role === 'honey'
                       ? 'bg-[#1a2e25] text-white'
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                   }`}
                 >
-                  Wife
+                  Honey
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setRole('qid')}
+                  className={`py-3 rounded-xl text-sm font-medium transition-all ${
+                    role === 'qid'
+                      ? 'bg-[#1a2e25] text-white'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  Qid
                 </button>
               </div>
             </div>
