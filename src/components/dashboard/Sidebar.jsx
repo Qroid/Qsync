@@ -10,7 +10,8 @@ import {
   Monitor,
   Settings,
   LogOut,
-  X
+  X,
+  User
 } from 'lucide-react'
 
 const navItems = [
@@ -81,8 +82,8 @@ export default function Sidebar({ open, onClose }) {
         {/* User section */}
         <div className="px-6 py-5 border-t border-[#1a2e25]/10">
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-8 h-8 rounded-full bg-[#1a2e25] flex items-center justify-center text-white text-sm font-semibold">
-              {displayName.charAt(0).toUpperCase()}
+            <div className="w-8 h-8 rounded-full bg-[#1a2e25] flex items-center justify-center text-white">
+              <User size={16} />
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-[#1a2e25] text-sm font-medium truncate">{displayName}</p>

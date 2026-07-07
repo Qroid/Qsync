@@ -1,29 +1,90 @@
-import { Activity, MapPin, Wifi, Battery, Bell, Clock, Filter } from 'lucide-react'
+import { Activity, MapPin, Wifi, Battery, Bell, Clock, Filter, Loader2 } from 'lucide-react'
 import { useState } from 'react'
+import { useDeviceId } from '../../hooks/useDeviceId'
+import { useLocations, useSmsLogs, useCallLogs, useCommands } from '../../hooks/useSupabaseData'
 
-const mockEvents = [
-  { time: '2:30 PM', event: 'Arrived at Office', type: 'location', icon: MapPin, color: 'text-[#2d9c7a]' },
-  { time: '2:28 PM', event: 'Shared location', type: 'location', icon: MapPin, color: 'text-[#2d9c7a]' },
-  { time: '2:15 PM', event: 'Status: Working', type: 'status', icon: Activity, color: 'text-blue-500' },
-  { time: '1:15 PM', event: 'Left Home', type: 'location', icon: MapPin, color: 'text-[#2d9c7a]' },
-  { time: '1:00 PM', event: 'Battery 80%', type: 'system', icon: Battery, color: 'text-yellow-500' },
-  { time: '12:30 PM', event: 'Connected to Wi-Fi', type: 'system', icon: Wifi, color: 'text-purple-500' },
-  { time: '12:00 PM', event: 'Status: Working', type: 'status', icon: Activity, color: 'text-blue-500' },
-  { time: '11:00 AM', event: 'Notification from WhatsApp', type: 'notification', icon: Bell, color: 'text-orange-500' },
-  { time: '10:30 AM', event: 'Battery 90%', type: 'system', icon: Battery, color: 'text-yellow-500' },
-  { time: '10:00 AM', event: 'Arrived at Office', type: 'location', icon: MapPin, color: 'text-[#2d9c7a]' },
-  { time: '9:15 AM', event: 'Left Home', type: 'location', icon: MapPin, color: 'text-[#2d9c7a]' },
-  { time: '8:30 AM', event: 'Device connected', type: 'system', icon: Wifi, color: 'text-purple-500' },
-]
+function buildEvents(locations, sms, calls, commands) {
+  const events = []
 
-const filters = ['All', 'Location', 'Status', 'System', 'Notification']
+  locations?.forEach(loc => {
+    events.push({
+      time: loc.timestamp,
+      event: loc.event_type === 'arrived' ? `Arrived at ${loc.place_name || 'location'}` :
+             loc.event_type === 'departed' ? `Left ${loc.place_name || 'location'}` :
+             'Location updated',
+      type: 'location',
+      icon: MapPin,
+      color: 'text-[#2d9c7a]'
+    })
+  })
+
+  sms?.forEach(msg => {
+    events.push({
+      time: msg.timestamp,
+      event: `SMS from ${msg.address || 'Unknown'}`,
+      type: 'notification',
+      icon: Bell,
+      color: 'text-orange-500'
+    })
+  })
+
+  calls?.forEach(call => {
+    const dir = call.type === 1 ? 'Incoming' : call.type === 3 ? 'Missed' : 'Outgoing'
+    events.push({
+      time: call.timestamp,
+      event: `${dir} call${call.contact_name ? ` from ${call.contact_name}` : ''}`,
+      type: 'notification',
+      icon: Bell,
+      color: call.type === 3 ? 'text-red-500' : 'text-orange-500'
+    })
+  })
+
+  commands?.forEach(cmd => {
+    if (cmd.type === 'battery') {
+      events.push({
+        time: cmd.created_at,
+        event: `Battery ${cmd.battery_level}%`,
+        type: 'system',
+        icon: Battery,
+        color: 'text-yellow-500'
+      })
+    }
+    if (cmd.type === 'connection') {
+      events.push({
+        time: cmd.created_at,
+        event: `Connected to ${cmd.connection_type || 'network'}`,
+        type: 'system',
+        icon: Wifi,
+        color: 'text-purple-500'
+      })
+    }
+  })
+
+  events.sort((a, b) => new Date(b.time) - new Date(a.time))
+  return events
+}
+
+const filters = ['All', 'Location', 'System', 'Notification']
 
 export default function ActivityFeed() {
+  const { deviceId } = useDeviceId()
+  const { data: locations, loading: locLoading } = useLocations(deviceId, 50)
+  const { data: sms, loading: smsLoading } = useSmsLogs(deviceId, 50)
+  const { data: calls, loading: callsLoading } = useCallLogs(deviceId, 50)
+  const { data: commands, loading: cmdLoading } = useCommands(deviceId)
   const [activeFilter, setActiveFilter] = useState('All')
 
+  const loading = locLoading || smsLoading || callsLoading || cmdLoading
+  const events = buildEvents(locations, sms, calls, commands)
+
   const filtered = activeFilter === 'All'
-    ? mockEvents
-    : mockEvents.filter(e => e.type === activeFilter.toLowerCase())
+    ? events
+    : events.filter(e => e.type === activeFilter.toLowerCase())
+
+  const formatTime = (ts) => {
+    if (!ts) return ''
+    return new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+  }
 
   return (
     <div className="space-y-4 sm:space-y-6 max-w-4xl">
@@ -55,20 +116,28 @@ export default function ActivityFeed() {
           <span className="text-xs text-gray-400 ml-auto">{filtered.length} events</span>
         </div>
 
-        <div className="space-y-1">
-          {filtered.map((item, i) => (
-            <div key={i} className="flex items-center gap-3 py-3 border-b border-gray-50 last:border-0">
-              <item.icon size={16} className={item.color} />
-              <div className="flex-1 min-w-0">
-                <p className="text-sm text-[#1a2e25]">{item.event}</p>
+        {loading ? (
+          <div className="flex justify-center py-8">
+            <Loader2 size={24} className="animate-spin text-[#2d9c7a]" />
+          </div>
+        ) : filtered.length > 0 ? (
+          <div className="space-y-1">
+            {filtered.map((item, i) => (
+              <div key={i} className="flex items-center gap-3 py-3 border-b border-gray-50 last:border-0">
+                <item.icon size={16} className={item.color} />
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm text-[#1a2e25]">{item.event}</p>
+                </div>
+                <div className="flex items-center gap-1.5 text-xs text-gray-400 shrink-0">
+                  <Clock size={12} />
+                  {formatTime(item.time)}
+                </div>
               </div>
-              <div className="flex items-center gap-1.5 text-xs text-gray-400 shrink-0">
-                <Clock size={12} />
-                {item.time}
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-sm text-gray-400 text-center py-8">No activity yet</p>
+        )}
       </div>
     </div>
   )

@@ -25,6 +25,22 @@ export const plans = {
     periodLabel: 'yearly',
     note: 'Save 33%',
   },
+  QidMonthly: {
+    name: 'Qid Monthly',
+    price: 500,
+    priceFormatted: '$5',
+    period: '/mo',
+    periodLabel: 'monthly',
+    note: 'Kid monitoring',
+  },
+  QidYearly: {
+    name: 'Qid Yearly',
+    price: 9900,
+    priceFormatted: '$99',
+    period: '/yr',
+    periodLabel: 'yearly',
+    note: 'Save 17%',
+  },
 }
 
 export function initializePaystack() {

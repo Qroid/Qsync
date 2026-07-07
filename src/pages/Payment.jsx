@@ -7,6 +7,8 @@ const plans = {
   weekly: { name: 'Weekly', price: '$3', period: '/week', paystackKey: 'Weekly' },
   monthly: { name: 'Monthly', price: '$8.50', period: '/month', paystackKey: 'Monthly' },
   yearly: { name: 'Yearly', price: '$65', period: '/year', paystackKey: 'Yearly' },
+  'qid-monthly': { name: 'Qid Monthly', price: '$5', period: '/month', paystackKey: 'QidMonthly' },
+  'qid-yearly': { name: 'Qid Yearly', price: '$99', period: '/year', paystackKey: 'QidYearly' },
 }
 
 export default function Payment() {

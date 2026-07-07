@@ -72,20 +72,20 @@ export default function Overview() {
 
   const roleConfig = {
     hubby: {
-      title: 'Hubby Dashboard',
-      subtitle: "Your partner's device status",
-      icon: Smartphone,
-      color: '#1a2e25'
-    },
-    honey: {
       title: 'Honey Dashboard',
-      subtitle: "Your partner's device status",
+      subtitle: "Monitoring Honey's device",
       icon: Heart,
       color: '#2d9c7a'
     },
+    honey: {
+      title: 'Hubby Dashboard',
+      subtitle: "Monitoring Hubby's device",
+      icon: Smartphone,
+      color: '#1a2e25'
+    },
     qid: {
       title: 'Qid Dashboard',
-      subtitle: 'Full transparency overview',
+      subtitle: "Monitoring kid's device",
       icon: Eye,
       color: '#1a2e25'
     }
@@ -103,12 +103,18 @@ export default function Overview() {
   }
 
   if (!deviceId) {
+    const noDeviceMsg = {
+      hubby: "Link Honey's device to start seeing their location, activity, and status. Go to Settings to enter the Device ID.",
+      honey: "Link Hubby's device to start seeing their location, activity, and status. Go to Settings to enter the Device ID.",
+      qid: "Link your kid's device to start seeing their location, activity, and status. Go to Settings to enter the Device ID."
+    }
+
     return (
       <div className="flex flex-col items-center justify-center py-20 text-center">
         <Smartphone size={48} className="text-gray-300 mb-4" />
         <h2 className="text-lg font-semibold text-[#1a2e25] mb-2">No device linked yet</h2>
         <p className="text-sm text-gray-500 max-w-sm">
-          Link your partner's Android device to start seeing their location, activity, and status. Go to Settings to enter the Device ID.
+          {noDeviceMsg[currentRole] || noDeviceMsg.hubby}
         </p>
       </div>
     )
